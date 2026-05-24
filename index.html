@@ -1,285 +1,668 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MiniForgeDad — Miniature Painting</title>
-  <meta name="description" content="MiniForgeDad — Custom miniature painting. Commission-quality work for tabletop gaming, display, and collectors." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>miniforgedad — Miniature Painting, Father & Son</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1c1410;
+    --parchment:  #f5ede0;
+    --warm:       #f0dfc0;
+    --green:      #2d5a3d;
+    --green-dark: #224730;
+    --green-light:#e8f0eb;
+    --gold:       #b8882a;
+    --mist:       #8a7a6a;
+    --light:      #faf5ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--light);
+    color: var(--ink);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    background: rgba(245, 237, 224, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(176, 136, 42, 0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-logo span { color: var(--green); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--green); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px 80px 80px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 5vw, 72px);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 28px;
+    color: var(--ink);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .hero-text p {
+    font-size: 19px;
+    color: #4a3a2a;
+    max-width: 480px;
+    margin-bottom: 48px;
+    line-height: 1.8;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(45, 90, 61, 0.3);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid rgba(28,20,16,0.3);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--light);
+  }
+
+  .hero-image {
+    position: relative;
+    background: var(--warm);
+    overflow: hidden;
+  }
+
+  .hero-image-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .placeholder-mini {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  .hero-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--green-light) 0%, #c8d9cc 40%, #a8c0b0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: rgba(28,20,16,0.35);
+  }
+
+  .hero-image-placeholder svg { width: 64px; height: 64px; opacity: 0.4; }
+
+  .hero-image-placeholder span {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 80px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 3.5vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 24px;
+  }
+
+  /* ── STORY SECTION ── */
+  .story {
+    background: var(--parchment);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .story-text p {
+    color: #3a2a1a;
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+
+  .story-image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .story-img {
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #d4c0a0, #b89060);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(28,20,16,0.3);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .story-img:first-child {
+    grid-row: span 2;
+    aspect-ratio: unset;
+  }
+
+  .story-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .story-img img.loaded { opacity: 0.9; }
+
+  /* ── GALLERY ── */
+  .gallery { background: var(--light); }
+
+  .gallery h2 { margin-bottom: 48px; }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .gallery-item {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #e0ccaa, #c8a870);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .gallery-item:first-child {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .gallery-item:hover img { transform: scale(1.04); }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,20,16,0.7) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+  }
+
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  .gallery-overlay span {
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .gallery-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(28,20,16,0.3);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── CONTENT HUB ── */
+  .content { background: var(--ink); color: var(--parchment); }
+
+  .content .section-label { color: var(--gold); }
+  .content .section-label::before { background: var(--gold); }
+  .content h2 { color: var(--parchment); }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .content-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 32px;
+    transition: all 0.25s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .content-card:hover {
+    background: rgba(255,255,255,0.09);
+    border-color: rgba(184,136,42,0.4);
+    transform: translateY(-4px);
+  }
+
+  .content-card-icon {
+    font-size: 28px;
+    margin-bottom: 4px;
+  }
+
+  .content-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--parchment);
+  }
+
+  .content-card p {
+    font-size: 15px;
+    color: rgba(245,237,224,0.6);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .content-card .card-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 0 80px;
+    opacity: 0.3;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(245,237,224,0.5);
+    padding: 48px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--parchment);
+  }
+
+  .footer-logo span { color: var(--green); }
+
+  .footer-socials {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-socials a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(245,237,224,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-socials a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 13px;
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-image { height: 50vw; }
+    .hero-text { padding: 60px 24px 48px; }
+    section { padding: 64px 24px; }
+    .story { grid-template-columns: 1fr; gap: 40px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:first-child { grid-column: span 2; }
+    .content-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .divider { margin: 0 24px; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <header class="site-header">
-    <nav class="nav container">
-      <a href="#" class="nav-logo">MiniForgeDad</a>
-      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#process">Process</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">mini<span>for</span>gedad</a>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#content">Content</a></li>
+    <li><a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a></li>
+    <li><a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a></li>
+  </ul>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-inner">
-      <p class="hero-eyebrow">Miniature Painting</p>
-      <h1 class="hero-title">Where craft meets<br /><em>the battlefield</em></h1>
-      <p class="hero-sub">Commission-quality painting for tabletop games, display pieces, and collectors. Every model tells a story.</p>
-      <div class="hero-actions">
-        <a href="#gallery" class="btn btn-primary">View the Gallery</a>
-        <a href="#contact" class="btn btn-ghost">Request a Commission</a>
-      </div>
-    </div>
-    <div class="hero-scroll-hint" aria-hidden="true">
-      <span>Scroll</span>
-      <svg width="16" height="24" viewBox="0 0 16 24" fill="none"><rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="7" r="2" fill="currentColor"><animate attributeName="cy" values="7;15;7" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="1.8s" repeatCount="indefinite"/></circle></svg>
-    </div>
-  </section>
-
-  <!-- GALLERY -->
-  <section class="section gallery-section" id="gallery">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">Work</p>
-        <h2 class="section-title">The Gallery</h2>
-        <p class="section-sub">A selection of recent commissions and personal projects.</p>
-      </div>
-
-      <div class="gallery-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="warhammer">Warhammer</button>
-        <button class="filter-btn" data-filter="display">Display</button>
-        <button class="filter-btn" data-filter="skirmish">Skirmish</button>
-      </div>
-
-      <div class="gallery-grid" id="gallery-grid">
-        <figure class="gallery-item" data-category="warhammer">
-          <div class="gallery-img-wrap">
-            <img src="images/placeholder.svg" alt="Space Marine Captain — gold NMM, custom freehand banner" loading="lazy" />
-            <div class="gallery-overlay">
-              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
-            </div>
-          </div>
-          <figcaption>
-            <strong>Space Marine Captain</strong>
-            <span>Gold NMM · Custom freehand</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item" data-category="display">
-          <div class="gallery-img-wrap">
-            <img src="images/placeholder.svg" alt="Display bust — OSL lighting, competition level" loading="lazy" />
-            <div class="gallery-overlay">
-              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
-            </div>
-          </div>
-          <figcaption>
-            <strong>Display Bust</strong>
-            <span>OSL · Competition level</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item" data-category="skirmish">
-          <div class="gallery-img-wrap">
-            <img src="images/placeholder.svg" alt="Infinity warband — studio level, 5 models" loading="lazy" />
-            <div class="gallery-overlay">
-              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
-            </div>
-          </div>
-          <figcaption>
-            <strong>Infinity Warband</strong>
-            <span>Studio level · 5 models</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item" data-category="warhammer">
-          <div class="gallery-img-wrap">
-            <img src="images/placeholder.svg" alt="Age of Sigmar army — tabletop plus, 20 models" loading="lazy" />
-            <div class="gallery-overlay">
-              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
-            </div>
-          </div>
-          <figcaption>
-            <strong>Age of Sigmar Army</strong>
-            <span>Tabletop+ · 20 models</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item" data-category="display">
-          <div class="gallery-img-wrap">
-            <img src="images/placeholder.svg" alt="Character diorama — sculpted base, narrative scene" loading="lazy" />
-            <div class="gallery-overlay">
-              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
-            </div>
-          </div>
-          <figcaption>
-            <strong>Character Diorama</strong>
-            <span>Sculpted base · Narrative</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item" data-category="skirmish">
-          <div class="gallery-img-wrap">
-            <img src="images/placeholder.svg" alt="Necromunda gang — gritty urban scheme" loading="lazy" />
-            <div class="gallery-overlay">
-              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
-            </div>
-          </div>
-          <figcaption>
-            <strong>Necromunda Gang</strong>
-            <span>Gritty urban scheme</span>
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="section about-section" id="about">
-    <div class="container about-inner">
-      <div class="about-image">
-        <img src="images/placeholder.svg" alt="MiniForgeDad at the painting desk" />
-      </div>
-      <div class="about-content">
-        <p class="section-label">About</p>
-        <h2 class="section-title">The Painter</h2>
-        <p>I'm a hobbyist-turned-professional miniature painter with a passion for bringing tiny worlds to life. From rank-and-file armies to one-of-a-kind display pieces, I approach every commission with the same care I'd give my own collection.</p>
-        <p>Based in [Your Location]. Currently accepting commissions with a typical turnaround of 4–8 weeks depending on scope.</p>
-        <div class="about-stats">
-          <div class="stat">
-            <strong>200+</strong>
-            <span>Models painted</span>
-          </div>
-          <div class="stat">
-            <strong>50+</strong>
-            <span>Commissions completed</span>
-          </div>
-          <div class="stat">
-            <strong>5★</strong>
-            <span>Average client rating</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
-  <section class="section process-section" id="process">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">How it works</p>
-        <h2 class="section-title">The Process</h2>
-        <p class="section-sub">Simple, transparent, no surprises.</p>
-      </div>
-      <ol class="process-steps">
-        <li class="process-step">
-          <div class="step-number">01</div>
-          <div class="step-content">
-            <h3>Enquire</h3>
-            <p>Send me what you want painted — model type, quantity, style reference, and deadline. I'll reply within 48 hours with availability and a quote.</p>
-          </div>
-        </li>
-        <li class="process-step">
-          <div class="step-number">02</div>
-          <div class="step-content">
-            <h3>Ship &amp; Deposit</h3>
-            <p>Send your models and pay a 50% deposit to lock in your slot. I'll confirm receipt and kick off prep work.</p>
-          </div>
-        </li>
-        <li class="process-step">
-          <div class="step-number">03</div>
-          <div class="step-content">
-            <h3>Paint &amp; Preview</h3>
-            <p>I send progress photos at key stages so you can approve the direction or request adjustments — no nasty surprises at the end.</p>
-          </div>
-        </li>
-        <li class="process-step">
-          <div class="step-number">04</div>
-          <div class="step-content">
-            <h3>Final Payment &amp; Return</h3>
-            <p>Once you're happy, pay the remaining balance and I'll ship everything back, professionally packaged and insured.</p>
-          </div>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section contact-section" id="contact">
-    <div class="container contact-inner">
-      <div class="contact-content">
-        <p class="section-label">Get in touch</p>
-        <h2 class="section-title">Request a Commission</h2>
-        <p>Ready to get your models painted? Fill out the form and I'll get back to you within 48 hours.</p>
-        <ul class="contact-links">
-          <li>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-            <a href="mailto:hello@miniforgedad.com">hello@miniforgedad.com</a>
-          </li>
-          <li>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-            <a href="https://instagram.com/miniforgedad" target="_blank" rel="noopener">@miniforgedad</a>
-          </li>
-        </ul>
-      </div>
-      <form class="contact-form" id="contact-form" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name" />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required autocomplete="email" placeholder="your@email.com" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="models">What do you want painted?</label>
-          <input type="text" id="models" name="models" placeholder="e.g. 10 Space Marines, studio level" />
-        </div>
-        <div class="form-group">
-          <label for="message">Additional details</label>
-          <textarea id="message" name="message" rows="5" placeholder="Colour scheme, references, deadline, budget…"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Send Enquiry</button>
-        <p class="form-note">I typically reply within 48 hours.</p>
-      </form>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p class="footer-brand">MiniForgeDad</p>
-      <p class="footer-copy">&copy; <span id="year"></span> MiniForgeDad. All rights reserved.</p>
-      <ul class="footer-links">
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
-    <button class="lightbox-close" aria-label="Close">&times;</button>
-    <button class="lightbox-prev" aria-label="Previous">&#8249;</button>
-    <button class="lightbox-next" aria-label="Next">&#8250;</button>
-    <div class="lightbox-content">
-      <img id="lightbox-img" src="" alt="" />
-      <p id="lightbox-caption"></p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Father &amp; Son · Miniature Painting</div>
+    <h1>Two painters.<br><em>One hobby desk.</em></h1>
+    <p>We started out just wanting to paint cool-looking soldiers. What we found was patience, teamwork, and a rare kind of peace — two inches at a time.</p>
+    <div class="hero-actions">
+      <a href="#gallery" class="btn btn-primary">See Our Work</a>
+      <a href="https://youtube.com/@miniforgedad" target="_blank" class="btn btn-secondary">Watch on YouTube</a>
     </div>
   </div>
+  <div class="hero-image">
+    <div class="hero-image-placeholder">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="32" width="10" height="24" fill="currentColor" rx="1"/>
+        <rect x="22" y="20" width="10" height="36" fill="currentColor" rx="1"/>
+        <rect x="36" y="26" width="10" height="30" fill="currentColor" rx="1"/>
+        <rect x="50" y="14" width="10" height="42" fill="currentColor" rx="1"/>
+        <circle cx="13" cy="26" r="6" fill="currentColor"/>
+        <circle cx="27" cy="14" r="6" fill="currentColor"/>
+        <circle cx="41" cy="20" r="6" fill="currentColor"/>
+        <circle cx="55" cy="8" r="6" fill="currentColor"/>
+      </svg>
+      <span>Hero photo coming soon</span>
+    </div>
+  </div>
+</section>
 
-  <script src="script.js"></script>
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="story-text fade-in">
+    <div class="section-label">Our Story</div>
+    <h2>We didn't plan on learning patience.</h2>
+    <p>When my son and I first sat down at the hobby desk, the goal was simple — paint some cool looking soldiers. What we didn't realize was that we were signing up for a masterclass in patience.</p>
+    <p>We started exactly where you'd expect: messy palettes, paint way too thick, and a lot of mistakes. But that's where the best parts of the story happened. A ruined cloak became a chance to learn dry brushing. We started celebrating small wins — the high five when he finally nails the glow on a tiny weapon, or when I finish a base we're both proud of.</p>
+    <p>In a world that moves so fast, spending two hours debating which shade of blue to use is a rare kind of peace. We aren't professionals. We're just a team learning to thin our paints the hard way — and loving every minute of it.</p>
+  </div>
+  <div class="story-image-grid fade-in">
+    <div class="story-img">📷<br>Add photo</div>
+    <div class="story-img">📷<br>Add photo</div>
+    <div class="story-img">📷<br>Add photo</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-label fade-in">Gallery</div>
+  <h2 class="fade-in">Work in progress &amp; finished pieces.</h2>
+  <div class="gallery-grid fade-in">
+    <div class="gallery-item">
+      <div class="gallery-placeholder">📷 Featured mini — add photo</div>
+      <div class="gallery-overlay"><span>Featured piece</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">📷 Add photo</div>
+      <div class="gallery-overlay"><span>Recent work</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">📷 Add photo</div>
+      <div class="gallery-overlay"><span>Recent work</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">📷 Add photo</div>
+      <div class="gallery-overlay"><span>Recent work</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">📷 Add photo</div>
+      <div class="gallery-overlay"><span>Recent work</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT HUB -->
+<section class="content" id="content">
+  <div class="section-label fade-in">Content</div>
+  <h2 class="fade-in">Follow the journey.</h2>
+  <div class="content-grid fade-in">
+    <a href="https://youtube.com/@miniforgedad" target="_blank" class="content-card">
+      <div class="content-card-icon">▶</div>
+      <h3>YouTube</h3>
+      <p>Watch us paint in real time — tutorials, timelapse builds, and honest reactions when things go sideways.</p>
+      <div class="card-link">Watch now →</div>
+    </a>
+    <a href="https://instagram.com/miniforgedad" target="_blank" class="content-card">
+      <div class="content-card-icon">📸</div>
+      <h3>Instagram</h3>
+      <p>Behind the scenes, finished pieces, and the occasional blurry photo of a mini that we're way too proud of.</p>
+      <div class="card-link">Follow us →</div>
+    </a>
+    <a href="https://patreon.com/miniforgedad" target="_blank" class="content-card">
+      <div class="content-card-icon">🎗</div>
+      <h3>Patreon</h3>
+      <p>Support the hobby desk. Get early access, exclusive content, and help us afford more tiny soldiers.</p>
+      <div class="card-link">Support us →</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">mini<span>for</span>gedad</div>
+  <div class="footer-socials">
+    <a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a>
+    <a href="https://instagram.com/miniforgedad" target="_blank">Instagram</a>
+    <a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a>
+    <!-- Hidden OBS link — not shown in nav -->
+    <!-- OBS Ticker: /obs-ticker.html -->
+  </div>
+  <div class="footer-copy">© 2026 miniforgedad</div>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
