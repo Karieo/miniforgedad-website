@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HPC 2025 — miniforgedad</title>
+<meta name="description" content="miniforgedad's 2025 Independent Characters Hobby Progress Challenge tracker." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1c1410;
+    --parchment:  #f5ede0;
+    --warm:       #f0dfc0;
+    --green:      #2d5a3d;
+    --green-dark: #224730;
+    --green-light:#e8f0eb;
+    --gold:       #b8882a;
+    --mist:       #8a7a6a;
+    --light:      #faf5ee;
+    --rust:       #c0522a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--light);
+    color: var(--ink);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    background: rgba(245, 237, 224, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(176, 136, 42, 0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-logo span { color: var(--green); }
+
+  .nav-back {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--green); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    background: var(--parchment);
+    padding: 80px 80px 64px;
+    border-bottom: 1px solid rgba(45,90,61,0.1);
+  }
+
+  .page-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .page-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+
+  .page-header h1 em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .page-header p {
+    color: var(--mist);
+    font-size: 18px;
+    max-width: 56ch;
+    margin-bottom: 40px;
+  }
+
+  .page-header a {
+    color: var(--green);
+    text-underline-offset: 3px;
+  }
+
+  /* ── SCORE SUMMARY ── */
+  .score-bar {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+    border: 1px solid rgba(45,90,61,0.15);
+    overflow: hidden;
+    max-width: 600px;
+  }
+
+  .score-cell {
+    flex: 1;
+    min-width: 140px;
+    padding: 20px 24px;
+    background: var(--light);
+    border-right: 1px solid rgba(45,90,61,0.1);
+  }
+
+  .score-cell:last-child { border-right: none; }
+
+  .score-cell .score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-bottom: 6px;
+  }
+
+  .score-cell .score-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .score-cell .score-denom {
+    font-size: 16px;
+    color: var(--mist);
+  }
+
+  .score-cell.total { background: var(--green); }
+  .score-cell.total .score-label { color: rgba(255,255,255,0.6); }
+  .score-cell.total .score-value { color: #fff; }
+  .score-cell.total .score-denom { color: rgba(255,255,255,0.6); }
+
+  /* ── SECTIONS ── */
+  .section { padding: 80px; }
+  .section-alt { background: var(--parchment); }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    color: var(--mist);
+    font-size: 16px;
+    margin-bottom: 48px;
+  }
+
+  /* ── MONTHLY GRID ── */
+  .month-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  /* Status classes: data-status="pending" | "active" | "complete" | "missed" */
+  .month-card {
+    border: 1.5px solid var(--color-border, rgba(28,20,16,0.1));
+    background: var(--light);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .month-card[data-status="complete"] { border-color: var(--green); }
+  .month-card[data-status="active"]   { border-color: var(--gold); }
+  .month-card[data-status="missed"]   { border-color: var(--rust); opacity: 0.65; }
+
+  .month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(28,20,16,0.07);
+  }
+
+  .month-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .month-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  [data-status="complete"] .month-badge { background: var(--green-light); color: var(--green); }
+  [data-status="active"]   .month-badge { background: #fdf3e0; color: var(--gold); }
+  [data-status="pending"]  .month-badge { background: rgba(28,20,16,0.05); color: var(--mist); }
+  [data-status="missed"]   .month-badge { background: #fde8e3; color: var(--rust); }
+
+  .month-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    flex: 1;
+  }
+
+  .photo-slot {
+    aspect-ratio: 4/3;
+    background: var(--warm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: rgba(28,20,16,0.25);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 8px;
+    overflow: hidden;
+    position: relative;
+    border-right: 1px solid rgba(28,20,16,0.07);
+  }
+
+  .photo-slot:last-child { border-right: none; }
+
+  .photo-slot img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-slot-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: rgba(250,245,238,0.85);
+    color: var(--mist);
+    padding: 2px 6px;
+  }
+
+  .month-notes {
+    padding: 12px 18px;
+    border-top: 1px solid rgba(28,20,16,0.07);
+    font-size: 14px;
+    color: var(--mist);
+    font-style: italic;
+    line-height: 1.5;
+    min-height: 44px;
+  }
+
+  .month-entry-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--green);
+    padding: 2px 8px;
+    background: var(--green-light);
+    float: right;
+    margin-top: 2px;
+  }
+
+  /* ── BONUS CATEGORIES ── */
+  .bonus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .bonus-card {
+    border: 1.5px solid rgba(28,20,16,0.1);
+    background: var(--light);
+    padding: 20px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .bonus-card.done {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+
+  .bonus-check {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid rgba(28,20,16,0.2);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+    font-size: 14px;
+    background: var(--light);
+  }
+
+  .bonus-card.done .bonus-check {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+
+  .bonus-content {}
+
+  .bonus-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .bonus-desc {
+    font-size: 14px;
+    color: var(--mist);
+    line-height: 1.5;
+  }
+
+  .bonus-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-top: 6px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(245,237,224,0.5);
+    padding: 36px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--parchment);
+  }
+
+  .footer-logo span { color: var(--green); }
+
+  .footer-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .page-header { padding: 48px 24px 40px; }
+    .section { padding: 56px 24px; }
+    .month-grid { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+  }
+
+  @media (max-width: 600px) {
+    .month-grid { grid-template-columns: 1fr; }
+    .score-bar { flex-direction: column; }
+    .score-cell { border-right: none; border-bottom: 1px solid rgba(45,90,61,0.1); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">mini<span>for</span>gedad</a>
+  <a href="index.html" class="nav-back">← Back to site</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-eyebrow">Independent Characters</div>
+  <h1>2025 Hobby Progress<br><em>Challenge</em></h1>
+  <p>Tracking my progress through the <a href="https://theindependentcharacters.com/blog/the-2025-hobby-progress-challenge/" target="_blank" rel="noopener">Independent Characters HPC</a> — one unit a month, Sep 2025 through Aug 2026.</p>
+
+  <!-- ╔══════════════════════════════════════╗
+       ║  UPDATE THESE NUMBERS AS YOU GO     ║
+       ╚══════════════════════════════════════╝ -->
+  <div class="score-bar">
+    <div class="score-cell">
+      <div class="score-label">Monthly Entries</div>
+      <div class="score-value">0 <span class="score-denom">/ 12</span></div>
+    </div>
+    <div class="score-cell">
+      <div class="score-label">Bonus Entries</div>
+      <div class="score-value">0 <span class="score-denom">/ 6</span></div>
+    </div>
+    <div class="score-cell total">
+      <div class="score-label">Total Entries</div>
+      <div class="score-value">0 <span class="score-denom">/ 18</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTHLY TRACKER -->
+<!--
+  HOW TO UPDATE EACH MONTH:
+  - data-status="pending"  → upcoming, not started
+  - data-status="active"   → current month, in progress
+  - data-status="complete" → done, entry earned
+  - data-status="missed"   → month passed without completing
+
+  For photos: replace the photo-slot contents with:
+    <img src="images/hpc/sep-before.jpg" alt="..." />
+    <span class="photo-slot-label">Before</span>
+
+  Update .month-notes with what you painted.
+-->
+<section class="section">
+  <div class="section-label">Monthly Entries</div>
+  <h2>The 12 Months</h2>
+  <p class="section-sub">One unit per month. Before photo by the 10th, finished photo by the last day.</p>
+
+  <div class="month-grid">
+
+    <!-- SEPTEMBER 2025 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">September 2025</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- OCTOBER 2025 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">October 2025</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- NOVEMBER 2025 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">November 2025</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- DECEMBER 2025 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">December 2025</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- JANUARY 2026 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">January 2026</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- FEBRUARY 2026 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">February 2026</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- MARCH 2026 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">March 2026</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- APRIL 2026 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">April 2026</span>
+        <span class="month-badge">Pending</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you painted this month…</div>
+    </div>
+
+    <!-- MAY 2026 -->
+    <div class="month-card" data-status="active">
+      <div class="month-header">
+        <span class="month-name">May 2026</span>
+        <span class="month-badge">In Progress</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes">Add what you're painting this month…</div>
+    </div>
+
+    <!-- JUNE 2026 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">June 2026</span>
+        <span class="month-badge">Upcoming</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes"></div>
+    </div>
+
+    <!-- JULY 2026 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">July 2026</span>
+        <span class="month-badge">Upcoming</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes"></div>
+    </div>
+
+    <!-- AUGUST 2026 -->
+    <div class="month-card" data-status="pending">
+      <div class="month-header">
+        <span class="month-name">August 2026</span>
+        <span class="month-badge">Upcoming</span>
+      </div>
+      <div class="month-photos">
+        <div class="photo-slot">
+          <span class="photo-slot-label">Before</span>
+          📷
+        </div>
+        <div class="photo-slot">
+          <span class="photo-slot-label">After</span>
+          📷
+        </div>
+      </div>
+      <div class="month-notes"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BONUS CATEGORIES -->
+<!--
+  HOW TO MARK A BONUS DONE:
+  Add class "done" to the .bonus-card, e.g.:
+    <div class="bonus-card done">
+  The checkmark will fill in automatically.
+-->
+<section class="section section-alt">
+  <div class="section-label">Bonus Entries</div>
+  <h2>Bonus Categories</h2>
+  <p class="section-sub">11 opportunities to earn up to 6 additional prize draw entries. Each can only be done once.</p>
+
+  <div class="bonus-grid">
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Reset the Mechanism</div>
+        <div class="bonus-desc">Post before &amp; after photos of your hobby workspace/environment. Must be paired with a completed monthly unit.</div>
+        <div class="bonus-value">+1 entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Just Get It Done!</div>
+        <div class="bonus-desc">Finish any two previously started units that are no more than 75% complete. Before &amp; after photos required for both.</div>
+        <div class="bonus-value">+1 entry</div>
+      </div>
+    </div>
+
+    <!-- Add remaining bonus categories below — copy this block and fill in details -->
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 3</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 4</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 5</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 6</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 7</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 8</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 9</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 10</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-check">✓</div>
+      <div class="bonus-content">
+        <div class="bonus-title">Bonus Category 11</div>
+        <div class="bonus-desc">Update this with the real category name and description from the HPC rules.</div>
+        <div class="bonus-value">+? entry</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">mini<span>for</span>gedad</div>
+  <div class="footer-note">2025 Independent Characters Hobby Progress Challenge</div>
+</footer>
+
+</body>
+</html>
