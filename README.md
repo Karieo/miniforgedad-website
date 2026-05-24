@@ -51,6 +51,14 @@ The site is plain HTML — drop it anywhere that can serve static files.
 
 ---
 
+## Verse of the day
+
+A verse of the day banner sits prominently below the nav on the main page. It fetches automatically from the [labs.bible.org API](https://labs.bible.org/api_guide.php) (NLT translation, no API key required) and refreshes each page load. If the API is unreachable, it falls back to Jeremiah 29:11.
+
+No configuration needed — it just works.
+
+---
+
 ## Adding photos
 
 ### Gallery (`index.html`)
