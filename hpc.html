@@ -68,19 +68,29 @@
 
   .nav-logo span { color: var(--green); }
 
-  .nav-back {
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--mist);
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     transition: color 0.2s;
   }
-  .nav-back:hover { color: var(--green); }
+
+  .nav-links a:hover { color: var(--green); }
+
+  .nav-link-page { color: var(--green) !important; }
+  .nav-link-ext  { color: var(--gold)  !important; }
+  .nav-link-ext::after { content: ' ↗'; font-size: 9px; opacity: 0.7; }
+  .nav-sep { width: 1px; height: 14px; background: rgba(28,20,16,0.15); flex-shrink: 0; }
 
   /* ── PAGE HEADER ── */
   .page-header {
@@ -520,9 +530,69 @@
     margin-top: 8px;
   }
 
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 102;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    transform-origin: center;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(28,20,16,0.45);
+    z-index: 99;
+    backdrop-filter: blur(2px);
+  }
+  .nav-overlay.visible { display: block; }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
+    .nav-toggle { display: flex; }
+    .nav-sep { display: none; }
+    .nav-links {
+      position: fixed;
+      top: 0; right: -100%; bottom: 0;
+      width: min(300px, 82vw);
+      background: var(--parchment);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 80px 36px;
+      gap: 4px;
+      z-index: 101;
+      transition: right 0.3s ease;
+      border-left: 1px solid rgba(184,136,42,0.2);
+      box-shadow: -8px 0 32px rgba(28,20,16,0.12);
+    }
+    .nav-links.open { right: 0; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(28,20,16,0.07);
+      font-size: 13px;
+    }
+    .nav-link-ext::after { display: none; }
     .page-header { padding: 48px 24px 40px; }
     .section { padding: 56px 24px; }
     .month-grid { grid-template-columns: 1fr 1fr; }
@@ -539,9 +609,23 @@
 <body>
 
 <!-- NAV -->
+<div class="nav-overlay" id="nav-overlay"></div>
 <nav>
   <a href="index.html" class="nav-logo">mini<span>for</span>gedad</a>
-  <a href="index.html" class="nav-back">← Back to site</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#story">Our Story</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="index.html#bench">On the Bench</a></li>
+    <li class="nav-sep" aria-hidden="true"></li>
+    <li><a href="#" class="nav-link-page">HPC 2025</a></li>
+    <li class="nav-sep" aria-hidden="true"></li>
+    <li><a href="https://youtube.com/@miniforgedad" target="_blank" class="nav-link-ext">YouTube</a></li>
+    <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- PAGE HEADER -->
@@ -954,6 +1038,32 @@
 </footer>
 
 <script>
+// ── Nav hamburger ──────────────────────────────────────────
+const navToggle  = document.getElementById('nav-toggle');
+const navLinks   = document.getElementById('nav-links');
+const navOverlay = document.getElementById('nav-overlay');
+function openNav() {
+  navLinks.classList.add('open');
+  navToggle.classList.add('open');
+  navOverlay.classList.add('visible');
+  navToggle.setAttribute('aria-expanded', 'true');
+  navToggle.setAttribute('aria-label', 'Close menu');
+  document.body.style.overflow = 'hidden';
+}
+function closeNav() {
+  navLinks.classList.remove('open');
+  navToggle.classList.remove('open');
+  navOverlay.classList.remove('visible');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-label', 'Open menu');
+  document.body.style.overflow = '';
+}
+navToggle.addEventListener('click', () =>
+  navLinks.classList.contains('open') ? closeNav() : openNav()
+);
+navOverlay.addEventListener('click', closeNav);
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+
 // ╔═══════════════════════════════════════════════════════╗
 // ║  POLL CONFIG — edit this to change the poll options  ║
 // ║                                                       ║
