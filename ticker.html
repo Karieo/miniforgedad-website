@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OBS News Ticker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Barlow:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: transparent;
+    overflow: hidden;
+    width: 1920px;
+    height: 60px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .ticker-wrap {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    height: 60px;
+    background: #0a0a0a;
+    border-top: 3px solid #e63c2f;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ticker-label {
+    flex-shrink: 0;
+    background: #e63c2f;
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    z-index: 2;
+    position: relative;
+  }
+
+  .ticker-label::after {
+    content: '';
+    position: absolute;
+    right: -16px;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-top: 60px solid #e63c2f;
+    border-right: 16px solid transparent;
+  }
+
+  .ticker-scroll-area {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .ticker-track {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: scroll-left 30s linear infinite;
+    will-change: transform;
+  }
+
+  .ticker-item {
+    font-family: 'Barlow', sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: #f0f0f0;
+    padding: 0 48px 0 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .ticker-item::before {
+    content: '◆';
+    color: #e63c2f;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .ticker-info {
+    flex-shrink: 0;
+    background: #1a1a1a;
+    color: #aaa;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    padding: 0 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 1px;
+    border-left: 1px solid #333;
+    min-width: 140px;
+    gap: 1px;
+  }
+
+  .ticker-clock {
+    font-size: 20px;
+    color: #f0f0f0;
+    line-height: 1;
+  }
+
+  .ticker-weather {
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  @keyframes scroll-left {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+<div class="ticker-wrap">
+  <div class="ticker-label">LIVE</div>
+  <div class="ticker-scroll-area">
+    <div class="ticker-track" id="track"></div>
+  </div>
+  <div class="ticker-info">
+    <div class="ticker-clock" id="clock">--:--</div>
+    <div class="ticker-weather" id="weather">loading...</div>
+  </div>
+</div>
+
+<script>
+  const TICKER_CONFIG = {
+    currentTopic: "Today's project: painting Space Marines",
+    schedule: "Live every Tue & Thu at 7PM CT",
+    messages: [
+      "Welcome to the stream — glad you're here!",
+      "Drop a question in the chat — we read every message",
+      "Enjoying the stream? Share it with a friend!",
+      "Thanks for watching — your support means everything",
+    ],
+    twitch:    "miniforgedad",
+    youtube:   "@miniforgedad",
+    instagram: "@miniforgedad",
+    patreon:   "patreon.com/miniforgedad",
+    scrollSpeed: 30,
+    newsFeeds: [
+      { name: 'WarCom',             enabled: true, url: 'https://warcomfeed.link/rss.xml' },
+      { name: 'Bell of Lost Souls', enabled: true, url: 'https://www.belloflostsouls.net/feed' },
+      { name: 'Tale of Painters',   enabled: true, url: 'https://taleofpainters.com/feed' },
+    ],
+    headlinesPerFeed: 3,
+  };
+</script>
+<script>
+  const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+  function getStaticItems() {
+    const items = [];
+    if (TICKER_CONFIG.currentTopic) items.push('🎮 Now: ' + TICKER_CONFIG.currentTopic);
+    if (TICKER_CONFIG.schedule)     items.push('📅 ' + TICKER_CONFIG.schedule);
+    TICKER_CONFIG.messages.forEach(m => { if (m) items.push(m); });
+    if (TICKER_CONFIG.twitch)       items.push('💜 Twitch: twitch.tv/' + TICKER_CONFIG.twitch + ' — follow so you never miss a stream!');
+    if (TICKER_CONFIG.youtube)      items.push('▶ YouTube: ' + TICKER_CONFIG.youtube + ' — subscribe for more content!');
+    if (TICKER_CONFIG.instagram)    items.push('📸 Instagram: ' + TICKER_CONFIG.instagram + ' — follow for behind the scenes');
+    if (TICKER_CONFIG.patreon)      items.push('🎗 Support on Patreon: ' + TICKER_CONFIG.patreon);
+    return items;
+  }
+
+  function renderTrack(items) {
+    const track = document.getElementById('track');
+    track.innerHTML = '';
+    [1, 2].forEach(() => {
+      items.forEach(text => {
+        const span = document.createElement('span');
+        span.className = 'ticker-item';
+        span.textContent = text;
+        track.appendChild(span);
+      });
+    });
+    track.style.animationDuration = TICKER_CONFIG.scrollSpeed + 's';
+  }
+
+  async function fetchNewsHeadlines() {
+    const headlines = [];
+    const feeds = TICKER_CONFIG.newsFeeds.filter(f => f.enabled);
+    for (const feed of feeds) {
+      try {
+        const res = await fetch(RSS2JSON + encodeURIComponent(feed.url));
+        const data = await res.json();
+        if (data.status === 'ok' && data.items) {
+          data.items.slice(0, TICKER_CONFIG.headlinesPerFeed).forEach(item => {
+            headlines.push('📰 [' + feed.name + '] ' + item.title);
+          });
+        }
+      } catch(e) { /* silently skip failed feeds */ }
+    }
+    return headlines;
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  async function buildTicker() {
+    const staticItems = getStaticItems();
+    renderTrack(shuffle([...staticItems]));
+    const headlines = await fetchNewsHeadlines();
+    if (headlines.length > 0) {
+      renderTrack(shuffle([...staticItems, ...headlines]));
+    }
+  }
+  buildTicker();
+  setInterval(buildTicker, 1800000);
+
+  function updateClock() {
+    const now = new Date();
+    const ct = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Chicago',
+      hour: '2-digit', minute: '2-digit', hour12: true
+    }).format(now);
+    document.getElementById('clock').textContent = ct;
+  }
+  updateClock();
+  setInterval(updateClock, 10000);
+
+  const WMO = {
+    0:'Clear',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',
+    45:'Foggy',48:'Icy Fog',
+    51:'Light Drizzle',53:'Drizzle',55:'Heavy Drizzle',
+    61:'Light Rain',63:'Rain',65:'Heavy Rain',
+    71:'Light Snow',73:'Snow',75:'Heavy Snow',
+    80:'Showers',81:'Showers',82:'Heavy Showers',
+    95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'
+  };
+
+  async function fetchWeather() {
+    try {
+      const url = 'https://api.open-meteo.com/v1/forecast?latitude=30.27&longitude=-97.74&current=temperature_2m,weathercode&temperature_unit=fahrenheit&timezone=America%2FChicago';
+      const res = await fetch(url);
+      const data = await res.json();
+      const temp = Math.round(data.current.temperature_2m);
+      const desc = WMO[data.current.weathercode] || 'Unknown';
+      document.getElementById('weather').textContent = `${temp}°F · ${desc}`;
+    } catch(e) {
+      document.getElementById('weather').textContent = 'Weather unavailable';
+    }
+  }
+  fetchWeather();
+  setInterval(fetchWeather, 600000);
+</script>
+</body>
+</html>
