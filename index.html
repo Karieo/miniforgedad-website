@@ -95,12 +95,49 @@
 
   .nav-links a:hover { color: var(--green); }
 
+  /* ── VERSE OF THE DAY ── */
+  .verse-banner {
+    margin-top: 64px;
+    background: var(--parchment);
+    border-bottom: 1px solid rgba(184,136,42,0.2);
+    padding: 14px 80px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .verse-icon {
+    font-size: 13px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .verse-text {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .verse-ref {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
   /* ── HERO ── */
   .hero {
     min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding-top: 80px;
   }
 
   .hero-text {
@@ -665,6 +702,7 @@
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
+    .verse-banner { margin-top: 56px; padding: 12px 24px; gap: 6px; }
     .hero { grid-template-columns: 1fr; }
     .hero-image { height: 50vw; }
     .hero-text { padding: 60px 24px 48px; }
@@ -695,6 +733,13 @@
     <li><a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a></li>
   </ul>
 </nav>
+
+<!-- VERSE OF THE DAY -->
+<div class="verse-banner">
+  <span class="verse-icon">✦</span>
+  <span class="verse-text" id="verse-text">Loading today's verse…</span>
+  <span class="verse-ref" id="verse-ref"></span>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -854,6 +899,19 @@
 </footer>
 
 <script>
+  // Verse of the day
+  (async () => {
+    try {
+      const res = await fetch('https://labs.bible.org/api/?passage=votd&type=json');
+      const [v] = await res.json();
+      document.getElementById('verse-text').textContent = `"${v.text.trim()}"`;
+      document.getElementById('verse-ref').textContent = `${v.bookname} ${v.chapter}:${v.verse}`;
+    } catch(e) {
+      document.getElementById('verse-text').textContent = '"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future."';
+      document.getElementById('verse-ref').textContent = 'Jeremiah 29:11';
+    }
+  })();
+
   // Fade-in on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
