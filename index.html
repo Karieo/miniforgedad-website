@@ -8,11 +8,11 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="miniforgedad — Miniature Painting, Father & Son" />
 <meta property="og:description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
-<meta property="og:image" content="images/og-image.jpg" />
+<meta property="og:image" content="images/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="miniforgedad — Miniature Painting, Father & Son" />
 <meta name="twitter:description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
-<meta name="twitter:image" content="images/og-image.jpg" />
+<meta name="twitter:image" content="images/og-image.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -403,7 +403,7 @@
 
   .content-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 24px;
     margin-top: 48px;
   }
@@ -690,6 +690,7 @@
     <li><a href="#content">Content</a></li>
     <li><a href="#bench">On the Bench</a></li>
     <li><a href="#faq">FAQ</a></li>
+    <li><a href="hpc.html">HPC 2025</a></li>
     <li><a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a></li>
     <li><a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a></li>
   </ul>
@@ -707,19 +708,7 @@
     </div>
   </div>
   <div class="hero-image">
-    <div class="hero-image-placeholder">
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="8" y="32" width="10" height="24" fill="currentColor" rx="1"/>
-        <rect x="22" y="20" width="10" height="36" fill="currentColor" rx="1"/>
-        <rect x="36" y="26" width="10" height="30" fill="currentColor" rx="1"/>
-        <rect x="50" y="14" width="10" height="42" fill="currentColor" rx="1"/>
-        <circle cx="13" cy="26" r="6" fill="currentColor"/>
-        <circle cx="27" cy="14" r="6" fill="currentColor"/>
-        <circle cx="41" cy="20" r="6" fill="currentColor"/>
-        <circle cx="55" cy="8" r="6" fill="currentColor"/>
-      </svg>
-      <span>Hero photo coming soon</span>
-    </div>
+    <img src="images/hero.jpg" alt="MiniForgeDad at the painting desk" style="width:100%;height:100%;object-fit:cover;" />
   </div>
 </section>
 
@@ -733,7 +722,7 @@
     <p>In a world that moves so fast, spending two hours debating which shade of blue to use is a rare kind of peace. We aren't professionals. We're just a team learning to thin our paints the hard way — and loving every minute of it.</p>
   </div>
   <div class="story-image-grid fade-in">
-    <div class="story-img">📷<br>Add photo</div>
+    <div class="story-img"><img src="images/about.jpg" alt="MiniForgeDad" class="loaded" /></div>
     <div class="story-img">📷<br>Add photo</div>
     <div class="story-img">📷<br>Add photo</div>
   </div>
@@ -747,12 +736,12 @@
   <h2 class="fade-in">Work in progress &amp; finished pieces.</h2>
   <div class="gallery-grid fade-in">
     <div class="gallery-item">
-      <div class="gallery-placeholder">📷 Featured mini — add photo</div>
-      <div class="gallery-overlay"><span>Featured piece</span></div>
+      <img src="images/gallery/knight-1.jpg" alt="Imperial Knight Paladin — House Griffith, bone and gold livery" />
+      <div class="gallery-overlay"><span>Imperial Knight Paladin</span></div>
     </div>
     <div class="gallery-item">
-      <div class="gallery-placeholder">📷 Add photo</div>
-      <div class="gallery-overlay"><span>Recent work</span></div>
+      <img src="images/gallery/knight-2.jpg" alt="Imperial Knight — rear three-quarter view" />
+      <div class="gallery-overlay"><span>Knight — rear view</span></div>
     </div>
     <div class="gallery-item">
       <div class="gallery-placeholder">📷 Add photo</div>
@@ -812,6 +801,12 @@
       <h3>Patreon</h3>
       <p>Support the hobby desk. Get early access, exclusive content, and help us afford more tiny soldiers.</p>
       <div class="card-link">Support us →</div>
+    </a>
+    <a href="hpc.html" class="content-card">
+      <div class="content-card-icon">🏆</div>
+      <h3>HPC 2025</h3>
+      <p>Following the Independent Characters Hobby Progress Challenge — one unit a month, Sep 2025 through Aug 2026.</p>
+      <div class="card-link">See progress →</div>
     </a>
   </div>
 </section>
