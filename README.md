@@ -132,6 +132,24 @@ Add `class="done"` to the `.bonus-card`:
 <div class="bonus-card done">
 ```
 
+### Updating the poll options
+
+The "What should I paint next?" poll is driven by a config array at the top of the `<script>` block in `hpc.html`. To change the options, edit the array:
+
+```js
+const POLL_OPTIONS = [
+  "Space Marine Intercessor Squad",
+  "Chaos Daemon Prince",
+  "Your New Option Here",  // ← add, remove, or rename freely
+];
+```
+
+**Notes:**
+- Adding or removing an option takes effect immediately
+- Renaming an option creates a brand new counter — old votes for that option are lost
+- Votes are stored via [countapi.xyz](https://api.countapi.xyz) and persist across all visitors
+- If the API is unreachable, votes are saved in the visitor's browser and the poll still works
+
 ### Updating the score bar
 
 Edit the three numbers at the top of `hpc.html` manually:

@@ -435,6 +435,91 @@
     letter-spacing: 1px;
   }
 
+  /* ── POLL ── */
+  .poll-section { background: var(--parchment); }
+
+  .poll-options { display: flex; flex-direction: column; gap: 12px; max-width: 680px; }
+
+  .poll-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    border: 1.5px solid rgba(28,20,16,0.1);
+    background: var(--light);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .poll-option.my-vote {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+
+  .poll-option-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    flex: 1;
+  }
+
+  .poll-bar-wrap {
+    flex: 2;
+    height: 5px;
+    background: rgba(28,20,16,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .poll-bar {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.6s ease;
+  }
+
+  .poll-option.my-vote .poll-bar { background: var(--green-dark); }
+
+  .poll-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--mist);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  .poll-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .poll-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+  .poll-voted .poll-btn { display: none; }
+
+  .poll-meta {
+    margin-top: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--mist);
+  }
+
+  .poll-error {
+    font-size: 14px;
+    color: var(--mist);
+    font-style: italic;
+    margin-top: 8px;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
@@ -852,11 +937,111 @@
   </div>
 </section>
 
+<!-- POLL -->
+<section class="section poll-section" id="poll">
+  <div class="section-label">Community Vote</div>
+  <h2>What should I paint next?</h2>
+  <p class="section-sub">Vote for what you want to see on the bench next month.</p>
+  <div class="poll-options" id="poll-options"></div>
+  <p class="poll-meta" id="poll-meta"></p>
+  <p class="poll-error" id="poll-error"></p>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">mini<span>for</span>gedad</div>
   <div class="footer-note">2025 Independent Characters Hobby Progress Challenge</div>
 </footer>
 
+<script>
+// ╔═══════════════════════════════════════════════════════╗
+// ║  POLL CONFIG — edit this to change the poll options  ║
+// ║                                                       ║
+// ║  • Add an option:    add a new string to the array   ║
+// ║  • Remove an option: delete its string               ║
+// ║  • Rename an option: change its string               ║
+// ║    ⚠ Renaming creates a new counter (old votes lost) ║
+// ╚═══════════════════════════════════════════════════════╝
+const POLL_OPTIONS = [
+  "Space Marine Intercessor Squad",
+  "Chaos Daemon Prince",
+  "Ork Warboss on Warbike",
+  "Imperial Knight Armiger",
+  "Necron Doomsday Ark",
+];
+
+// ── internals — no need to edit below this line ────────────
+const NS        = 'miniforgedad-hpc-2025-poll';
+const VOTED_KEY = 'hpc-poll-voted-v1';
+
+const options  = POLL_OPTIONS.map(l => ({ label: l, key: l.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') }));
+const wrap     = document.getElementById('poll-options');
+const metaEl   = document.getElementById('poll-meta');
+const errorEl  = document.getElementById('poll-error');
+let   votedKey = localStorage.getItem(VOTED_KEY);
+
+const apiGet = async key => {
+  const r = await fetch(`https://api.countapi.xyz/get/${NS}/${key}`);
+  if (!r.ok) throw new Error();
+  return (await r.json()).value ?? 0;
+};
+
+const apiHit = async key => {
+  const r = await fetch(`https://api.countapi.xyz/hit/${NS}/${key}`);
+  if (!r.ok) throw new Error();
+  return (await r.json()).value ?? 1;
+};
+
+function render() {
+  wrap.innerHTML = '';
+  options.forEach(({ label, key }) => {
+    const el = document.createElement('div');
+    el.className = 'poll-option' + (key === votedKey ? ' my-vote' : '');
+    el.id = `poll-opt-${key}`;
+    el.innerHTML = `
+      <span class="poll-option-label">${label}</span>
+      <div class="poll-bar-wrap"><div class="poll-bar" id="bar-${key}"></div></div>
+      <span class="poll-pct" id="pct-${key}"></span>
+      ${!votedKey ? `<button class="poll-btn" onclick="castVote('${key}')">Vote</button>` : ''}
+    `;
+    wrap.appendChild(el);
+  });
+  if (votedKey) wrap.classList.add('poll-voted');
+}
+
+async function updateCounts() {
+  try {
+    const counts = await Promise.all(options.map(o => apiGet(o.key).catch(() => 0)));
+    const total  = counts.reduce((a, b) => a + b, 0);
+    options.forEach(({ key }, i) => {
+      const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
+      const bar = document.getElementById(`bar-${key}`);
+      const pctEl = document.getElementById(`pct-${key}`);
+      if (bar) setTimeout(() => { bar.style.width = pct + '%'; }, 80);
+      if (pctEl) pctEl.textContent = total > 0 ? pct + '%' : '';
+    });
+    metaEl.textContent = total === 0
+      ? 'No votes yet — be the first!'
+      : `${total} vote${total !== 1 ? 's' : ''} total${votedKey ? ' · Thanks for voting!' : ''}`;
+  } catch(e) {
+    if (votedKey) errorEl.textContent = 'Counts unavailable right now — your vote is saved.';
+  }
+}
+
+async function castVote(key) {
+  votedKey = key;
+  localStorage.setItem(VOTED_KEY, key);
+  wrap.classList.add('poll-voted');
+  document.querySelectorAll('.poll-btn').forEach(b => b.remove());
+  document.querySelectorAll('.poll-option').forEach(el => el.classList.remove('my-vote'));
+  const el = document.getElementById(`poll-opt-${key}`);
+  if (el) el.classList.add('my-vote');
+  try { await apiHit(key); } catch(e) {}
+  await updateCounts();
+}
+
+render();
+updateCounts();
+</script>
 </body>
 </html>
