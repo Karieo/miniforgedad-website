@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiniForgeDad — Miniature Painting</title>
+  <meta name="description" content="MiniForgeDad — Custom miniature painting. Commission-quality work for tabletop gaming, display, and collectors." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="#" class="nav-logo">MiniForgeDad</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="hero-eyebrow">Miniature Painting</p>
+      <h1 class="hero-title">Where craft meets<br /><em>the battlefield</em></h1>
+      <p class="hero-sub">Commission-quality painting for tabletop games, display pieces, and collectors. Every model tells a story.</p>
+      <div class="hero-actions">
+        <a href="#gallery" class="btn btn-primary">View the Gallery</a>
+        <a href="#contact" class="btn btn-ghost">Request a Commission</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none"><rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="7" r="2" fill="currentColor"><animate attributeName="cy" values="7;15;7" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="1.8s" repeatCount="indefinite"/></circle></svg>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section gallery-section" id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Work</p>
+        <h2 class="section-title">The Gallery</h2>
+        <p class="section-sub">A selection of recent commissions and personal projects.</p>
+      </div>
+
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="warhammer">Warhammer</button>
+        <button class="filter-btn" data-filter="display">Display</button>
+        <button class="filter-btn" data-filter="skirmish">Skirmish</button>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <figure class="gallery-item" data-category="warhammer">
+          <div class="gallery-img-wrap">
+            <img src="images/placeholder.svg" alt="Space Marine Captain — gold NMM, custom freehand banner" loading="lazy" />
+            <div class="gallery-overlay">
+              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>Space Marine Captain</strong>
+            <span>Gold NMM · Custom freehand</span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item" data-category="display">
+          <div class="gallery-img-wrap">
+            <img src="images/placeholder.svg" alt="Display bust — OSL lighting, competition level" loading="lazy" />
+            <div class="gallery-overlay">
+              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>Display Bust</strong>
+            <span>OSL · Competition level</span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item" data-category="skirmish">
+          <div class="gallery-img-wrap">
+            <img src="images/placeholder.svg" alt="Infinity warband — studio level, 5 models" loading="lazy" />
+            <div class="gallery-overlay">
+              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>Infinity Warband</strong>
+            <span>Studio level · 5 models</span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item" data-category="warhammer">
+          <div class="gallery-img-wrap">
+            <img src="images/placeholder.svg" alt="Age of Sigmar army — tabletop plus, 20 models" loading="lazy" />
+            <div class="gallery-overlay">
+              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>Age of Sigmar Army</strong>
+            <span>Tabletop+ · 20 models</span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item" data-category="display">
+          <div class="gallery-img-wrap">
+            <img src="images/placeholder.svg" alt="Character diorama — sculpted base, narrative scene" loading="lazy" />
+            <div class="gallery-overlay">
+              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>Character Diorama</strong>
+            <span>Sculpted base · Narrative</span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item" data-category="skirmish">
+          <div class="gallery-img-wrap">
+            <img src="images/placeholder.svg" alt="Necromunda gang — gritty urban scheme" loading="lazy" />
+            <div class="gallery-overlay">
+              <span class="gallery-zoom" aria-label="View full size">&#x2922;</span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>Necromunda Gang</strong>
+            <span>Gritty urban scheme</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about-section" id="about">
+    <div class="container about-inner">
+      <div class="about-image">
+        <img src="images/placeholder.svg" alt="MiniForgeDad at the painting desk" />
+      </div>
+      <div class="about-content">
+        <p class="section-label">About</p>
+        <h2 class="section-title">The Painter</h2>
+        <p>I'm a hobbyist-turned-professional miniature painter with a passion for bringing tiny worlds to life. From rank-and-file armies to one-of-a-kind display pieces, I approach every commission with the same care I'd give my own collection.</p>
+        <p>Based in [Your Location]. Currently accepting commissions with a typical turnaround of 4–8 weeks depending on scope.</p>
+        <div class="about-stats">
+          <div class="stat">
+            <strong>200+</strong>
+            <span>Models painted</span>
+          </div>
+          <div class="stat">
+            <strong>50+</strong>
+            <span>Commissions completed</span>
+          </div>
+          <div class="stat">
+            <strong>5★</strong>
+            <span>Average client rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section process-section" id="process">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">How it works</p>
+        <h2 class="section-title">The Process</h2>
+        <p class="section-sub">Simple, transparent, no surprises.</p>
+      </div>
+      <ol class="process-steps">
+        <li class="process-step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Enquire</h3>
+            <p>Send me what you want painted — model type, quantity, style reference, and deadline. I'll reply within 48 hours with availability and a quote.</p>
+          </div>
+        </li>
+        <li class="process-step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Ship &amp; Deposit</h3>
+            <p>Send your models and pay a 50% deposit to lock in your slot. I'll confirm receipt and kick off prep work.</p>
+          </div>
+        </li>
+        <li class="process-step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Paint &amp; Preview</h3>
+            <p>I send progress photos at key stages so you can approve the direction or request adjustments — no nasty surprises at the end.</p>
+          </div>
+        </li>
+        <li class="process-step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3>Final Payment &amp; Return</h3>
+            <p>Once you're happy, pay the remaining balance and I'll ship everything back, professionally packaged and insured.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact-section" id="contact">
+    <div class="container contact-inner">
+      <div class="contact-content">
+        <p class="section-label">Get in touch</p>
+        <h2 class="section-title">Request a Commission</h2>
+        <p>Ready to get your models painted? Fill out the form and I'll get back to you within 48 hours.</p>
+        <ul class="contact-links">
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+            <a href="mailto:hello@miniforgedad.com">hello@miniforgedad.com</a>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            <a href="https://instagram.com/miniforgedad" target="_blank" rel="noopener">@miniforgedad</a>
+          </li>
+        </ul>
+      </div>
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="your@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="models">What do you want painted?</label>
+          <input type="text" id="models" name="models" placeholder="e.g. 10 Space Marines, studio level" />
+        </div>
+        <div class="form-group">
+          <label for="message">Additional details</label>
+          <textarea id="message" name="message" rows="5" placeholder="Colour scheme, references, deadline, budget…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Send Enquiry</button>
+        <p class="form-note">I typically reply within 48 hours.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-brand">MiniForgeDad</p>
+      <p class="footer-copy">&copy; <span id="year"></span> MiniForgeDad. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous">&#8249;</button>
+    <button class="lightbox-next" aria-label="Next">&#8250;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="" />
+      <p id="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
