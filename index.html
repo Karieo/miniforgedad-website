@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>miniforgedad — Miniature Painting, Father & Son</title>
+<meta name="description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="miniforgedad — Miniature Painting, Father & Son" />
+<meta property="og:description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
+<meta property="og:image" content="images/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="miniforgedad — Miniature Painting, Father & Son" />
+<meta name="twitter:description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
+<meta name="twitter:image" content="images/og-image.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -507,6 +516,151 @@
     transform: translateY(0);
   }
 
+  /* ── ON THE BENCH ── */
+  .bench { background: var(--parchment); }
+
+  .bench-card {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+    margin-top: 48px;
+    background: var(--light);
+    border: 1px solid rgba(45,90,61,0.12);
+    padding: 48px;
+  }
+
+  .bench-img {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--green-light), #a8c0b0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(28,20,16,0.3);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bench-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bench-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+
+  .bench-status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.75); }
+  }
+
+  .bench-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .bench-info p {
+    color: var(--mist);
+    margin-bottom: 24px;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .bench-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .bench-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border: 1px solid rgba(45,90,61,0.25);
+    color: var(--green);
+  }
+
+  /* ── FAQ ── */
+  .faq { background: var(--light); }
+
+  .faq-list { margin-top: 48px; }
+
+  details {
+    border-bottom: 1px solid rgba(28,20,16,0.1);
+  }
+
+  details:first-of-type { border-top: 1px solid rgba(28,20,16,0.1); }
+
+  summary {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 2vw, 22px);
+    padding: 24px 0;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary::after {
+    content: '+';
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    color: var(--green);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+
+  details[open] summary::after { transform: rotate(45deg); }
+
+  .faq-answer {
+    padding-bottom: 24px;
+    color: var(--mist);
+    font-size: 17px;
+    line-height: 1.75;
+    max-width: 65ch;
+  }
+
+  .faq-answer a {
+    color: var(--green);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
@@ -519,6 +673,7 @@
     .gallery-grid { grid-template-columns: 1fr 1fr; }
     .gallery-item:first-child { grid-column: span 2; }
     .content-grid { grid-template-columns: 1fr; }
+    .bench-card { grid-template-columns: 1fr; gap: 32px; padding: 28px; }
     footer { flex-direction: column; gap: 24px; text-align: center; }
     .divider { margin: 0 24px; }
   }
@@ -533,6 +688,8 @@
     <li><a href="#story">Our Story</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#content">Content</a></li>
+    <li><a href="#bench">On the Bench</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a></li>
     <li><a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a></li>
   </ul>
@@ -612,6 +769,27 @@
   </div>
 </section>
 
+<!-- ON THE BENCH -->
+<section class="bench" id="bench">
+  <div class="section-label fade-in">On the Bench</div>
+  <h2 class="fade-in">What we're painting <em>right now.</em></h2>
+  <div class="bench-card fade-in">
+    <div class="bench-img">📷 Add WIP photo</div>
+    <div class="bench-info">
+      <div class="bench-status">In progress</div>
+      <h3>Update this with your current project</h3>
+      <p>Describe what you're working on — what stage it's at, what techniques you're using, what's giving you trouble. Keep it casual, like you're telling a friend.</p>
+      <div class="bench-tags">
+        <span class="bench-tag">Warhammer 40K</span>
+        <span class="bench-tag">NMM</span>
+        <span class="bench-tag">Freehand</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- CONTENT HUB -->
 <section class="content" id="content">
   <div class="section-label fade-in">Content</div>
@@ -635,6 +813,34 @@
       <p>Support the hobby desk. Get early access, exclusive content, and help us afford more tiny soldiers.</p>
       <div class="card-link">Support us →</div>
     </a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-label fade-in">FAQ</div>
+  <h2 class="fade-in">Questions we get a lot.</h2>
+  <div class="faq-list fade-in">
+    <details>
+      <summary>Do you paint commissions?</summary>
+      <p class="faq-answer">Not currently — the hobby desk is a father &amp; son project and we want to keep it that way for now. That said, if you have a cool project you want to talk about, feel free to reach out at <a href="mailto:miniforgedad@gmail.com">miniforgedad@gmail.com</a>.</p>
+    </details>
+    <details>
+      <summary>What miniatures do you paint?</summary>
+      <p class="faq-answer">Mainly Warhammer 40K and Age of Sigmar, but we're open to anything that looks cool. We've also dabbled in Infinity, skirmish games, and the odd historical kit when something catches our eye.</p>
+    </details>
+    <details>
+      <summary>I'm new to the hobby — where do I start?</summary>
+      <p class="faq-answer">Grab a contrast paint starter set, a cheap brush, and one model you actually like the look of. Don't buy a whole army before you know you enjoy painting. Watch YouTube videos (ours included!) and don't be afraid to mess up — every mistake teaches you something useful.</p>
+    </details>
+    <details>
+      <summary>How often do you stream and post?</summary>
+      <p class="faq-answer">We try to go live on Twitch every Tuesday and Thursday at 7PM CT. YouTube videos go up weekly, usually on Saturdays. Follow us on Instagram for the in-between updates and WIP shots.</p>
+    </details>
+    <details>
+      <summary>How can I support the channel?</summary>
+      <p class="faq-answer">The best things you can do are subscribe on <a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a>, follow on <a href="https://twitch.tv/miniforgedad" target="_blank">Twitch</a>, and share our stuff with other hobbyists. If you want to go further, we have a <a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a> with early access and exclusive content.</p>
+    </details>
   </div>
 </section>
 
