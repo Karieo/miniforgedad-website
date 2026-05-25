@@ -329,6 +329,46 @@
     padding: 2px 6px;
   }
 
+  /* ── INQUISITORIAL PURGE OVERLAY (missed months) ── */
+  [data-status="missed"] .photo-slot {
+    background: #140808;
+    color: transparent; /* hide 📷 emoji */
+  }
+
+  [data-status="missed"] .photo-slot-label { display: none; }
+
+  [data-status="missed"] .photo-slot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent 0,
+      transparent 10px,
+      rgba(192,82,42,0.18) 10px,
+      rgba(192,82,42,0.18) 12px
+    );
+    z-index: 1;
+  }
+
+  [data-status="missed"] .photo-slot::after {
+    content: '✠\A PICT-FEED\A PURGED';
+    white-space: pre;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2.5px;
+    color: rgba(192,82,42,0.85);
+    line-height: 2.2;
+    z-index: 2;
+    width: 90%;
+    text-shadow: 0 0 12px rgba(192,82,42,0.4);
+  }
+
   .month-notes {
     padding: 12px 18px;
     border-top: 1px solid rgba(28,20,16,0.07);
@@ -686,11 +726,11 @@
       <div class="month-photos">
         <div class="photo-slot">
           <span class="photo-slot-label">Before</span>
-          📷
+          <img src="images/hpc/sep-2025-before.jpg" alt="Imperial Knight Paladin — before" />
         </div>
         <div class="photo-slot">
           <span class="photo-slot-label">After</span>
-          <img src="../images/gallery/knight-1.jpg" alt="Imperial Knight Paladin — finished" />
+          <img src="images/hpc/sep-2025-after.jpg" alt="Imperial Knight Paladin — finished" />
         </div>
       </div>
       <div class="month-notes">Imperial Knight Paladin — House Griffith livery, bone &amp; gold. Titanic bonus.</div>
@@ -792,10 +832,10 @@
     </div>
 
     <!-- MARCH 2026 -->
-    <div class="month-card" data-status="pending">
+    <div class="month-card" data-status="missed">
       <div class="month-header">
         <span class="month-name">March 2026</span>
-        <span class="month-badge">Pending</span>
+        <span class="month-badge">Missed</span>
       </div>
       <div class="month-photos">
         <div class="photo-slot">
@@ -811,10 +851,10 @@
     </div>
 
     <!-- APRIL 2026 -->
-    <div class="month-card" data-status="pending">
+    <div class="month-card" data-status="missed">
       <div class="month-header">
         <span class="month-name">April 2026</span>
-        <span class="month-badge">Pending</span>
+        <span class="month-badge">Missed</span>
       </div>
       <div class="month-photos">
         <div class="photo-slot">

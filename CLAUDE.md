@@ -65,6 +65,29 @@ Full-screen overlay that slides in from the right. Three pieces must stay in syn
 - Poll options are controlled by `const POLL_OPTIONS = [...]` at the top of the `<script>` block — rename = new counter, old votes lost
 - Poll voted state stored in `localStorage` key `hpc-poll-voted-v1`
 
+## Image folders
+
+```
+images/
+  hero.jpg              ← site hero (right panel on desktop)
+  about.jpg             ← story section main photo
+  og-image.png          ← social share preview
+  gallery/
+    knights-1.jpg       ← main gallery, first knight photo (spans 2 cols)
+    knights-2.jpg
+    knights-3.jpg …     ← add more as needed
+  hpc/
+    sep-2025-before.jpg ← HPC tracker: before photo for that month
+    sep-2025-after.jpg  ← HPC tracker: after photo for that month
+    oct-2025-before.jpg
+    oct-2025-after.jpg
+    … (pattern: [mon]-[year]-before/after.jpg)
+```
+
+Adding a new gallery project: add a new comment block in the `.gallery-grid` in `index.html` and drop images in `images/gallery/`.
+
+Adding HPC photos for a new month: drop files into `images/hpc/` following the naming pattern — `<img>` tags are already wired in `hpc.html` for each month.
+
 ## Standing conventions
 
 - Always say **miniatures**, never "soldiers"

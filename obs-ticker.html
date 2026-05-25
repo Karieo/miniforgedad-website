@@ -12,7 +12,7 @@
   body {
     background: transparent;
     overflow: hidden;
-    width: 1920px;
+    width: 100vw;
     height: 60px;
     display: flex;
     align-items: stretch;
@@ -59,6 +59,7 @@
 
   .ticker-scroll-area {
     flex: 1;
+    min-width: 0;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -149,11 +150,10 @@
       "Enjoying the stream? Share it with a friend!",
       "Thanks for watching — your support means everything",
     ],
-    twitch:    "miniforgedad",
     youtube:   "@miniforgedad",
     instagram: "@miniforgedad",
     patreon:   "patreon.com/miniforgedad",
-    scrollSpeed: 30,
+    scrollSpeed: 60,
     newsFeeds: [
       { name: 'WarCom',             enabled: true, url: 'https://warcomfeed.link/rss.xml' },
       { name: 'Bell of Lost Souls', enabled: true, url: 'https://www.belloflostsouls.net/feed' },
@@ -170,7 +170,6 @@
     if (TICKER_CONFIG.currentTopic) items.push('🎮 Now: ' + TICKER_CONFIG.currentTopic);
     if (TICKER_CONFIG.schedule)     items.push('📅 ' + TICKER_CONFIG.schedule);
     TICKER_CONFIG.messages.forEach(m => { if (m) items.push(m); });
-    if (TICKER_CONFIG.twitch)       items.push('💜 Twitch: twitch.tv/' + TICKER_CONFIG.twitch + ' — follow so you never miss a stream!');
     if (TICKER_CONFIG.youtube)      items.push('▶ YouTube: ' + TICKER_CONFIG.youtube + ' — subscribe for more content!');
     if (TICKER_CONFIG.instagram)    items.push('📸 Instagram: ' + TICKER_CONFIG.instagram + ' — follow for behind the scenes');
     if (TICKER_CONFIG.patreon)      items.push('🎗 Support on Patreon: ' + TICKER_CONFIG.patreon);
