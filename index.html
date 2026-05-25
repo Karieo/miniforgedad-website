@@ -157,6 +157,7 @@
   /* ── LIVE BANNER ── */
   .live-banner {
     display: none;
+    position: relative;
     margin-top: 64px;
     background: var(--ink);
     border-bottom: 2px solid #c0392b;
@@ -169,6 +170,14 @@
   }
 
   .live-banner.visible { display: flex; }
+
+  .live-banner-close {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: var(--parchment);
+    font-size: 20px; line-height: 1; cursor: pointer; opacity: 0.5;
+    padding: 4px 8px;
+  }
+  .live-banner-close:hover { opacity: 1; }
 
   /* once the live banner shows, verse-banner doesn't need its own top margin */
   .live-banner.visible ~ .verse-banner { margin-top: 0; }
@@ -907,6 +916,7 @@
   </span>
   <span class="live-banner-text">Father &amp; son are at the painting table right now</span>
   <a href="stream.html" class="live-banner-btn">Watch Live ↗</a>
+  <button class="live-banner-close" id="live-banner-close" aria-label="Dismiss">×</button>
 </div>
 
 <!-- VERSE OF THE DAY -->
@@ -1131,31 +1141,40 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
   // YouTube live-status check
-  // → Replace YOUR_YOUTUBE_API_KEY with a free key from console.cloud.google.com
-  //   (Enable "YouTube Data API v3", create an API key, restrict it to your domain)
-  const YT_API_KEY    = 'AIzaSyA7s4d-XrWW1IIuCuKIVW9zDNWQCaiRj6s';
-  const YT_CHANNEL_ID = 'UCDTzmIQ5yXqFljDMNDccCxA';
-  const LIVE_CACHE_MS = 5 * 60 * 1000; // re-check every 5 minutes
+  const YT_API_KEY     = 'AIzaSyA7s4d-XrWW1IIuCuKIVW9zDNWQCaiRj6s';
+  const YT_CHANNEL_ID  = 'UCDTzmIQ5yXqFljDMNDccCxA';
+  const LIVE_CACHE_KEY = 'mfd-live-v2';  // v2 busts any stale v1 cache
+  const LIVE_CACHE_MS  = 2 * 60 * 1000; // re-check every 2 minutes
+
+  function showLiveBanner() {
+    document.getElementById('live-banner').classList.add('visible');
+  }
+
+  document.getElementById('live-banner-close').addEventListener('click', () => {
+    document.getElementById('live-banner').classList.remove('visible');
+    localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({ ts: Date.now(), live: false }));
+  });
 
   (async () => {
     if (!YT_API_KEY || YT_API_KEY === 'YOUR_YOUTUBE_API_KEY') return;
 
-    // serve from cache when fresh
+    // serve from fresh cache
     try {
-      const cached = JSON.parse(localStorage.getItem('mfd-live') || '{}');
+      const cached = JSON.parse(localStorage.getItem(LIVE_CACHE_KEY) || '{}');
       if (Date.now() - (cached.ts || 0) < LIVE_CACHE_MS) {
-        if (cached.live) document.getElementById('live-banner').classList.add('visible');
+        if (cached.live) showLiveBanner();
         return;
       }
     } catch (_) {}
 
-    // fetch live status
+    // fresh API call
     try {
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YT_CHANNEL_ID}&eventType=live&type=video&maxResults=1&key=${YT_API_KEY}`;
       const data = await fetch(url).then(r => r.json());
+      if (data.error) return; // API error — leave cache alone, banner stays hidden
       const isLive = Array.isArray(data.items) && data.items.length > 0;
-      localStorage.setItem('mfd-live', JSON.stringify({ ts: Date.now(), live: isLive }));
-      if (isLive) document.getElementById('live-banner').classList.add('visible');
+      localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({ ts: Date.now(), live: isLive }));
+      if (isLive) showLiveBanner();
     } catch (_) {}
   })();
 </script>
