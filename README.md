@@ -111,18 +111,7 @@ Find the month's card and change its `data-status`:
 
 ### Adding before/after photos
 
-Place photos in `images/hpc/` and add `<img>` tags inside the `.photo-slot` divs:
-
-```html
-<div class="photo-slot">
-  <span class="photo-slot-label">Before</span>
-  <img src="../images/hpc/sep-before.jpg" alt="September before" />
-</div>
-<div class="photo-slot">
-  <span class="photo-slot-label">After</span>
-  <img src="../images/hpc/sep-after.jpg" alt="September after" />
-</div>
-```
+Place photos in `images/hpc/` using the naming convention `[mon]-[year]-before.jpg` / `[mon]-[year]-after.jpg` (e.g. `sep-2025-before.jpg`, `may-2026-after.jpg`). The `<img>` tags are already wired up in `hpc.html` — just drop the correctly named files into the folder and they'll appear automatically.
 
 ### Marking a bonus category complete
 
