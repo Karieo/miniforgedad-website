@@ -10,6 +10,7 @@ Source for [miniforgedad.com](https://miniforgedad.com) — a father & son minia
 |---|---|---|
 | `index.html` | `/` | Main site — hero, story, gallery, content hub, on the bench, FAQ |
 | `hpc.html` | `/hpc.html` | 2025 Independent Characters Hobby Progress Challenge tracker |
+| `stream.html` | `/stream.html` | YouTube live stream embed — shows the stream when live |
 | `obs-ticker.html` | `/obs-ticker.html` | OBS Browser Source ticker overlay (1920×60px) |
 
 ---
@@ -20,6 +21,7 @@ Source for [miniforgedad.com](https://miniforgedad.com) — a father & son minia
 miniforgedad-website/
 ├── index.html          # Main site
 ├── hpc.html            # HPC 2025 tracker
+├── stream.html         # YouTube live stream page
 ├── obs-ticker.html     # OBS ticker overlay
 └── images/
     ├── hero.jpg         # Hero section image

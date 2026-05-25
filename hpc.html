@@ -90,6 +90,8 @@
   .nav-link-page { color: var(--green) !important; }
   .nav-link-ext  { color: var(--gold)  !important; }
   .nav-link-ext::after { content: ' ↗'; font-size: 9px; opacity: 0.7; }
+  .nav-link-live { color: #c0392b !important; display: flex !important; align-items: center; gap: 6px; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
   .nav-sep { width: 1px; height: 14px; background: rgba(28,20,16,0.15); flex-shrink: 0; }
 
   /* ── PAGE HEADER ── */
@@ -662,8 +664,9 @@
     <li><a href="index.html#bench">On the Bench</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
     <li><a href="#" class="nav-link-page">HPC 2025</a></li>
+    <li><a href="stream.html" class="nav-link-live"><span style="width:8px;height:8px;background:#c0392b;border-radius:50%;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>Live</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
-    <li><a href="https://youtube.com/@miniforgedad" target="_blank" class="nav-link-ext">YouTube</a></li>
+    <li><a href="https://youtube.com/@MiniForgeDad" target="_blank" class="nav-link-ext">YouTube</a></li>
     <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
   </ul>
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">

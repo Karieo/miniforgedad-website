@@ -103,6 +103,10 @@
   .nav-link-ext { color: var(--gold) !important; }
   .nav-link-ext::after { content: ' ↗'; font-size: 9px; opacity: 0.7; }
 
+  /* live stream link — red with pulsing dot */
+  .nav-link-live { color: #c0392b !important; display: flex !important; align-items: center; gap: 6px; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
+
   /* separator between section anchors and pages */
   .nav-sep {
     width: 1px;
@@ -149,6 +153,77 @@
   }
 
   .nav-overlay.visible { display: block; }
+
+  /* ── LIVE BANNER ── */
+  .live-banner {
+    display: none;
+    margin-top: 64px;
+    background: var(--ink);
+    border-bottom: 2px solid #c0392b;
+    padding: 14px 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .live-banner.visible { display: flex; }
+
+  /* once the live banner shows, verse-banner doesn't need its own top margin */
+  .live-banner.visible ~ .verse-banner { margin-top: 0; }
+
+  .live-banner-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e8534a;
+    flex-shrink: 0;
+  }
+
+  .live-banner-dot {
+    width: 8px;
+    height: 8px;
+    background: #e8534a;
+    border-radius: 50%;
+    animation: livePulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(232,83,74,0.6); }
+    50%       { opacity: 0.85; transform: scale(0.85); box-shadow: 0 0 0 4px rgba(232,83,74,0); }
+  }
+
+  .live-banner-text {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    color: var(--parchment);
+    font-style: italic;
+  }
+
+  .live-banner-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    background: #c0392b;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .live-banner-btn:hover { background: #a93226; }
 
   /* ── VERSE OF THE DAY ── */
   .verse-banner {
@@ -814,14 +889,25 @@
     <li><a href="#faq">FAQ</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
     <li><a href="hpc.html" class="nav-link-page">HPC 2025</a></li>
+    <li><a href="stream.html" class="nav-link-live"><span class="live-dot" style="width:8px;height:8px;background:#c0392b;border-radius:50%;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>Live</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
-    <li><a href="https://youtube.com/@miniforgedad" target="_blank" class="nav-link-ext">YouTube</a></li>
+    <li><a href="https://youtube.com/@MiniForgeDad" target="_blank" class="nav-link-ext">YouTube</a></li>
     <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
   </ul>
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
+
+<!-- LIVE BANNER (shown by JS when channel is streaming) -->
+<div class="live-banner" id="live-banner" role="alert" aria-live="polite">
+  <span class="live-banner-badge">
+    <span class="live-banner-dot"></span>
+    Live Now
+  </span>
+  <span class="live-banner-text">Father &amp; son are at the painting table right now</span>
+  <a href="stream.html" class="live-banner-btn">Watch Live ↗</a>
+</div>
 
 <!-- VERSE OF THE DAY -->
 <div class="verse-banner">
@@ -1043,6 +1129,35 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // YouTube live-status check
+  // → Replace YOUR_YOUTUBE_API_KEY with a free key from console.cloud.google.com
+  //   (Enable "YouTube Data API v3", create an API key, restrict it to your domain)
+  const YT_API_KEY    = 'AIzaSyA7s4d-XrWW1IIuCuKIVW9zDNWQCaiRj6s';
+  const YT_CHANNEL_ID = 'UCDTzmIQ5yXqFljDMNDccCxA';
+  const LIVE_CACHE_MS = 5 * 60 * 1000; // re-check every 5 minutes
+
+  (async () => {
+    if (!YT_API_KEY || YT_API_KEY === 'YOUR_YOUTUBE_API_KEY') return;
+
+    // serve from cache when fresh
+    try {
+      const cached = JSON.parse(localStorage.getItem('mfd-live') || '{}');
+      if (Date.now() - (cached.ts || 0) < LIVE_CACHE_MS) {
+        if (cached.live) document.getElementById('live-banner').classList.add('visible');
+        return;
+      }
+    } catch (_) {}
+
+    // fetch live status
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YT_CHANNEL_ID}&eventType=live&type=video&maxResults=1&key=${YT_API_KEY}`;
+      const data = await fetch(url).then(r => r.json());
+      const isLive = Array.isArray(data.items) && data.items.length > 0;
+      localStorage.setItem('mfd-live', JSON.stringify({ ts: Date.now(), live: isLive }));
+      if (isLive) document.getElementById('live-banner').classList.add('visible');
+    } catch (_) {}
+  })();
 </script>
 </body>
 </html>
