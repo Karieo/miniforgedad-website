@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dad — miniforgedad</title>
+<meta name="description" content="Dad's painted miniatures, techniques, and hobby progress." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1c1410;
+    --parchment:  #f5ede0;
+    --warm:       #f0dfc0;
+    --green:      #2d5a3d;
+    --gold:       #b8882a;
+    --mist:       #8a7a6a;
+    --light:      #faf5ee;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--light); color: var(--ink); font-family: 'Crimson Pro', Georgia, serif; font-size: 18px; line-height: 1.65; }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--ink); line-height: 1.2; }
+  h2 { font-size: clamp(28px, 4vw, 48px); }
+  section { padding: 80px; }
+  @media (max-width: 768px) { section { padding: 48px 24px; } }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,245,238,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(184,136,42,0.12);
+    padding: 0 80px; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-link-ext { color: var(--gold) !important; }
+  .nav-link-ext::after { content: ' ↗'; font-size: 9px; opacity: 0.7; }
+  .nav-link-live { color: #c0392b !important; display: flex !important; align-items: center; gap: 6px; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
+  @media (max-width: 768px) { nav { padding: 0 24px; } .nav-links { gap: 16px; } }
+
+  /* SECTION LABEL */
+  .section-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--green); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 0 80px; opacity: 0.3; }
+
+  /* BIO */
+  .bio { background: var(--parchment); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .bio-text { display: flex; flex-direction: column; gap: 20px; }
+  .bio-text h1 { font-size: clamp(36px, 5vw, 64px); }
+  .bio-text p { font-size: 19px; color: var(--mist); line-height: 1.75; }
+  .bio-photo { aspect-ratio: 4/5; background: linear-gradient(135deg, var(--warm), #d4b87a); display: flex; align-items: center; justify-content: center; font-size: 48px; color: rgba(28,20,16,0.2); overflow: hidden; }
+  .bio-photo img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 768px) { .bio { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* TECHNIQUES */
+  .techniques { background: var(--light); }
+  .techniques-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; margin-top: 48px; }
+  .technique-card { background: var(--parchment); border: 1px solid rgba(184,136,42,0.15); padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .tc-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .technique-card h4 { font-size: 18px; }
+  .technique-card p { font-size: 15px; color: var(--mist); line-height: 1.6; }
+
+  /* GALLERY */
+  .gallery { background: var(--light); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .gallery-item { aspect-ratio: 4/3; background: linear-gradient(135deg, #e0ccaa, #c8a870); overflow: hidden; position: relative; cursor: pointer; }
+  .gallery-item:first-child { grid-column: span 2; aspect-ratio: 16/9; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .gallery-item:hover img { transform: scale(1.04); }
+  .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,20,16,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 20px; }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay span { color: #fff; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+  @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr 1fr; } .gallery-item:first-child { grid-column: span 2; } }
+
+  /* LIGHTBOX */
+  .lb-overlay { position: fixed; inset: 0; background: rgba(12,8,4,0.92); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 1000; }
+  .lb-overlay.open { opacity: 1; pointer-events: all; }
+  .lb-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: #fff; font-size: 32px; line-height: 1; cursor: pointer; opacity: 0.7; padding: 4px 8px; }
+  .lb-close:hover { opacity: 1; }
+  .lb-container { display: flex; flex-direction: row; max-width: 92vw; max-height: 88vh; width: 100%; }
+  .lb-img-wrap { flex: 0 0 65%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .lb-img-wrap img { width: 100%; height: 100%; object-fit: contain; max-height: 88vh; }
+  .lb-panel { flex: 1; background: var(--parchment); border-left: 3px solid var(--gold); padding: 48px 36px; overflow-y: auto; display: flex; flex-direction: column; gap: 0; }
+  .lb-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .lb-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); flex-shrink: 0; }
+  .lb-panel h3 { font-size: 26px; font-weight: 700; color: var(--ink); margin: 0 0 24px; line-height: 1.25; }
+  .lb-rule { border: none; border-top: 1px solid var(--warm); margin: 0 0 24px; }
+  .lb-panel p { font-family: 'Crimson Pro', Georgia, serif; font-size: 18px; color: var(--ink); line-height: 1.75; margin: 0; }
+  @media (max-width: 640px) { .lb-container { flex-direction: column; max-height: 92vh; } .lb-img-wrap { flex: 0 0 auto; max-height: 52vh; } .lb-panel { max-height: 36vh; padding: 20px; } }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: rgba(245,237,224,0.5); padding: 48px 80px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.06); }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--parchment); }
+  .footer-logo span { color: var(--green); }
+  .footer-socials { display: flex; gap: 24px; }
+  .footer-socials a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,237,224,0.4); text-decoration: none; transition: color 0.2s; }
+  .footer-socials a:hover { color: var(--gold); }
+  .footer-copy { font-size: 13px; }
+  @media (max-width: 768px) { footer { flex-direction: column; gap: 24px; padding: 40px 24px; text-align: center; } .footer-socials { flex-wrap: wrap; justify-content: center; } }
+
+  /* FADE IN */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">mini<span>forge</span>dad</a>
+  <ul class="nav-links">
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="index.html#painters">The Painters</a></li>
+    <li><a href="index.html#bench">On the Bench</a></li>
+    <li><a href="hpc.html">HPC 2025</a></li>
+    <li><a href="stream.html" class="nav-link-live"><span style="width:8px;height:8px;background:#c0392b;border-radius:50%;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>Live</a></li>
+    <li><a href="https://youtube.com/@miniforgedad" target="_blank" class="nav-link-ext">YouTube</a></li>
+    <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
+  </ul>
+</nav>
+
+<!-- BIO -->
+<section class="bio">
+  <div class="bio-text fade-in">
+    <div class="section-label">The Painter</div>
+    <h1>Dad</h1>
+    <!-- Update these paragraphs with your bio -->
+    <p>Add your bio here — your army, your painting style, what got you into the hobby, and what you love most about painting with your son.</p>
+    <p>What armies are you building? What techniques are you chasing?</p>
+  </div>
+  <div class="bio-photo fade-in">
+    <!-- Replace the emoji with: <img src="images/dad.jpg" alt="Dad" /> -->
+    📷
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TECHNIQUES -->
+<section class="techniques">
+  <div class="section-label fade-in">Skills</div>
+  <h2 class="fade-in">Techniques I'm working on.</h2>
+  <div class="techniques-grid fade-in">
+    <!-- Update these cards with your actual techniques -->
+    <div class="technique-card">
+      <span class="tc-label">Currently learning</span>
+      <h4>Technique Name</h4>
+      <p>A short description of what this technique involves and why you're working on it.</p>
+    </div>
+    <div class="technique-card">
+      <span class="tc-label">Practicing</span>
+      <h4>Technique Name</h4>
+      <p>A short description of what this technique involves and why you're working on it.</p>
+    </div>
+    <div class="technique-card">
+      <span class="tc-label">Getting better at</span>
+      <h4>Technique Name</h4>
+      <p>A short description of what this technique involves and why you're working on it.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-label fade-in">Gallery</div>
+  <h2 class="fade-in">Dad's painted models.</h2>
+  <div class="gallery-grid fade-in">
+    <!--
+      Add Dad's photos here. Template for each photo:
+      <div class="gallery-item"
+           data-title="Model Name"
+           data-description="Painting notes — techniques, paints, story behind this model.">
+        <img src="images/gallery/your-photo.jpeg" alt="Description" />
+        <div class="gallery-overlay"><span>Model Name</span></div>
+      </div>
+    -->
+    <div class="gallery-item"
+         data-title="Imperial Knight Paladin"
+         data-description="Update this with your painting notes — techniques used, paints, how long it took, any story behind this model.">
+      <img src="images/gallery/knights-1.jpeg" alt="Imperial Knight Paladin" />
+      <div class="gallery-overlay"><span>Imperial Knight Paladin</span></div>
+    </div>
+    <div class="gallery-item"
+         data-title="Knight — Heraldry Detail"
+         data-description="Update this with your painting notes.">
+      <img src="images/gallery/knights-2.jpeg" alt="Knight heraldry detail" />
+      <div class="gallery-overlay"><span>Knight — rear view</span></div>
+    </div>
+    <div class="gallery-item"
+         data-title="Knight — Weapon Arm"
+         data-description="Update this with your painting notes.">
+      <img src="images/gallery/knights-3.jpeg" alt="" />
+      <div class="gallery-overlay"><span>Imperial Knight</span></div>
+    </div>
+    <div class="gallery-item"
+         data-title="Weapon Bits"
+         data-description="Update this with your painting notes.">
+      <img src="images/gallery/knights-4.jpeg" alt="" />
+      <div class="gallery-overlay"><span>Weapon bits</span></div>
+    </div>
+    <div class="gallery-item"
+         data-title="Knight — Rear View"
+         data-description="Update this with your painting notes.">
+      <img src="images/gallery/knights-5.jpeg" alt="" />
+      <div class="gallery-overlay"><span>Imperial Knight</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lb-overlay" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lb-close" id="lb-close" aria-label="Close">×</button>
+  <div class="lb-container">
+    <div class="lb-img-wrap"><img id="lb-img" src="" alt="" /></div>
+    <div class="lb-panel">
+      <div class="lb-eyebrow">Gallery</div>
+      <h3 id="lb-title"></h3>
+      <hr class="lb-rule" />
+      <p id="lb-desc"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">mini<span>forge</span>dad</div>
+  <div class="footer-socials">
+    <a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a>
+    <a href="https://instagram.com/miniforgedad" target="_blank">Instagram</a>
+    <a href="https://twitch.tv/miniforgedad" target="_blank">Twitch</a>
+    <a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a>
+  </div>
+  <div class="footer-copy">© 2026 miniforgedad</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  const lbOverlay = document.getElementById('lb-overlay');
+  const lbImg     = document.getElementById('lb-img');
+  const lbTitle   = document.getElementById('lb-title');
+  const lbDesc    = document.getElementById('lb-desc');
+
+  function openLightbox(item) {
+    const img = item.querySelector('img');
+    lbImg.src = img.src; lbImg.alt = img.alt;
+    lbTitle.textContent = item.dataset.title || '';
+    lbDesc.textContent  = item.dataset.description || '';
+    lbOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() { lbOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+  document.querySelectorAll('.gallery-item').forEach(item => item.addEventListener('click', () => openLightbox(item)));
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>

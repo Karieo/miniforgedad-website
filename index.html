@@ -620,30 +620,204 @@
   }
   .lb-panel {
     flex: 1;
-    background: var(--light);
-    padding: 40px 32px;
+    background: var(--parchment);
+    border-left: 3px solid var(--gold);
+    padding: 48px 36px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 0;
+  }
+  .lb-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .lb-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
   }
   .lb-panel h3 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 22px;
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
     color: var(--ink);
-    margin: 0;
-    line-height: 1.3;
+    margin: 0 0 24px;
+    line-height: 1.25;
+  }
+  .lb-rule {
+    border: none;
+    border-top: 1px solid var(--warm);
+    margin: 0 0 24px;
   }
   .lb-panel p {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.7;
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.75;
     margin: 0;
   }
   @media (max-width: 640px) {
     .lb-container { flex-direction: column; max-height: 92vh; }
     .lb-img-wrap { flex: 0 0 auto; max-height: 52vh; }
     .lb-panel { max-height: 36vh; padding: 20px; }
+  }
+
+  /* ── PAINTER FILTER + BADGES ── */
+  .gallery-filter {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+  }
+  .gf-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: 1px solid var(--warm);
+    background: none;
+    color: var(--mist);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .gf-btn.active, .gf-btn:hover {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+  .painter-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    background: rgba(28,20,16,0.72);
+    color: #fff;
+    pointer-events: none;
+  }
+  [data-painter="dad"] .painter-badge { border-left: 2px solid var(--gold); }
+  [data-painter="son"] .painter-badge { border-left: 2px solid var(--green); }
+
+  /* ── MEET THE PAINTERS ── */
+  .painters { background: var(--light); }
+  .painters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .painter-card {
+    background: var(--parchment);
+    border: 1px solid rgba(184,136,42,0.15);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s;
+    overflow: hidden;
+  }
+  .painter-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(28,20,16,0.08);
+  }
+  .painter-photo-placeholder {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--warm), #d4b87a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: rgba(28,20,16,0.25);
+  }
+  .painter-photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .painter-info {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .painter-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .painter-role::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .painter-info p {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    color: var(--mist);
+    line-height: 1.65;
+  }
+  .painter-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .painter-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-top: 4px;
+  }
+
+  /* ── BENCH PAINTER TAG ── */
+  .bench-painter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(184,136,42,0.35);
+    padding: 4px 10px;
+    margin-bottom: 12px;
+  }
+  .bench-painter-tag::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  @media (max-width: 768px) {
+    .painters-grid { grid-template-columns: 1fr; }
   }
 
   /* ── CONTENT HUB ── */
@@ -1040,41 +1214,79 @@
 <section class="gallery" id="gallery">
   <div class="section-label fade-in">Gallery</div>
   <h2 class="fade-in">Work in progress &amp; finished pieces.</h2>
+  <div class="gallery-filter fade-in">
+    <button class="gf-btn active" data-filter="all">All</button>
+    <button class="gf-btn" data-filter="dad">Dad</button>
+    <button class="gf-btn" data-filter="son">Son</button>
+  </div>
   <div class="gallery-grid fade-in">
-    <!-- Imperial Knights -->
-    <div class="gallery-item"
+    <!-- Update data-painter="dad" or "son" for each photo -->
+    <div class="gallery-item" data-painter="dad"
          data-title="Imperial Knight Paladin"
          data-description="Update this with your painting notes — techniques used, paints, how long it took, any story behind this model.">
+      <span class="painter-badge">Dad</span>
       <img src="images/gallery/knights-1.jpeg" alt="Imperial Knight Paladin — House Griffith, bone and gold livery" />
       <div class="gallery-overlay"><span>Imperial Knight Paladin</span></div>
     </div>
-    <div class="gallery-item"
+    <div class="gallery-item" data-painter="dad"
          data-title="Knight — Heraldry Detail"
          data-description="Update this with your painting notes.">
+      <span class="painter-badge">Dad</span>
       <img src="images/gallery/knights-2.jpeg" alt="Imperial Knight — rear three-quarter view" />
       <div class="gallery-overlay"><span>Knight — rear view</span></div>
     </div>
-    <!-- Add more photos below — copy a gallery-item block, update src + alt + overlay text -->
-    <div class="gallery-item"
+    <!-- Add more photos below — copy a gallery-item block, set data-painter="dad" or "son" -->
+    <div class="gallery-item" data-painter="dad"
          data-title="Knight — Weapon Arm"
          data-description="Update this with your painting notes.">
+      <span class="painter-badge">Dad</span>
       <img src="images/gallery/knights-3.jpeg" alt="" />
       <div class="gallery-overlay"><span>Imperial Knight</span></div>
     </div>
-    <div class="gallery-item"
+    <div class="gallery-item" data-painter="dad"
          data-title="Weapon Bits"
          data-description="Update this with your painting notes.">
+      <span class="painter-badge">Dad</span>
       <img src="images/gallery/knights-4.jpeg" alt="" />
       <div class="gallery-overlay"><span>Imperial Knight</span></div>
     </div>
-    <div class="gallery-item"
+    <div class="gallery-item" data-painter="dad"
          data-title="Knight — Rear View"
          data-description="Update this with your painting notes.">
+      <span class="painter-badge">Dad</span>
       <img src="images/gallery/knights-5.jpeg" alt="" />
       <div class="gallery-overlay"><span>Imperial Knight</span></div>
     </div>
   </div>
 </section>
+
+<!-- MEET THE PAINTERS -->
+<section class="painters" id="painters">
+  <div class="section-label fade-in">The Painters</div>
+  <h2 class="fade-in">Father &amp; son at the painting table.</h2>
+  <div class="painters-grid fade-in">
+    <a href="dad.html" class="painter-card">
+      <div class="painter-photo-placeholder">📷</div>
+      <div class="painter-info">
+        <span class="painter-role">Dad</span>
+        <h3>The Dad</h3>
+        <p>Add your bio here — your army, your style, what got you into the hobby.</p>
+        <span class="painter-cta">See all models →</span>
+      </div>
+    </a>
+    <a href="son.html" class="painter-card">
+      <div class="painter-photo-placeholder">📷</div>
+      <div class="painter-info">
+        <span class="painter-role">Son</span>
+        <h3>The Son</h3>
+        <p>Add your bio here — your army, your style, what you're learning right now.</p>
+        <span class="painter-cta">See all models →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
 
 <!-- ON THE BENCH -->
 <section class="bench" id="bench">
@@ -1083,6 +1295,7 @@
   <div class="bench-card fade-in">
     <div class="bench-img">📷 Add WIP photo</div>
     <div class="bench-info">
+      <span class="bench-painter-tag">Dad</span>
       <div class="bench-status">In progress</div>
       <h3>Update this with your current project</h3>
       <p>Describe what you're working on — what stage it's at, what techniques you're using, what's giving you trouble. Keep it casual, like you're telling a friend.</p>
@@ -1179,7 +1392,9 @@
       <img id="lb-img" src="" alt="" />
     </div>
     <div class="lb-panel">
+      <div class="lb-eyebrow">Gallery</div>
       <h3 id="lb-title"></h3>
+      <hr class="lb-rule" />
       <p id="lb-desc"></p>
     </div>
   </div>
@@ -1285,6 +1500,18 @@
       } catch (_) {}
     })();
   }
+
+  // ── PAINTER FILTER ───────────────────────────────────────────────────────
+  document.querySelectorAll('.gf-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.style.display = (f === 'all' || item.dataset.painter === f) ? '' : 'none';
+      });
+    });
+  });
 
   // ── LIGHTBOX ─────────────────────────────────────────────────────────────
   const lbOverlay = document.getElementById('lb-overlay');
