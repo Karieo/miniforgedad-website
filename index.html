@@ -967,24 +967,24 @@
   <div class="gallery-grid fade-in">
     <!-- Imperial Knights -->
     <div class="gallery-item">
-      <img src="images/gallery/knights-1.jpg" alt="Imperial Knight Paladin — House Griffith, bone and gold livery" />
+      <img src="images/gallery/knights-1.jpeg" alt="Imperial Knight Paladin — House Griffith, bone and gold livery" />
       <div class="gallery-overlay"><span>Imperial Knight Paladin</span></div>
     </div>
     <div class="gallery-item">
-      <img src="images/gallery/knights-2.jpg" alt="Imperial Knight — rear three-quarter view" />
+      <img src="images/gallery/knights-2.jpeg" alt="Imperial Knight — rear three-quarter view" />
       <div class="gallery-overlay"><span>Knight — rear view</span></div>
     </div>
     <!-- Add more photos below — copy a gallery-item block, update src + alt + overlay text -->
     <div class="gallery-item">
-      <img src="images/gallery/knights-3.jpg" alt="" />
+      <img src="images/gallery/knights-3.jpeg" alt="" />
       <div class="gallery-overlay"><span>Imperial Knight</span></div>
     </div>
     <div class="gallery-item">
-      <img src="images/gallery/knights-4.jpg" alt="" />
+      <img src="images/gallery/knights-4.jpeg" alt="" />
       <div class="gallery-overlay"><span>Imperial Knight</span></div>
     </div>
     <div class="gallery-item">
-      <img src="images/gallery/knights-5.jpg" alt="" />
+      <img src="images/gallery/knights-5.jpeg" alt="" />
       <div class="gallery-overlay"><span>Imperial Knight</span></div>
     </div>
   </div>
@@ -1140,11 +1140,16 @@
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // YouTube live-status check
+  // ── LIVE BANNER CONTROL ──────────────────────────────────────────────────
+  // Set IS_LIVE = true before you go live, false when you're done.
+  // This flag overrides the YouTube API — no more false positives.
+  const IS_LIVE = false;
+  // ─────────────────────────────────────────────────────────────────────────
+
   const YT_API_KEY     = 'AIzaSyA7s4d-XrWW1IIuCuKIVW9zDNWQCaiRj6s';
   const YT_CHANNEL_ID  = 'UCDTzmIQ5yXqFljDMNDccCxA';
-  const LIVE_CACHE_KEY = 'mfd-live-v2';  // v2 busts any stale v1 cache
-  const LIVE_CACHE_MS  = 2 * 60 * 1000; // re-check every 2 minutes
+  const LIVE_CACHE_KEY = 'mfd-live-v3';  // v3 busts any stale cache
+  const LIVE_CACHE_MS  = 5 * 60 * 1000; // re-check every 5 minutes
 
   function showLiveBanner() {
     document.getElementById('live-banner').classList.add('visible');
@@ -1155,28 +1160,31 @@
     localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({ ts: Date.now(), live: false }));
   });
 
-  (async () => {
-    if (!YT_API_KEY || YT_API_KEY === 'YOUR_YOUTUBE_API_KEY') return;
+  // Manual flag takes priority — skip API entirely
+  if (IS_LIVE) {
+    showLiveBanner();
+  } else {
+    (async () => {
+      if (!YT_API_KEY || YT_API_KEY === 'YOUR_YOUTUBE_API_KEY') return;
 
-    // serve from fresh cache
-    try {
-      const cached = JSON.parse(localStorage.getItem(LIVE_CACHE_KEY) || '{}');
-      if (Date.now() - (cached.ts || 0) < LIVE_CACHE_MS) {
-        if (cached.live) showLiveBanner();
-        return;
-      }
-    } catch (_) {}
+      try {
+        const cached = JSON.parse(localStorage.getItem(LIVE_CACHE_KEY) || '{}');
+        if (Date.now() - (cached.ts || 0) < LIVE_CACHE_MS) {
+          if (cached.live) showLiveBanner();
+          return;
+        }
+      } catch (_) {}
 
-    // fresh API call
-    try {
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YT_CHANNEL_ID}&eventType=live&type=video&maxResults=1&key=${YT_API_KEY}`;
-      const data = await fetch(url).then(r => r.json());
-      if (data.error) return; // API error — leave cache alone, banner stays hidden
-      const isLive = Array.isArray(data.items) && data.items.length > 0;
-      localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({ ts: Date.now(), live: isLive }));
-      if (isLive) showLiveBanner();
-    } catch (_) {}
-  })();
+      try {
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YT_CHANNEL_ID}&eventType=live&type=video&maxResults=1&key=${YT_API_KEY}`;
+        const data = await fetch(url).then(r => r.json());
+        if (data.error) return;
+        const isLive = Array.isArray(data.items) && data.items.length > 0;
+        localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({ ts: Date.now(), live: isLive }));
+        if (isLive) showLiveBanner();
+      } catch (_) {}
+    })();
+  }
 </script>
 </body>
 </html>
