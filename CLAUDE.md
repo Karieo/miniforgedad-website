@@ -1,6 +1,14 @@
-# CLAUDE.md
+# CLAUDE.md — miniforgedad-website
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+> **Global instructions apply here too.**
+> Read `../../CLAUDE.md` (vault root) before starting — it covers Clay's communication preferences, tone, and working style.
+>
+> **Hard rules (non-negotiable):**
+> - Never delete, send, move, or publish anything without explicit confirmation first.
+> - Never share or surface the Squarespace backup codes file (`squarespace_backup_codes_miniforgedad@gmail.com.txt`).
+> - If there's a clearly better approach, say so. Flag rabbit holes plainly.
+
+---
 
 ## Overview
 

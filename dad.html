@@ -174,45 +174,7 @@
   <div class="section-label fade-in">Gallery</div>
   <h2 class="fade-in">Dad's painted models.</h2>
   <div class="gallery-grid fade-in">
-    <!--
-      Add Dad's photos here. Template for each photo:
-      <div class="gallery-item"
-           data-title="Model Name"
-           data-description="Painting notes — techniques, paints, story behind this model.">
-        <img src="images/gallery/your-photo.jpeg" alt="Description" />
-        <div class="gallery-overlay"><span>Model Name</span></div>
-      </div>
-    -->
-    <div class="gallery-item"
-         data-title="Imperial Knight Paladin"
-         data-description="Update this with your painting notes — techniques used, paints, how long it took, any story behind this model.">
-      <img src="images/gallery/knights-1.jpeg" alt="Imperial Knight Paladin" />
-      <div class="gallery-overlay"><span>Imperial Knight Paladin</span></div>
-    </div>
-    <div class="gallery-item"
-         data-title="Knight — Heraldry Detail"
-         data-description="Update this with your painting notes.">
-      <img src="images/gallery/knights-2.jpeg" alt="Knight heraldry detail" />
-      <div class="gallery-overlay"><span>Knight — rear view</span></div>
-    </div>
-    <div class="gallery-item"
-         data-title="Knight — Weapon Arm"
-         data-description="Update this with your painting notes.">
-      <img src="images/gallery/knights-3.jpeg" alt="" />
-      <div class="gallery-overlay"><span>Imperial Knight</span></div>
-    </div>
-    <div class="gallery-item"
-         data-title="Weapon Bits"
-         data-description="Update this with your painting notes.">
-      <img src="images/gallery/knights-4.jpeg" alt="" />
-      <div class="gallery-overlay"><span>Weapon bits</span></div>
-    </div>
-    <div class="gallery-item"
-         data-title="Knight — Rear View"
-         data-description="Update this with your painting notes.">
-      <img src="images/gallery/knights-5.jpeg" alt="" />
-      <div class="gallery-overlay"><span>Imperial Knight</span></div>
-    </div>
+    <!-- Photos loaded automatically from gallery-data.js -->
   </div>
 </section>
 
@@ -241,6 +203,7 @@
   <div class="footer-copy">© 2026 miniforgedad</div>
 </footer>
 
+<script src="gallery-data.js"></script>
 <script>
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
@@ -252,6 +215,10 @@
   const lbTitle   = document.getElementById('lb-title');
   const lbDesc    = document.getElementById('lb-desc');
 
+  function escHtml(str) {
+    return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   function openLightbox(item) {
     const img = item.querySelector('img');
     lbImg.src = img.src; lbImg.alt = img.alt;
@@ -262,7 +229,22 @@
   }
   function closeLightbox() { lbOverlay.classList.remove('open'); document.body.style.overflow = ''; }
 
-  document.querySelectorAll('.gallery-item').forEach(item => item.addEventListener('click', () => openLightbox(item)));
+  function buildPainterGallery(painter) {
+    const grid = document.querySelector('.gallery-grid');
+    const items = GALLERY.filter(i => i.painter === painter);
+    if (!items.length) {
+      grid.innerHTML = '<div style="grid-column:span 3;display:flex;align-items:center;justify-content:center;height:200px;background:var(--parchment);font-family:\'DM Mono\',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(28,20,16,0.3);">Photos coming soon</div>';
+      return;
+    }
+    grid.innerHTML = items.map(item => `
+      <div class="gallery-item" data-title="${escHtml(item.title)}" data-description="${escHtml(item.description)}">
+        <img src="${item.src}" alt="${escHtml(item.alt)}" />
+        <div class="gallery-overlay"><span>${escHtml(item.title)}</span></div>
+      </div>`).join('');
+    grid.querySelectorAll('.gallery-item').forEach(el => el.addEventListener('click', () => openLightbox(el)));
+  }
+  buildPainterGallery('dad');
+
   document.getElementById('lb-close').addEventListener('click', closeLightbox);
   lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) closeLightbox(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
