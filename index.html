@@ -1094,8 +1094,9 @@
     .nav-sep { display: none; }
     .nav-links {
       position: fixed;
-      inset: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       width: 100%;
+      height: 100%;
       background: var(--parchment);
       flex-direction: column;
       align-items: center;
@@ -1370,8 +1371,12 @@
   const navToggle  = document.getElementById('nav-toggle');
   const navLinks   = document.getElementById('nav-links');
   const navOverlay = document.getElementById('nav-overlay');
+  // Save original DOM position so we can restore after close animation
+  const navParent  = navLinks.parentNode;
+  const navAnchor  = navLinks.nextSibling;
 
   function openNav() {
+    document.body.appendChild(navLinks); // lift out of nav's stacking context
     navLinks.classList.add('open');
     navToggle.classList.add('open');
     navOverlay.classList.add('visible');
@@ -1387,6 +1392,7 @@
     navToggle.setAttribute('aria-expanded', 'false');
     navToggle.setAttribute('aria-label', 'Open menu');
     document.body.style.overflow = '';
+    setTimeout(() => navParent.insertBefore(navLinks, navAnchor), 310);
   }
 
   navToggle.addEventListener('click', () =>
