@@ -1,5 +1,9 @@
 # CLAUDE.md — miniforgedad-website
 
+## STATUS (updated 2026-06-27)
+- Last did: mobile nav fix (PR #16), site live
+- Status: Paused — resume when bandwidth allows
+
 > **Global instructions apply here too.**
 > Read `../../CLAUDE.md` (vault root) before starting — it covers Clay's communication preferences, tone, and working style.
 >
