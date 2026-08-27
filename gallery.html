@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — Mini Forge Dad</title>
+<meta name="description" content="Everything we've finished, warts and all — a father & son miniature painting gallery." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #F5F1EA;  /* bone page background */
+    --ink:     #100E0C;  /* near-black text */
+    --orange:  #E2622C;  /* primary accent */
+    --rust:    #9A5024;  /* links, eyebrow */
+    --amber:   #E9A96A;  /* painter credit on cards */
+    --shade:   #E4DED3;  /* image placeholder */
+    --gold:    rgba(201,162,39,.75);
+    --nav-h:   74px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--rust); text-decoration: none; }
+  a:hover { color: var(--orange); }
+
+  .wrap { max-width: 1400px; margin: 0 auto; }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 40px;
+    height: var(--nav-h);
+    background: rgba(245,241,234,.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(16,14,12,.12);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .nav-logo:hover { color: var(--ink); }
+  .nav-logo span:first-child {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 19px;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+  }
+  .nav-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .nav-links a { color: rgba(16,14,12,.55); }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] { color: var(--ink); }
+
+  .nav-live-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-live-dot { animation: none; }
+  }
+
+  .nav-cta {
+    padding: 9px 16px;
+    background: var(--ink);
+    color: var(--bg);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .nav-cta:hover { background: var(--orange); color: #fff; }
+
+  /* ── HEADER ── */
+  .page-header { padding: 72px 40px 40px; }
+  .page-header .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 26px;
+    height: 1px;
+    background: var(--rust);
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 66px;
+    line-height: .95;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+  }
+
+  .lede {
+    font-size: 21px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(16,14,12,.68);
+    max-width: 62ch;
+  }
+
+  /* ── FILTERS ── */
+  .filters {
+    padding: 0 40px 32px;
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 50;
+    background: var(--bg);
+  }
+
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: wrap;
+    padding: 18px 0;
+    border-top: 1px solid rgba(16,14,12,.14);
+    border-bottom: 1px solid rgba(16,14,12,.14);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(16,14,12,.45);
+  }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .chip {
+    padding: 10px 18px;
+    border: 1px solid rgba(16,14,12,.22);
+    background: transparent;
+    color: rgba(16,14,12,.6);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .chip:hover { border-color: rgba(16,14,12,.45); color: var(--ink); }
+  .chip[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  /* ── GRID ── */
+  .grid-section { padding: 0 40px 110px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    position: relative;
+    min-width: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--shade);
+    display: block;
+  }
+  .card:hover { opacity: .94; }
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 48px 18px 16px;
+    background: linear-gradient(to top, rgba(16,14,12,.9), transparent);
+    pointer-events: none;
+  }
+
+  .card-text { display: flex; flex-direction: column; gap: 3px; }
+
+  .card-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--bg);
+  }
+
+  .card-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.6);
+  }
+
+  .card-credit {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--amber);
+    white-space: nowrap;
+  }
+
+  .empty {
+    margin: 36px 0 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(16,14,12,.45);
+    padding: 40px 0;
+    border-top: 1px solid rgba(16,14,12,.14);
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    color: rgba(245,241,234,.4);
+    padding: 48px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .footer-verse { color: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav {
+      padding: 14px 20px;
+      height: auto;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .filters { top: 0; }
+    .page-header { padding: 48px 20px 32px; }
+    h1 { font-size: 40px; }
+    .filters { padding: 0 20px 24px; }
+    .grid-section { padding: 0 20px 72px; }
+    .footer { padding: 48px 20px; }
+    .filter-bar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 20px;
+    }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <span>Mini Forge Dad</span>
+    <span class="nav-dot"></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="gallery.html" aria-current="page">Gallery</a>
+    <a href="hpc.html">HPC 2025</a>
+    <a href="stream.html"><span class="nav-live-dot"></span>Live</a>
+  </div>
+  <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="nav-cta">Subscribe</a>
+</nav>
+
+<main>
+  <!-- HEADER -->
+  <section class="page-header">
+    <div class="wrap">
+      <div class="eyebrow" id="count-label" aria-live="polite">Loading…</div>
+      <h1>The gallery</h1>
+      <p class="lede">Everything we've finished, warts and all. The early ones stay up on purpose — it's the only honest way to show progress.</p>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="filters">
+    <div class="wrap filter-bar">
+      <div class="filter-group">
+        <span class="filter-label" id="painter-label">Painter</span>
+        <div class="chips" id="painter-chips" role="group" aria-labelledby="painter-label"></div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label" id="faction-label">Faction</span>
+        <div class="chips" id="faction-chips" role="group" aria-labelledby="faction-label"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="grid-section">
+    <div class="wrap">
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>Nothing matches those two filters yet.</p>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>&copy; 2026 Mini Forge Dad</span>
+  <span class="footer-verse">Colossians 3:23</span>
+</footer>
+
+<script src="gallery-data.js"></script>
+<script>
+  const escHtml = s => String(s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // Normalize each entry into what the gallery page needs.
+  // `credit` falls back to painter, `caption` falls back to title.
+  const PAINTER_LABEL = { dad: 'Dad', son: 'Son' };
+  const items = (typeof GALLERY !== 'undefined' ? GALLERY : []).map(item => ({
+    src:     item.src,
+    alt:     item.alt || item.title || '',
+    caption: item.caption || item.title || '',
+    faction: item.faction || '',
+    year:    item.year || '',
+    credit:  item.credit || PAINTER_LABEL[item.painter] || '',
+  }));
+
+  // Filter options are derived from the data, so new painters or factions
+  // appear as chips automatically when they're added to gallery-data.js.
+  const PAINTER_ORDER = ['Dad', 'Son', 'Together'];
+  const uniqueBy = (key, order) => {
+    const found = [...new Set(items.map(i => i[key]).filter(Boolean))];
+    return order
+      ? found.sort((a, b) => {
+          const ia = order.indexOf(a), ib = order.indexOf(b);
+          return (ia < 0 ? order.length : ia) - (ib < 0 ? order.length : ib);
+        })
+      : found.sort();
+  };
+
+  const painters = ['All', ...uniqueBy('credit', PAINTER_ORDER)];
+  const factions = ['All', ...uniqueBy('faction')];
+
+  const state = { painter: 'All', faction: 'All' };
+
+  const matches = item =>
+    (state.painter === 'All' || item.credit === state.painter) &&
+    (state.faction === 'All' || item.faction === state.faction);
+
+  const grid        = document.getElementById('grid');
+  const emptyEl     = document.getElementById('empty');
+  const countLabel  = document.getElementById('count-label');
+
+  function renderChips(el, values, key) {
+    el.innerHTML = values.map(v =>
+      `<button type="button" class="chip" data-value="${escHtml(v)}" aria-pressed="false">${escHtml(v)}</button>`
+    ).join('');
+    el.querySelectorAll('.chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state[key] = btn.dataset.value;
+        render();
+      });
+    });
+  }
+
+  function renderGrid() {
+    const visible = items.filter(matches);
+
+    grid.innerHTML = visible.map(item => {
+      const meta = [item.faction, item.year].filter(Boolean).join(' · ');
+      return `
+        <a class="card" href="${escHtml(item.src)}" target="_blank" rel="noopener">
+          <img src="${escHtml(item.src)}" alt="${escHtml(item.alt)}" loading="lazy" />
+          <div class="card-overlay">
+            <div class="card-text">
+              <span class="card-title">${escHtml(item.caption)}</span>
+              ${meta ? `<span class="card-meta">${escHtml(meta)}</span>` : ''}
+            </div>
+            ${item.credit ? `<span class="card-credit">${escHtml(item.credit)}</span>` : ''}
+          </div>
+        </a>`;
+    }).join('');
+
+    emptyEl.hidden = visible.length > 0;
+    countLabel.textContent = visible.length === 1 ? '1 piece' : `${visible.length} pieces`;
+  }
+
+  function render() {
+    document.querySelectorAll('#painter-chips .chip').forEach(b =>
+      b.setAttribute('aria-pressed', String(b.dataset.value === state.painter)));
+    document.querySelectorAll('#faction-chips .chip').forEach(b =>
+      b.setAttribute('aria-pressed', String(b.dataset.value === state.faction)));
+    renderGrid();
+  }
+
+  renderChips(document.getElementById('painter-chips'), painters, 'painter');
+  renderChips(document.getElementById('faction-chips'), factions, 'faction');
+  render();
+</script>
+</body>
+</html>
