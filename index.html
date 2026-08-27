@@ -3,1549 +3,1202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>miniforgedad — Miniature Painting, Father & Son</title>
-<meta name="description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="miniforgedad — Miniature Painting, Father & Son" />
-<meta property="og:description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
+<title>Mini Forge Dad — Father &amp; son miniature painting</title>
+<meta name="description" content="A dad and a son learning to paint miniatures the hard way. Tutorials, a gallery of everything off our desk, and the projects on the bench right now." />
+<meta property="og:title" content="Mini Forge Dad" />
+<meta property="og:description" content="A dad and a son learning to paint miniatures the hard way. Everything we figure out, we film." />
 <meta property="og:image" content="images/og-image.png" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="miniforgedad — Miniature Painting, Father & Son" />
-<meta name="twitter:description" content="A father and son miniature painting journey. Warhammer 40K, Age of Sigmar, tutorials, and tabletop hobby content." />
-<meta name="twitter:image" content="images/og-image.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:        #1c1410;
-    --parchment:  #f5ede0;
-    --warm:       #f0dfc0;
-    --green:      #2d5a3d;
-    --green-dark: #224730;
-    --green-light:#e8f0eb;
-    --gold:       #b8882a;
-    --mist:       #8a7a6a;
-    --light:      #faf5ee;
+    --ink:       #100E0C;  /* page background, dark sections */
+    --panel:     #16110E;  /* raised panel on dark */
+    --slot:      #1B1714;  /* image placeholder on dark */
+    --bone:      #F5F1EA;  /* text on dark, light section background */
+    --orange:    #E2622C;  /* primary accent */
+    --orange-lt: #F2854F;  /* accent hover */
+    --gold:      #C9A227;  /* eyebrow on dark */
+    --rust:      #9A5024;  /* eyebrow on light */
+    --amber:     #E9A96A;  /* painter credit on gallery cards */
+    --shade:     #E4DED3;  /* image placeholder on light */
+    --nav-h:     74px;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--light);
-    color: var(--ink);
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 18px;
-    line-height: 1.7;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
-  /* ── TEXTURE OVERLAY ── */
-  body::before {
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-lt); }
+  input, button { font: inherit; color: inherit; }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+  @media (prefers-reduced-motion: reduce) { .live-dot { animation: none !important; } }
+
+  .wrap      { max-width: 1160px; margin: 0 auto; }
+  .wrap-wide { max-width: 1300px; margin: 0 auto; }
+
+  /* ── shared type ── */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .eyebrow::before {
     content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.6;
+    width: 26px;
+    height: 1px;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+  .eyebrow-rust { color: var(--rust); }
+
+  h1, h2, h3 { font-family: 'Archivo', sans-serif; }
+
+  .h2 {
+    font-weight: 900;
+    font-size: 52px;
+    line-height: .98;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
   }
 
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
+  .section { padding: 110px 40px; }
+  .section-light { background: var(--bone); color: var(--ink); }
+  .section-panel { background: var(--panel); }
+  .rule-top    { border-top: 1px solid rgba(245,241,234,.1); }
+  .rule-bottom { border-bottom: 1px solid rgba(245,241,234,.1); }
+
+  .link-more {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--bone);
+    border-bottom: 1px solid rgba(245,241,234,.3);
+    padding-bottom: 4px;
+  }
+  .link-more:hover { color: var(--orange); border-color: var(--orange); }
+  .link-more-dark {
+    color: var(--ink);
+    border-bottom-color: rgba(16,14,12,.35);
+    padding-bottom: 3px;
+  }
+  .link-more-dark:hover { color: var(--orange); border-color: var(--orange); }
+
+  .btn {
+    display: inline-block;
+    padding: 16px 26px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .btn-orange { background: var(--orange); color: #fff; }
+  .btn-orange:hover { background: var(--orange-lt); color: #fff; }
+  .btn-ghost { border: 1px solid rgba(245,241,234,.28); color: var(--bone); }
+  .btn-ghost:hover { border-color: var(--bone); background: rgba(245,241,234,.07); color: var(--bone); }
+
+  /* image placeholder slots — real photos drop in as <img> later */
+  .slot {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--slot);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 48px;
-    background: rgba(245, 237, 224, 0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(176, 136, 42, 0.2);
+    justify-content: center;
+  }
+  .slot span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.3);
+    text-align: center;
+    padding: 16px;
+    line-height: 1.5;
+  }
+  .slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slot-light { background: var(--shade); }
+  .slot-light span { color: rgba(16,14,12,.35); }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 40px;
+    height: var(--nav-h);
+    background: rgba(16,14,12,.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(245,241,234,.1);
   }
 
   .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--ink);
-    text-decoration: none;
-    letter-spacing: -0.5px;
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    color: var(--bone);
+    flex-shrink: 0;
   }
-
-  .nav-logo span { color: var(--green); }
+  .nav-logo:hover { color: var(--bone); }
+  .nav-logo b {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 19px;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+  }
+  .nav-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 28px;
-    list-style: none;
-  }
-
-  .nav-links a {
+    gap: 30px;
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 1.5px;
+    font-size: 11.5px;
+    letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--mist);
-    text-decoration: none;
-    transition: color 0.2s;
   }
+  .nav-links a { color: rgba(245,241,234,.62); white-space: nowrap; }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] { color: var(--bone); }
 
-  .nav-links a:hover { color: var(--green); }
+  .nav-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
-  /* page link — slightly accented so it stands out */
-  .nav-link-page { color: var(--green) !important; }
-
-  /* external link — gold tint + ↗ indicator */
-  .nav-link-ext { color: var(--gold) !important; }
-  .nav-link-ext::after { content: ' ↗'; font-size: 9px; opacity: 0.7; }
-
-  /* live stream link — red with pulsing dot */
-  .nav-link-live { color: #c0392b !important; display: flex !important; align-items: center; gap: 6px; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
-
-  /* separator between section anchors and pages */
-  .nav-sep {
-    width: 1px;
-    height: 14px;
-    background: rgba(28,20,16,0.15);
-    flex-shrink: 0;
-  }
-
-  /* hamburger button */
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    z-index: 102;
-  }
-
-  .nav-toggle span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--ink);
-    border-radius: 2px;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-    transform-origin: center;
-  }
-
-  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle.open span:nth-child(2) { opacity: 0; }
-  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* mobile overlay backdrop */
-  .nav-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(28,20,16,0.45);
-    z-index: 99;
-    backdrop-filter: blur(2px);
-  }
-
-  .nav-overlay.visible { display: block; }
-
-  /* ── LIVE BANNER ── */
-  .live-banner {
-    display: none;
-    position: relative;
-    margin-top: 64px;
-    background: var(--ink);
-    border-bottom: 2px solid #c0392b;
-    padding: 14px 48px;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    text-align: center;
-  }
-
-  .live-banner.visible { display: flex; }
-
-  .live-banner-close {
-    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; color: var(--parchment);
-    font-size: 20px; line-height: 1; cursor: pointer; opacity: 0.5;
-    padding: 4px 8px;
-  }
-  .live-banner-close:hover { opacity: 1; }
-
-  /* once the live banner shows, verse-banner doesn't need its own top margin */
-  .live-banner.visible ~ .verse-banner { margin-top: 0; }
-
-  .live-banner-badge {
+  .nav-live {
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 9px 14px;
+    border: 1px solid rgba(226,98,44,.5);
+    color: var(--orange);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 2px;
+    letter-spacing: .14em;
     text-transform: uppercase;
-    color: #e8534a;
-    flex-shrink: 0;
   }
-
-  .live-banner-dot {
-    width: 8px;
-    height: 8px;
-    background: #e8534a;
+  .nav-live:hover { background: rgba(226,98,44,.14); color: var(--orange-lt); }
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--orange);
     border-radius: 50%;
-    animation: livePulse 1.4s ease-in-out infinite;
+    animation: blink 1.4s ease-in-out infinite;
     flex-shrink: 0;
   }
 
-  @keyframes livePulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(232,83,74,0.6); }
-    50%       { opacity: 0.85; transform: scale(0.85); box-shadow: 0 0 0 4px rgba(232,83,74,0); }
-  }
-
-  .live-banner-text {
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 17px;
-    color: var(--parchment);
-    font-style: italic;
-  }
-
-  .live-banner-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 20px;
-    background: #c0392b;
-    color: #fff;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-
-  .live-banner-btn:hover { background: #a93226; }
-
-  /* ── VERSE OF THE DAY ── */
-  .verse-banner {
-    margin-top: 64px;
-    background: var(--parchment);
-    border-bottom: 1px solid rgba(184,136,42,0.2);
-    padding: 14px 80px;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    text-align: center;
-  }
-
-  .verse-icon {
-    font-size: 13px;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-
-  .verse-text {
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 17px;
-    font-style: italic;
+  .nav-cta {
+    padding: 9px 16px;
+    background: var(--bone);
     color: var(--ink);
-    line-height: 1.5;
-  }
-
-  .verse-ref {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 1.5px;
+    letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--gold);
     white-space: nowrap;
-    flex-shrink: 0;
   }
+  .nav-cta:hover { background: var(--orange); color: #fff; }
 
   /* ── HERO ── */
   .hero {
-    min-height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(480px, 44%) 1fr;
+    min-height: calc(100vh - var(--nav-h));
+    border-bottom: 1px solid rgba(245,241,234,.1);
   }
-
-  .hero-text {
+  .hero-pane {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 80px 64px 80px 80px;
+    gap: 34px;
+    padding: 88px 56px 88px 40px;
+    border-right: 1px solid rgba(245,241,234,.1);
   }
-
-  .hero-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
+  .hero h1 {
+    font-weight: 900;
+    font-size: 70px;
+    line-height: .93;
+    letter-spacing: -.045em;
     text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 24px;
+  }
+  .hero h1 span { color: var(--orange); }
+  .hero-lede {
+    font-size: 21px;
+    line-height: 1.6;
+    color: rgba(245,241,234,.72);
+    max-width: 44ch;
+    font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-tags {
     display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    display: block;
-    width: 32px;
-    height: 1px;
-    background: var(--green);
-  }
-
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(48px, 5vw, 72px);
-    line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 28px;
-    color: var(--ink);
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--green);
-  }
-
-  .hero-text p {
-    font-size: 19px;
-    color: #4a3a2a;
-    max-width: 480px;
-    margin-bottom: 48px;
-    line-height: 1.8;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 16px;
+    gap: 40px;
     flex-wrap: wrap;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 28px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-primary {
-    background: var(--green);
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    background: var(--green-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(45, 90, 61, 0.3);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--ink);
-    border: 1.5px solid rgba(28,20,16,0.3);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--ink);
-    background: var(--ink);
-    color: var(--light);
-  }
-
-  .hero-image {
-    position: relative;
-    background: var(--warm);
-    overflow: hidden;
-  }
-
-  .hero-image-inner {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .placeholder-mini {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.85;
-  }
-
-  .hero-image-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--green-light) 0%, #c8d9cc 40%, #a8c0b0 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    color: rgba(28,20,16,0.35);
-  }
-
-  .hero-image-placeholder svg { width: 64px; height: 64px; opacity: 0.4; }
-
-  .hero-image-placeholder span {
+    padding-top: 14px;
+    border-top: 1px solid rgba(245,241,234,.1);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 2px;
+    letter-spacing: .12em;
     text-transform: uppercase;
+    color: rgba(245,241,234,.42);
   }
-
-  /* ── SECTION BASE ── */
-  section { padding: 100px 80px; }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::before {
+  .hero-photo { position: relative; background: #171412; min-height: 520px; }
+  .hero-photo::after {
     content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--green);
-  }
-
-  h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 3.5vw, 48px);
-    line-height: 1.15;
-    letter-spacing: -0.5px;
-    margin-bottom: 24px;
-  }
-
-  /* ── STORY SECTION ── */
-  .story {
-    background: var(--parchment);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-
-  .story-text p {
-    color: #3a2a1a;
-    margin-bottom: 20px;
-    font-size: 18px;
-  }
-
-  .story-image-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .story-img {
-    aspect-ratio: 3/4;
-    background: linear-gradient(160deg, #d4c0a0, #b89060);
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(28,20,16,0.3);
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 12px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .story-img:first-child {
-    grid-row: span 2;
-    aspect-ratio: unset;
-  }
-
-  .story-img img {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.4s;
-  }
-
-  .story-img img.loaded { opacity: 0.9; }
-
-  /* ── GALLERY ── */
-  .gallery { background: var(--light); }
-
-  .gallery h2 { margin-bottom: 48px; }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .gallery-item {
-    aspect-ratio: 4/3;
-    background: linear-gradient(135deg, #e0ccaa, #c8a870);
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-  }
-
-  .gallery-item:first-child {
-    grid-column: span 2;
-    aspect-ratio: 16/9;
-  }
-
-  .gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-
-  .gallery-item:hover img { transform: scale(1.04); }
-
-  .gallery-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(28,20,16,0.7) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    display: flex;
-    align-items: flex-end;
-    padding: 20px;
-  }
-
-  .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-  .gallery-overlay span {
-    color: #fff;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-
-  .gallery-more {
-    margin-top: 48px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .gallery-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: rgba(28,20,16,0.3);
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  /* ── LIGHTBOX ── */
-  .lb-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(12, 8, 4, 0.92);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
+    inset: auto 0 0 0;
+    height: 45%;
+    background: linear-gradient(to top, rgba(16,14,12,.7), transparent);
     pointer-events: none;
-    transition: opacity 0.25s ease;
-    z-index: 1000;
   }
-  .lb-overlay.open { opacity: 1; pointer-events: all; }
-  .lb-close {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 32px;
-    line-height: 1;
-    cursor: pointer;
-    opacity: 0.7;
-    padding: 4px 8px;
+
+  /* ── WHY ── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 80px;
+    align-items: start;
   }
-  .lb-close:hover { opacity: 1; }
-  .lb-container {
-    display: flex;
-    flex-direction: row;
-    max-width: 92vw;
-    max-height: 88vh;
-    width: 100%;
-  }
-  .lb-img-wrap {
-    flex: 0 0 65%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .lb-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    max-height: 88vh;
-  }
-  .lb-panel {
-    flex: 1;
-    background: var(--parchment);
-    border-left: 3px solid var(--gold);
-    padding: 48px 36px;
-    overflow-y: auto;
+  .prose {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 26px;
   }
-  .lb-eyebrow {
+  .prose h2 {
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: -.035em;
+  }
+  .prose p {
+    font-size: 20px;
+    line-height: 1.65;
+    color: rgba(245,241,234,.74);
+    font-weight: 300;
+    max-width: 56ch;
+  }
+
+  .quote {
+    border-left: 2px solid var(--gold);
+    padding: 8px 0 8px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .quote blockquote {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 29px;
+    line-height: 1.4;
+    color: var(--bone);
+  }
+  .quote figcaption {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
+    font-size: 11.5px;
+    letter-spacing: .18em;
     text-transform: uppercase;
     color: var(--gold);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .lb-eyebrow::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--gold);
-    flex-shrink: 0;
-  }
-  .lb-panel h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--ink);
-    margin: 0 0 24px;
-    line-height: 1.25;
-  }
-  .lb-rule {
-    border: none;
-    border-top: 1px solid var(--warm);
-    margin: 0 0 24px;
-  }
-  .lb-panel p {
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 18px;
-    color: var(--ink);
-    line-height: 1.75;
-    margin: 0;
-  }
-  @media (max-width: 640px) {
-    .lb-container { flex-direction: column; max-height: 92vh; }
-    .lb-img-wrap { flex: 0 0 auto; max-height: 52vh; }
-    .lb-panel { max-height: 36vh; padding: 20px; }
   }
 
-  /* ── PAINTER FILTER + BADGES ── */
-  .gallery-filter {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 32px;
-  }
-  .gf-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 8px 20px;
-    border: 1px solid var(--warm);
-    background: none;
-    color: var(--mist);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .gf-btn.active, .gf-btn:hover {
-    background: var(--green);
-    border-color: var(--green);
-    color: #fff;
-  }
-  .painter-badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 1;
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 4px 8px;
-    background: rgba(28,20,16,0.72);
-    color: #fff;
-    pointer-events: none;
-  }
-  [data-painter="dad"] .painter-badge { border-left: 2px solid var(--gold); }
-  [data-painter="son"] .painter-badge { border-left: 2px solid var(--green); }
+  /* ── PAINTERS ── */
+  .stack { display: flex; flex-direction: column; gap: 56px; }
+  .head  { display: flex; flex-direction: column; gap: 18px; }
 
-  /* ── MEET THE PAINTERS ── */
-  .painters { background: var(--light); }
-  .painters-grid {
+  .cards-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  .cards-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+
+  .painter {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    margin-top: 48px;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+    padding: 28px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.1);
   }
-  .painter-card {
-    background: var(--parchment);
-    border: 1px solid rgba(184,136,42,0.15);
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.25s;
-    overflow: hidden;
-  }
-  .painter-card:hover {
-    border-color: var(--gold);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(28,20,16,0.08);
-  }
-  .painter-photo-placeholder {
-    aspect-ratio: 4/3;
-    background: linear-gradient(135deg, var(--warm), #d4b87a);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    color: rgba(28,20,16,0.25);
-  }
-  .painter-photo-placeholder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .painter-info {
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .painter > .slot { aspect-ratio: 3 / 4; }
+  .painter-body { display: flex; flex-direction: column; gap: 14px; }
+  .painter h3 {
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -.03em;
   }
   .painter-role {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
+    font-size: 10.5px;
+    letter-spacing: .16em;
     text-transform: uppercase;
     color: var(--gold);
-    display: flex;
-    align-items: center;
-    gap: 10px;
   }
-  .painter-role::before {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 1px;
-    background: var(--gold);
+  .painter p {
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.72);
   }
-  .painter-info p {
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 17px;
-    color: var(--mist);
-    line-height: 1.65;
-  }
-  .painter-info h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--ink);
-  }
-  .painter-cta {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-top: 4px;
-  }
-
-  /* ── BENCH PAINTER TAG ── */
-  .bench-painter-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid rgba(184,136,42,0.35);
-    padding: 4px 10px;
-    margin-bottom: 12px;
-  }
-  .bench-painter-tag::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-  }
-
-  @media (max-width: 768px) {
-    .painters-grid { grid-template-columns: 1fr; }
-  }
-
-  /* ── CONTENT HUB ── */
-  .content { background: var(--ink); color: var(--parchment); }
-
-  .content .section-label { color: var(--gold); }
-  .content .section-label::before { background: var(--gold); }
-  .content h2 { color: var(--parchment); }
-
-  .content-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
-  }
-
-  .content-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 32px;
-    transition: all 0.25s;
-    text-decoration: none;
-    color: inherit;
+  .painter-facts {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-  }
-
-  .content-card:hover {
-    background: rgba(255,255,255,0.09);
-    border-color: rgba(184,136,42,0.4);
-    transform: translateY(-4px);
-  }
-
-  .content-card-icon {
-    font-size: 28px;
-    margin-bottom: 4px;
-  }
-
-  .content-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--parchment);
-  }
-
-  .content-card p {
-    font-size: 15px;
-    color: rgba(245,237,224,0.6);
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .content-card .card-link {
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(245,241,234,.12);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 8px;
+    letter-spacing: .1em;
+    color: rgba(245,241,234,.55);
   }
 
-  /* ── DIVIDER ── */
-  .divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--gold), transparent);
-    margin: 0 80px;
-    opacity: 0.3;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink);
-    color: rgba(245,237,224,0.5);
-    padding: 48px 80px;
+  /* ── GALLERY (light) ── */
+  .gallery-head {
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 44px;
   }
-
-  .footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--parchment);
-  }
-
-  .footer-logo span { color: var(--green); }
-
-  .footer-socials {
-    display: flex;
-    gap: 24px;
-  }
-
-  .footer-socials a {
+  .gallery-controls { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .tabs { display: flex; gap: 8px; }
+  .tab {
+    padding: 11px 20px;
+    border: 1px solid rgba(16,14,12,.22);
+    background: transparent;
+    color: rgba(16,14,12,.6);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 1.5px;
+    letter-spacing: .14em;
     text-transform: uppercase;
-    color: rgba(245,237,224,0.4);
-    text-decoration: none;
-    transition: color 0.2s;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tab:hover { border-color: rgba(16,14,12,.45); color: var(--ink); }
+  .tab[aria-pressed="true"] { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+
+  .mosaic { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .tile {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--shade);
+    display: block;
+  }
+  .tile:hover { opacity: .94; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tile-cap {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 44px 18px 16px;
+    background: linear-gradient(to top, rgba(16,14,12,.88), transparent);
+    pointer-events: none;
+  }
+  .tile-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--bone);
+  }
+  .tile-credit {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--amber);
+    white-space: nowrap;
   }
 
-  .footer-socials a:hover { color: var(--gold); }
-
-  .footer-copy {
-    font-size: 13px;
+  /* ── VIDEOS ── */
+  .video { display: flex; flex-direction: column; gap: 16px; color: var(--bone); }
+  .video:hover { color: var(--bone); }
+  .video:hover .slot { opacity: .9; }
+  .video .slot { aspect-ratio: 16 / 9; }
+  .video-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.45);
+  }
+  .video h3 {
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+  }
+  .badge-new {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 5px 9px;
+    background: var(--orange);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 1;
   }
 
-  /* ── FADE IN ── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+  /* ── TUTORIALS (light) ── */
+  .tut {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid rgba(16,14,12,.1);
+    color: var(--ink);
   }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
+  a.tut:hover { border-color: var(--ink); color: var(--ink); }
+  .tut .slot { aspect-ratio: 4 / 3; }
+  .tut-body { display: flex; flex-direction: column; gap: 10px; padding: 24px; }
+  .tut-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+  .tut h3 {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+  }
+  .tut p {
+    font-size: 17px;
+    line-height: 1.55;
+    font-weight: 300;
+    color: rgba(16,14,12,.66);
+  }
+  .tut-soon {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(16,14,12,.4);
+    margin-top: 2px;
   }
 
   /* ── ON THE BENCH ── */
-  .bench { background: var(--parchment); }
-
-  .bench-card {
+  .bench-grid {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 64px;
-    align-items: center;
-    margin-top: 48px;
-    background: var(--light);
-    border: 1px solid rgba(45,90,61,0.12);
-    padding: 48px;
+    grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+    gap: 80px;
+    align-items: start;
   }
-
-  .bench-img {
-    aspect-ratio: 4/3;
-    background: linear-gradient(135deg, var(--green-light), #a8c0b0);
+  .bench-head p {
+    font-size: 20px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.7);
+    max-width: 40ch;
+  }
+  .bench-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(28,20,16,0.3);
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .bench-img img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .bench-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 16px;
-  }
-
-  .bench-status::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.4; transform: scale(0.75); }
-  }
-
-  .bench-info h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 3vw, 36px);
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
-
-  .bench-info p {
-    color: var(--mist);
-    margin-bottom: 24px;
-    font-size: 17px;
-    line-height: 1.75;
-  }
-
-  .bench-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .bench-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border: 1px solid rgba(45,90,61,0.25);
-    color: var(--green);
-  }
-
-  /* ── FAQ ── */
-  .faq { background: var(--light); }
-
-  .faq-list { margin-top: 48px; }
-
-  details {
-    border-bottom: 1px solid rgba(28,20,16,0.1);
-  }
-
-  details:first-of-type { border-top: 1px solid rgba(28,20,16,0.1); }
-
-  summary {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(18px, 2vw, 22px);
-    padding: 24px 0;
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 24px;
+    padding: 24px 0;
+    border-top: 1px solid rgba(245,241,234,.14);
+  }
+  .bench-row:last-child { border-bottom: 1px solid rgba(245,241,234,.14); }
+  .bench-info { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .bench-info h3 {
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -.02em;
+  }
+  .bench-info span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.45);
+  }
+  .bench-bar { width: 180px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+  .bench-track { height: 4px; background: rgba(245,241,234,.14); }
+  .bench-fill { height: 100%; background: var(--orange); }
+  .bench-fill.gold { background: var(--gold); }
+  .bench-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    color: rgba(245,241,234,.5);
   }
 
-  summary::-webkit-details-marker { display: none; }
+  /* ── INSTAGRAM ── */
+  .ig-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 34px 40px;
+  }
+  .ig-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 2px; }
+  .ig-grid .slot { aspect-ratio: 1; }
 
-  summary::after {
+  /* ── FAQ ── */
+  .faq-grid {
+    display: grid;
+    grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
+    gap: 80px;
+    align-items: start;
+  }
+  .faq { display: flex; flex-direction: column; }
+  .faq details { border-top: 1px solid rgba(245,241,234,.14); }
+  .faq details:last-child { border-bottom: 1px solid rgba(245,241,234,.14); }
+  .faq summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    letter-spacing: -.02em;
+    color: var(--bone);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
     content: '+';
     font-family: 'DM Mono', monospace;
-    font-size: 20px;
-    color: var(--green);
-    flex-shrink: 0;
-    transition: transform 0.2s;
+    font-size: 22px;
     line-height: 1;
+    color: var(--gold);
+    flex-shrink: 0;
+    transition: transform .2s;
+  }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq summary:hover { color: var(--orange); }
+  .faq p {
+    padding: 0 0 22px;
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.7);
+    max-width: 60ch;
   }
 
-  details[open] summary::after { transform: rotate(45deg); }
-
-  .faq-answer {
-    padding-bottom: 24px;
-    color: var(--mist);
-    font-size: 17px;
-    line-height: 1.75;
-    max-width: 65ch;
+  /* ── NEWSLETTER ── */
+  .news { background: var(--orange); color: #fff; padding: 96px 40px; }
+  .news-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
+    gap: 64px;
+    align-items: center;
   }
-
-  .faq-answer a {
-    color: var(--green);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+  .news h2 {
+    font-weight: 900;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
   }
+  .news p {
+    font-size: 20px;
+    line-height: 1.55;
+    font-weight: 300;
+    color: rgba(255,255,255,.9);
+    max-width: 38ch;
+  }
+  .news form { display: flex; flex-direction: column; gap: 12px; }
+  .news-field { display: flex; border: 1px solid rgba(255,255,255,.55); }
+  .news-field input {
+    flex: 1;
+    min-width: 0;
+    padding: 17px 18px;
+    background: transparent;
+    border: 0;
+    outline: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: #fff;
+  }
+  .news-field input::placeholder { color: rgba(255,255,255,.6); }
+  .news-field button {
+    padding: 17px 24px;
+    background: var(--ink);
+    border: 0;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .news-field button:hover { background: #fff; color: var(--ink); }
+  .news-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    color: rgba(255,255,255,.75);
+    line-height: 1.6;
+  }
+  .news-note a { color: #fff; text-decoration: underline; }
+
+  /* ── FOOTER ── */
+  .footer { background: var(--ink); padding: 72px 40px 40px; }
+  .footer-grid {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+    gap: 56px;
+  }
+  .footer-brand { display: flex; flex-direction: column; gap: 16px; }
+  .footer-brand b {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 19px;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+  }
+  .footer-brand p {
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.6);
+    max-width: 34ch;
+  }
+  .footer-col { display: flex; flex-direction: column; gap: 12px; }
+  .footer-col b {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .footer-col a { color: rgba(245,241,234,.7); font-size: 17px; }
+  .footer-col a:hover { color: var(--bone); }
+  .footer-base {
+    max-width: 1300px;
+    margin: 56px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(245,241,234,.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.4);
+  }
+  .footer-verse { color: rgba(201,162,39,.75); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .nav-toggle { display: flex; }
-    .nav-sep { display: none; }
+    .nav {
+      height: auto;
+      padding: 14px 20px;
+      flex-wrap: wrap;
+      gap: 14px;
+      row-gap: 12px;
+    }
     .nav-links {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      order: 3;
       width: 100%;
-      height: 100%;
-      background: var(--parchment);
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 88px 40px 32px;
-      gap: 0;
-      z-index: 101;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      border-left: none;
-      box-shadow: none;
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      -webkit-overflow-scrolling: touch;
     }
-    .nav-links.open { transform: translateX(0); }
-    .nav-links li { width: 100%; text-align: center; }
-    .nav-links a {
-      display: block;
-      padding: 14px 0;
-      font-size: 14px;
-      letter-spacing: 2.5px;
-      border-bottom: 1px solid rgba(28,20,16,0.08);
+    .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .hero-pane { border-right: 0; padding: 44px 20px 52px; gap: 26px; order: 2; }
+    .hero-photo { min-height: 62vw; order: 1; }
+    .hero h1 { font-size: 42px; }
+    .hero-lede { font-size: 18px; }
+    .section { padding: 64px 20px; }
+    .h2, .prose h2, .news h2 { font-size: 34px; }
+    .grid-2, .bench-grid, .faq-grid, .news-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
     }
-    .nav-links li:last-child a { border-bottom: none; }
-    .nav-link-ext::after { display: none; }
-    .verse-banner { margin-top: 56px; padding: 12px 24px; gap: 6px; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-image { height: 50vw; }
-    .hero-text { padding: 60px 24px 48px; }
-    section { padding: 64px 24px; }
-    .story { grid-template-columns: 1fr; gap: 40px; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; }
-    .gallery-item:first-child { grid-column: span 2; }
-    .content-grid { grid-template-columns: 1fr; }
-    .bench-card { grid-template-columns: 1fr; gap: 32px; padding: 28px; }
-    footer { flex-direction: column; gap: 24px; text-align: center; }
-    .divider { margin: 0 24px; }
+    .quote { padding-left: 22px; }
+    .quote blockquote { font-size: 23px; }
+    .cards-2, .cards-3 { grid-template-columns: minmax(0, 1fr); }
+    .painter { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 20px; }
+    .painter > .slot { aspect-ratio: 4 / 3; }
+    .mosaic { grid-template-columns: minmax(0, 1fr); }
+    .mosaic .tile { grid-column: span 1 !important; aspect-ratio: 4 / 3 !important; }
+    .ig-head { padding: 28px 20px; }
+    .ig-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .bench-row { flex-wrap: wrap; gap: 12px; }
+    .bench-bar { width: 100%; }
+    .news { padding: 64px 20px; }
+    .footer { padding: 56px 20px 32px; }
+    .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
+    .faq summary { font-size: 18px; }
+  }
+
+  @media (max-width: 560px) {
+    .hero h1 { font-size: 34px; }
+    .h2, .prose h2, .news h2 { font-size: 28px; }
+    .ig-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer-grid { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<div class="nav-overlay" id="nav-overlay"></div>
-<nav>
-  <a href="#" class="nav-logo">mini<span>for</span>gedad</a>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="#story">Our Story</a></li>
-    <li><a href="gallery.html" class="nav-link-page">Gallery</a></li>
-    <li><a href="#content">Content</a></li>
-    <li><a href="#bench">On the Bench</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li class="nav-sep" aria-hidden="true"></li>
-    <li><a href="hpc.html" class="nav-link-page">HPC 2025</a></li>
-    <li><a href="stream.html" class="nav-link-live"><span class="live-dot" style="width:8px;height:8px;background:#c0392b;border-radius:50%;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>Live</a></li>
-    <li class="nav-sep" aria-hidden="true"></li>
-    <li><a href="https://youtube.com/@MiniForgeDad" target="_blank" class="nav-link-ext">YouTube</a></li>
-    <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
-  </ul>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+<nav class="nav">
+  <a href="#top" class="nav-logo">
+    <b>Mini Forge Dad</b>
+    <span class="nav-dot"></span>
+  </a>
+  <div class="nav-links">
+    <a href="#why">Why we do this</a>
+    <a href="story.html">Our story</a>
+    <a href="#painters">Painters</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="#videos">Videos</a>
+    <a href="tutorial.html">Tutorials</a>
+    <a href="#bench">On the Bench</a>
+    <a href="hpc.html">HPC 2025</a>
+  </div>
+  <div class="nav-actions">
+    <a href="stream.html" class="nav-live"><span class="live-dot"></span>Live</a>
+    <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="nav-cta">Subscribe</a>
+  </div>
 </nav>
 
-<!-- LIVE BANNER (shown by JS when channel is streaming) -->
-<div class="live-banner" id="live-banner" role="alert" aria-live="polite">
-  <span class="live-banner-badge">
-    <span class="live-banner-dot"></span>
-    Live Now
-  </span>
-  <span class="live-banner-text">Father &amp; son are at the painting table right now</span>
-  <a href="stream.html" class="live-banner-btn">Watch Live ↗</a>
-  <button class="live-banner-close" id="live-banner-close" aria-label="Dismiss">×</button>
-</div>
-
-<!-- VERSE OF THE DAY -->
-<div class="verse-banner">
-  <span class="verse-icon">✦</span>
-  <span class="verse-text" id="verse-text">Loading today's verse…</span>
-  <span class="verse-ref" id="verse-ref"></span>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <div class="hero-eyebrow">Father &amp; Son · Miniature Painting</div>
-    <h1>Two painters.<br><em>One hobby desk.</em></h1>
-    <p>We started out just wanting to paint cool-looking miniatures. What we found was patience, teamwork, and a rare kind of peace — two inches at a time.</p>
-    <div class="hero-actions">
-      <a href="#gallery" class="btn btn-primary">See Our Work</a>
-      <a href="https://youtube.com/@miniforgedad" target="_blank" class="btn btn-secondary">Watch on YouTube</a>
-    </div>
-  </div>
-  <div class="hero-image">
-    <img src="images/hero.jpg" alt="MiniForgeDad at the painting desk" style="width:100%;height:100%;object-fit:cover;" />
-  </div>
-</section>
-
-<!-- STORY -->
-<section class="story" id="story">
-  <div class="story-text fade-in">
-    <div class="section-label">Our Story</div>
-    <h2>We didn't plan on learning patience.</h2>
-    <p>When my son and I first sat down at the hobby desk, the goal was simple — paint some cool looking miniatures. What we didn't realize was that we were signing up for a masterclass in patience.</p>
-    <p>We started exactly where you'd expect: messy palettes, paint way too thick, and a lot of mistakes. But that's where the best parts of the story happened. A ruined cloak became a chance to learn dry brushing. We started celebrating small wins — the high five when he finally nails the glow on a tiny weapon, or when I finish a base we're both proud of.</p>
-    <p>In a world that moves so fast, spending two hours debating which shade of blue to use is a rare kind of peace. We aren't professionals. We're just a team learning to thin our paints the hard way — and loving every minute of it.</p>
-  </div>
-  <div class="story-image-grid fade-in">
-    <div class="story-img"><img src="images/about.jpg" alt="MiniForgeDad" class="loaded" /></div>
-    <div class="story-img">📷<br>Add photo</div>
-    <div class="story-img">📷<br>Add photo</div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- GALLERY -->
-<section class="gallery" id="gallery">
-  <div class="section-label fade-in">Gallery</div>
-  <h2 class="fade-in">Work in progress &amp; finished pieces.</h2>
-  <div class="gallery-filter fade-in">
-    <button class="gf-btn active" data-filter="all">All</button>
-    <button class="gf-btn" data-filter="dad">Dad</button>
-    <button class="gf-btn" data-filter="son">Son</button>
-  </div>
-  <div class="gallery-grid fade-in">
-    <!-- Photos loaded automatically from gallery-data.js -->
-  </div>
-  <div class="gallery-more fade-in">
-    <a href="gallery.html" class="btn btn-secondary">View the full gallery</a>
-  </div>
-</section>
-
-<!-- MEET THE PAINTERS -->
-<section class="painters" id="painters">
-  <div class="section-label fade-in">The Painters</div>
-  <h2 class="fade-in">Father &amp; son at the painting table.</h2>
-  <div class="painters-grid fade-in">
-    <a href="dad.html" class="painter-card">
-      <div class="painter-photo-placeholder">📷</div>
-      <div class="painter-info">
-        <span class="painter-role">Dad</span>
-        <h3>The Dad</h3>
-        <p>Add your bio here — your army, your style, what got you into the hobby.</p>
-        <span class="painter-cta">See all models →</span>
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-pane">
+      <div class="eyebrow">Father &amp; son at the hobby desk</div>
+      <h1>Two painters,<br>one desk,<br><span>a lot of<br>patience.</span></h1>
+      <p class="hero-lede">We're a dad and a son learning to paint miniatures the hard way — thin your paints, ruin a cloak, try again. Everything we figure out, we film.</p>
+      <div class="hero-actions">
+        <a href="#videos" class="btn btn-orange">Watch the latest</a>
+        <a href="gallery.html" class="btn btn-ghost">See the gallery</a>
       </div>
-    </a>
-    <a href="son.html" class="painter-card">
-      <div class="painter-photo-placeholder">📷</div>
-      <div class="painter-info">
-        <span class="painter-role">Son</span>
-        <h3>The Son</h3>
-        <p>Add your bio here — your army, your style, what you're learning right now.</p>
-        <span class="painter-cta">See all models →</span>
-      </div>
-    </a>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ON THE BENCH -->
-<section class="bench" id="bench">
-  <div class="section-label fade-in">On the Bench</div>
-  <h2 class="fade-in">What we're painting <em>right now.</em></h2>
-  <div class="bench-card fade-in">
-    <div class="bench-img">📷 Add WIP photo</div>
-    <div class="bench-info">
-      <span class="bench-painter-tag">Dad</span>
-      <div class="bench-status">In progress</div>
-      <h3>Update this with your current project</h3>
-      <p>Describe what you're working on — what stage it's at, what techniques you're using, what's giving you trouble. Keep it casual, like you're telling a friend.</p>
-      <div class="bench-tags">
-        <span class="bench-tag">Warhammer 40K</span>
-        <span class="bench-tag">NMM</span>
-        <span class="bench-tag">Freehand</span>
+      <div class="hero-tags">
+        <span>Warhammer 40K</span><span>Age of Sigmar</span><span>HPC 2025</span>
       </div>
     </div>
-  </div>
-</section>
+    <div class="hero-photo slot">
+      <span>Dad &amp; son at the desk<br>images/hero.jpg</span>
+    </div>
+  </section>
 
-<div class="divider"></div>
+  <!-- WHY WE DO THIS -->
+  <section class="section section-panel rule-bottom" id="why">
+    <div class="wrap grid-2">
+      <div class="prose">
+        <div class="eyebrow">Why we do this</div>
+        <h2>Two hours where nobody is in a hurry.</h2>
+        <p>The desk is where we talk. It's where we get things wrong, strip a model back down, and start over without anyone getting upset about it. Painting is the excuse; the time together is the point.</p>
+        <p>We believe that time is a gift and we try not to waste it. So we do the work carefully, we teach what we learn, and we give God the credit for the hands that hold the brush.</p>
+      </div>
+      <figure class="quote">
+        <blockquote>"Whatever you do, work at it with all your heart, as working for the Lord, not for human masters."</blockquote>
+        <figcaption>Colossians 3:23</figcaption>
+      </figure>
+    </div>
+  </section>
 
-<!-- CONTENT HUB -->
-<section class="content" id="content">
-  <div class="section-label fade-in">Content</div>
-  <h2 class="fade-in">Follow the journey.</h2>
-  <div class="content-grid fade-in">
-    <a href="https://youtube.com/@miniforgedad" target="_blank" class="content-card">
-      <div class="content-card-icon">▶</div>
-      <h3>YouTube</h3>
-      <p>Watch us paint in real time — tutorials, timelapse builds, and honest reactions when things go sideways.</p>
-      <div class="card-link">Watch now →</div>
-    </a>
-    <a href="https://instagram.com/miniforgedad" target="_blank" class="content-card">
-      <div class="content-card-icon">📸</div>
-      <h3>Instagram</h3>
-      <p>Behind the scenes, finished pieces, and the occasional blurry photo of a mini that we're way too proud of.</p>
-      <div class="card-link">Follow us →</div>
-    </a>
-    <a href="https://patreon.com/miniforgedad" target="_blank" class="content-card">
-      <div class="content-card-icon">🎗</div>
-      <h3>Patreon</h3>
-      <p>Support the hobby desk. Get early access, exclusive content, and help us afford more tiny miniatures.</p>
-      <div class="card-link">Support us →</div>
-    </a>
-    <a href="hpc.html" class="content-card">
-      <div class="content-card-icon">🏆</div>
-      <h3>HPC 2025</h3>
-      <p>Following the Independent Characters Hobby Progress Challenge — one unit a month, Sep 2025 through Aug 2026.</p>
-      <div class="card-link">See progress →</div>
-    </a>
-  </div>
-</section>
+  <!-- MEET THE PAINTERS -->
+  <section class="section rule-bottom" id="painters">
+    <div class="wrap stack">
+      <div class="head">
+        <div class="eyebrow">Meet the painters</div>
+        <h2 class="h2">Two of us,<br>two ways to paint</h2>
+      </div>
+      <div class="cards-2">
+        <div class="painter">
+          <div class="slot"><span>Photo of Dad</span></div>
+          <div class="painter-body">
+            <div>
+              <h3>Dad</h3>
+              <span class="painter-role">The slow one</span>
+            </div>
+            <p>Started painting to keep up with my son and got hooked. I'll spend three evenings on one shoulder pad and call it a good week.</p>
+            <div class="painter-facts">
+              <span>Favourite: Imperial Knights</span>
+              <span>Nemesis: freehand heraldry</span>
+            </div>
+          </div>
+        </div>
+        <div class="painter">
+          <div class="slot"><span>Photo of my son</span></div>
+          <div class="painter-body">
+            <div>
+              <h3>Son</h3>
+              <span class="painter-role">The fearless one</span>
+            </div>
+            <p>Tries the technique first and asks questions after. Half the things we've learned came from him being braver with a brush than I am.</p>
+            <div class="painter-facts">
+              <span>Favourite: Tyranids</span>
+              <span>Nemesis: thinning paint</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- FAQ -->
-<section class="faq" id="faq">
-  <div class="section-label fade-in">FAQ</div>
-  <h2 class="fade-in">Questions we get a lot.</h2>
-  <div class="faq-list fade-in">
-    <details>
-      <summary>Do you paint commissions?</summary>
-      <p class="faq-answer">Not currently — the hobby desk is a father &amp; son project and we want to keep it that way for now. That said, if you have a cool project you want to talk about, feel free to reach out at <a href="mailto:miniforgedad@gmail.com">miniforgedad@gmail.com</a>.</p>
-    </details>
-    <details>
-      <summary>What miniatures do you paint?</summary>
-      <p class="faq-answer">Mainly Warhammer 40K and Age of Sigmar, but we're open to anything that looks cool. We've also dabbled in Infinity, skirmish games, and the odd historical kit when something catches our eye.</p>
-    </details>
-    <details>
-      <summary>I'm new to the hobby — where do I start?</summary>
-      <p class="faq-answer">Grab a contrast paint starter set, a cheap brush, and one model you actually like the look of. Don't buy a whole army before you know you enjoy painting. Watch YouTube videos (ours included!) and don't be afraid to mess up — every mistake teaches you something useful.</p>
-    </details>
-    <details>
-      <summary>How often do you stream and post?</summary>
-      <p class="faq-answer">We try to go live on Twitch every Tuesday and Thursday at 7PM CT. YouTube videos go up weekly, usually on Saturdays. Follow us on Instagram for the in-between updates and WIP shots.</p>
-    </details>
-    <details>
-      <summary>How can I support the channel?</summary>
-      <p class="faq-answer">The best things you can do are subscribe on <a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a>, follow on <a href="https://twitch.tv/miniforgedad" target="_blank">Twitch</a>, and share our stuff with other hobbyists. If you want to go further, we have a <a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a> with early access and exclusive content.</p>
-    </details>
-  </div>
-</section>
+  <!-- GALLERY -->
+  <section class="section section-light" id="gallery" style="padding-bottom:120px">
+    <div class="wrap-wide">
+      <div class="gallery-head">
+        <div class="head">
+          <div class="eyebrow eyebrow-rust">The Gallery</div>
+          <h2 class="h2">Everything off<br>our desk</h2>
+        </div>
+        <div class="gallery-controls">
+          <div class="tabs" id="tabs" role="group" aria-label="Filter by painter"></div>
+          <a href="gallery.html" class="link-more link-more-dark">Full gallery →</a>
+        </div>
+      </div>
+      <div class="mosaic" id="mosaic"></div>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="section" id="videos">
+    <div class="wrap-wide">
+      <div class="gallery-head">
+        <div class="head">
+          <div class="eyebrow">From the channel</div>
+          <h2 class="h2">Latest videos</h2>
+        </div>
+        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="link-more">All videos on YouTube ↗</a>
+      </div>
+      <div class="cards-3">
+        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="video">
+          <div class="slot">
+            <span class="badge-new">New</span>
+            <span>Video thumbnail</span>
+          </div>
+          <div>
+            <span class="video-meta">Tutorial · 14 min</span>
+            <h3>How we paint gold that actually looks like metal</h3>
+          </div>
+        </a>
+        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="video">
+          <div class="slot"><span>Video thumbnail</span></div>
+          <div>
+            <span class="video-meta">Father &amp; son · 22 min</span>
+            <h3>My son paints his first character model, start to finish</h3>
+          </div>
+        </a>
+        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="video">
+          <div class="slot"><span>Video thumbnail</span></div>
+          <div>
+            <span class="video-meta">Army project · 18 min</span>
+            <h3>Batch painting knights without losing your mind</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TUTORIALS -->
+  <section class="section section-light" id="tutorials">
+    <div class="wrap-wide">
+      <div class="head" style="margin-bottom:44px">
+        <div class="eyebrow eyebrow-rust">Learn with us</div>
+        <h2 class="h2">Tutorials</h2>
+        <p style="font-size:20px;line-height:1.6;font-weight:300;color:rgba(16,14,12,.68);max-width:58ch">Written up the way we'd explain it to each other — no jargon, no assuming you already own six brushes.</p>
+      </div>
+      <div class="cards-3">
+        <a href="tutorial.html" class="tut">
+          <div class="slot slot-light"><span>Tutorial photo</span></div>
+          <div class="tut-body">
+            <span class="tut-meta">Beginner · 6 steps</span>
+            <h3>Thinning your paints</h3>
+            <p>The one thing that fixed everything else for us.</p>
+          </div>
+        </a>
+        <div class="tut">
+          <div class="slot slot-light"><span>Tutorial photo</span></div>
+          <div class="tut-body">
+            <span class="tut-meta">Intermediate · 8 steps</span>
+            <h3>Dry brushing armour</h3>
+            <p>How a ruined cloak turned into our favourite technique.</p>
+            <span class="tut-soon">Coming soon</span>
+          </div>
+        </div>
+        <div class="tut">
+          <div class="slot slot-light"><span>Tutorial photo</span></div>
+          <div class="tut-body">
+            <span class="tut-meta">Any level · 5 steps</span>
+            <h3>Bases that finish a model</h3>
+            <p>Twenty minutes of work that doubles the effect.</p>
+            <span class="tut-soon">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ON THE BENCH -->
+  <section class="section section-panel" id="bench">
+    <div class="wrap bench-grid">
+      <div class="head bench-head">
+        <div class="eyebrow">Right now</div>
+        <h2 class="h2">On the<br>bench</h2>
+        <p>What's actually sitting under the lamp this week.</p>
+      </div>
+      <div>
+        <div class="bench-row">
+          <div class="bench-info">
+            <h3>Imperial Knight — Questoris</h3>
+            <span>Dad · Freehand heraldry</span>
+          </div>
+          <div class="bench-bar">
+            <div class="bench-track"><div class="bench-fill" style="width:78%"></div></div>
+            <span class="bench-pct">78%</span>
+          </div>
+        </div>
+        <div class="bench-row">
+          <div class="bench-info">
+            <h3>Psychophage</h3>
+            <span>Son · Wet blending the carapace</span>
+          </div>
+          <div class="bench-bar">
+            <div class="bench-track"><div class="bench-fill gold" style="width:45%"></div></div>
+            <span class="bench-pct">45%</span>
+          </div>
+        </div>
+        <div class="bench-row">
+          <div class="bench-info">
+            <h3>HPC 2025 entry</h3>
+            <span>Together · Assembly &amp; basing</span>
+          </div>
+          <div class="bench-bar">
+            <div class="bench-track"><div class="bench-fill gold" style="width:20%"></div></div>
+            <span class="bench-pct">20%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section class="rule-top">
+    <div class="ig-head">
+      <div class="eyebrow">From Instagram</div>
+      <a href="https://www.instagram.com/miniforgedad" target="_blank" rel="noopener" class="link-more">@miniforgedad ↗</a>
+    </div>
+    <div class="ig-grid">
+      <div class="slot"><span>IG post</span></div>
+      <div class="slot"><span>IG post</span></div>
+      <div class="slot"><span>IG post</span></div>
+      <div class="slot"><span>IG post</span></div>
+      <div class="slot"><span>IG post</span></div>
+      <div class="slot"><span>IG post</span></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section rule-top" id="faq">
+    <div class="wrap faq-grid">
+      <div class="head">
+        <div class="eyebrow">Questions</div>
+        <h2 class="h2">Things<br>people ask</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>What paints do you use?</summary>
+          <p>Mostly Citadel with some Vallejo and a couple of Pro Acryl bottles we're testing. Every tutorial lists the exact pots we used, plus a cheaper alternative where there is one.</p>
+        </details>
+        <details>
+          <summary>How old is your son, and is this a good hobby for kids?</summary>
+          <p>He started young and it's been great for him — patience, focus, and a reason to sit and talk. Start with cheap models, keep the sessions short, and let them paint it their way.</p>
+        </details>
+        <details>
+          <summary>Do you take commissions?</summary>
+          <p>Not right now. This is our time together, not a shop — and we'd rather keep it that way. If you want something painted, the tutorials will get you further than we would.</p>
+        </details>
+        <details>
+          <summary>What camera and lights do you film with?</summary>
+          <p>Nothing fancy — a phone on an overhead arm and two cheap desk lamps with daylight bulbs. Good light matters far more than a good camera.</p>
+        </details>
+        <details>
+          <summary>Can we paint together on stream?</summary>
+          <p>Yes — that's the whole point of the live sessions. Bring whatever you're working on, ask questions in chat, and we'll work through it at the same pace as you.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="news">
+    <div class="news-grid">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <h2>The bench notes</h2>
+        <p>One email a month: what we finished, what we broke, and the paint recipe behind it.</p>
+      </div>
+      <div>
+        <form id="news-form">
+          <div class="news-field">
+            <input type="email" id="news-email" required placeholder="you@email.com" aria-label="Email address" />
+            <button type="submit">Sign me up</button>
+          </div>
+          <span class="news-note" id="news-note" aria-live="polite">No spam. Unsubscribe whenever.</span>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-logo">mini<span>for</span>gedad</div>
-  <div class="footer-socials">
-    <a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a>
-    <a href="https://instagram.com/miniforgedad" target="_blank">Instagram</a>
-    <a href="https://patreon.com/miniforgedad" target="_blank">Patreon</a>
-    <a href="mailto:miniforgedad@gmail.com">Email</a>
-    <!-- Hidden OBS link — not shown in nav -->
-    <!-- OBS Ticker: /obs-ticker.html -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <b>Mini Forge Dad</b>
+      <p>A dad and a son, one hobby desk, and a lot of thinned paint.</p>
+    </div>
+    <div class="footer-col">
+      <b>Explore</b>
+      <a href="story.html">Our story</a>
+      <a href="#why">Why we do this</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="tutorial.html">Tutorials</a>
+      <a href="#bench">On the bench</a>
+    </div>
+    <div class="footer-col">
+      <b>Follow</b>
+      <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.instagram.com/miniforgedad" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://patreon.com/miniforgedad" target="_blank" rel="noopener">Patreon</a>
+      <a href="stream.html">Live stream</a>
+    </div>
+    <div class="footer-col">
+      <b>More</b>
+      <a href="hpc.html">HPC 2025</a>
+      <a href="#faq">FAQ</a>
+      <a href="mailto:miniforgedad@gmail.com">Contact</a>
+    </div>
   </div>
-  <div class="footer-copy">© 2026 miniforgedad</div>
+  <div class="footer-base">
+    <span>&copy; 2026 Mini Forge Dad</span>
+    <span class="footer-verse">Colossians 3:23</span>
+  </div>
 </footer>
-
-<!-- LIGHTBOX -->
-<div class="lb-overlay" id="lb-overlay" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button class="lb-close" id="lb-close" aria-label="Close">×</button>
-  <div class="lb-container">
-    <div class="lb-img-wrap">
-      <img id="lb-img" src="" alt="" />
-    </div>
-    <div class="lb-panel">
-      <div class="lb-eyebrow">Gallery</div>
-      <h3 id="lb-title"></h3>
-      <hr class="lb-rule" />
-      <p id="lb-desc"></p>
-    </div>
-  </div>
-</div>
 
 <script src="gallery-data.js"></script>
 <script>
-  // Mobile nav toggle
-  const navToggle  = document.getElementById('nav-toggle');
-  const navLinks   = document.getElementById('nav-links');
-  const navOverlay = document.getElementById('nav-overlay');
-  // Save original DOM position so we can restore after close animation
-  const navParent  = navLinks.parentNode;
-  const navAnchor  = navLinks.nextSibling;
+  const escHtml = s => String(s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  function openNav() {
-    document.body.appendChild(navLinks); // lift out of nav's stacking context
-    navLinks.classList.add('open');
-    navToggle.classList.add('open');
-    navOverlay.classList.add('visible');
-    navToggle.setAttribute('aria-expanded', 'true');
-    navToggle.setAttribute('aria-label', 'Close menu');
-    document.body.style.overflow = 'hidden';
-  }
+  // ── Gallery preview ────────────────────────────────────────
+  // Same data as gallery.html; the homepage shows the first few in a
+  // mosaic and sends people to the full page for everything else.
+  const PAINTER_LABEL = { dad: 'Dad', son: 'Son' };
+  const MOSAIC = [
+    { span: 2, ratio: '4 / 3' },
+    { span: 1, ratio: '3 / 4' },
+    { span: 1, ratio: '3 / 4' },
+    { span: 1, ratio: '1 / 1' },
+    { span: 1, ratio: '1 / 1' },
+    { span: 2, ratio: '2 / 1' },
+    { span: 4, ratio: '3 / 1' },
+  ];
 
-  function closeNav() {
-    navLinks.classList.remove('open');
-    navToggle.classList.remove('open');
-    navOverlay.classList.remove('visible');
-    navToggle.setAttribute('aria-expanded', 'false');
-    navToggle.setAttribute('aria-label', 'Open menu');
-    document.body.style.overflow = '';
-    setTimeout(() => navParent.insertBefore(navLinks, navAnchor), 310);
-  }
+  const items = (typeof GALLERY !== 'undefined' ? GALLERY : [])
+    .slice(0, MOSAIC.length)
+    .map(item => ({
+      src:     item.src,
+      alt:     item.alt || item.title || '',
+      caption: item.caption || item.title || '',
+      credit:  item.credit || PAINTER_LABEL[item.painter] || '',
+    }));
 
-  navToggle.addEventListener('click', () =>
-    navLinks.classList.contains('open') ? closeNav() : openNav()
-  );
-  navOverlay.addEventListener('click', closeNav);
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+  const PAINTER_ORDER = ['Dad', 'Son', 'Together'];
+  const painters = ['All', ...[...new Set(items.map(i => i.credit).filter(Boolean))]
+    .sort((a, b) => {
+      const ia = PAINTER_ORDER.indexOf(a), ib = PAINTER_ORDER.indexOf(b);
+      return (ia < 0 ? PAINTER_ORDER.length : ia) - (ib < 0 ? PAINTER_ORDER.length : ib);
+    })];
 
-  // Verse of the day
-  (async () => {
-    try {
-      const res = await fetch('https://labs.bible.org/api/?passage=votd&type=json');
-      const [v] = await res.json();
-      document.getElementById('verse-text').textContent = `"${v.text.trim()}"`;
-      document.getElementById('verse-ref').textContent = `${v.bookname} ${v.chapter}:${v.verse}`;
-    } catch(e) {
-      document.getElementById('verse-text').textContent = '"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future."';
-      document.getElementById('verse-ref').textContent = 'Jeremiah 29:11';
-    }
-  })();
+  let filter = 'All';
+  const tabsEl   = document.getElementById('tabs');
+  const mosaicEl = document.getElementById('mosaic');
 
-  // Fade-in on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 100);
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
+  tabsEl.innerHTML = painters.map(p =>
+    `<button type="button" class="tab" data-value="${escHtml(p)}" aria-pressed="false">${escHtml(p)}</button>`
+  ).join('');
 
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // ── LIVE BANNER CONTROL ──────────────────────────────────────────────────
-  // Set IS_LIVE = true before you go live, false when you're done.
-  // This flag overrides the YouTube API — no more false positives.
-  const IS_LIVE = false;
-  // ─────────────────────────────────────────────────────────────────────────
-
-  const YT_API_KEY     = 'AIzaSyA7s4d-XrWW1IIuCuKIVW9zDNWQCaiRj6s';
-  const YT_CHANNEL_ID  = 'UCDTzmIQ5yXqFljDMNDccCxA';
-  const LIVE_CACHE_KEY = 'mfd-live-v3';  // v3 busts any stale cache
-  const LIVE_CACHE_MS  = 5 * 60 * 1000; // re-check every 5 minutes
-
-  function showLiveBanner() {
-    document.getElementById('live-banner').classList.add('visible');
-  }
-
-  document.getElementById('live-banner-close').addEventListener('click', () => {
-    document.getElementById('live-banner').classList.remove('visible');
-    localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({ ts: Date.now(), live: false }));
+  tabsEl.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => { filter = btn.dataset.value; render(); });
   });
 
-  // Manual flag takes priority — skip API entirely
-  if (IS_LIVE) {
-    showLiveBanner();
-  } else {
-    (async () => {
-      if (!YT_API_KEY || YT_API_KEY === 'YOUR_YOUTUBE_API_KEY') return;
+  function render() {
+    tabsEl.querySelectorAll('.tab').forEach(b =>
+      b.setAttribute('aria-pressed', String(b.dataset.value === filter)));
 
-      try {
-        const cached = JSON.parse(localStorage.getItem(LIVE_CACHE_KEY) || '{}');
-        if (Date.now() - (cached.ts || 0) < LIVE_CACHE_MS) {
-          if (cached.live) showLiveBanner();
-          return;
-        }
-      } catch (_) {}
-
-      try {
-        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YT_CHANNEL_ID}&eventType=live&type=video&maxResults=1&key=${YT_API_KEY}`;
-        const data = await fetch(url).then(r => r.json());
-        if (data.error) return;
-        const isLive = Array.isArray(data.items) && data.items.length > 0;
-        localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify({ ts: Date.now(), live: isLive }));
-        if (isLive) showLiveBanner();
-      } catch (_) {}
-    })();
+    // Keep each tile's designed span/ratio by its position in the full set,
+    // so the mosaic composition holds as items are filtered out.
+    mosaicEl.innerHTML = items.map((item, i) => {
+      if (filter !== 'All' && item.credit !== filter) return '';
+      const m = MOSAIC[i % MOSAIC.length];
+      return `
+        <a class="tile" href="${escHtml(item.src)}" target="_blank" rel="noopener"
+           style="grid-column:span ${m.span};aspect-ratio:${m.ratio}">
+          <img src="${escHtml(item.src)}" alt="${escHtml(item.alt)}" loading="lazy" />
+          <div class="tile-cap">
+            <span class="tile-title">${escHtml(item.caption)}</span>
+            ${item.credit ? `<span class="tile-credit">${escHtml(item.credit)}</span>` : ''}
+          </div>
+        </a>`;
+    }).join('');
   }
+  render();
 
-  // ── PAINTER FILTER ───────────────────────────────────────────────────────
-  document.querySelectorAll('.gf-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      document.querySelectorAll('.gallery-item').forEach(item => {
-        item.style.display = (f === 'all' || item.dataset.painter === f) ? '' : 'none';
-      });
-    });
+  // ── Newsletter ─────────────────────────────────────────────
+  // The site is static with no backend, so there is nowhere to POST a
+  // signup. Point people at email instead of silently dropping it.
+  document.getElementById('news-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('news-email').value.trim();
+    document.getElementById('news-note').innerHTML =
+      `No signup form yet — email <a href="mailto:miniforgedad@gmail.com?subject=Bench%20notes&body=${encodeURIComponent(email)}">miniforgedad@gmail.com</a> and we'll add you.`;
   });
-
-  // ── LIGHTBOX ─────────────────────────────────────────────────────────────
-  const lbOverlay = document.getElementById('lb-overlay');
-  const lbImg     = document.getElementById('lb-img');
-  const lbTitle   = document.getElementById('lb-title');
-  const lbDesc    = document.getElementById('lb-desc');
-
-  function escHtml(str) {
-    return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  function openLightbox(item) {
-    const img = item.querySelector('img');
-    lbImg.src = img.src;
-    lbImg.alt = img.alt;
-    lbTitle.textContent = item.dataset.title || '';
-    lbDesc.textContent  = item.dataset.description || '';
-    lbOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    lbOverlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  // Build gallery from gallery-data.js — interleaves Dad/Son, caps at 9 featured items
-  function buildIndexGallery() {
-    const grid = document.querySelector('#gallery .gallery-grid');
-    const featured = GALLERY.filter(i => i.featured);
-    const dads = featured.filter(i => i.painter === 'dad');
-    const sons = featured.filter(i => i.painter === 'son');
-    const mixed = [];
-    for (let k = 0; k < Math.max(dads.length, sons.length) && mixed.length < 9; k++) {
-      if (dads[k]) mixed.push(dads[k]);
-      if (sons[k] && mixed.length < 9) mixed.push(sons[k]);
-    }
-    if (!mixed.length) {
-      grid.innerHTML = '<div style="grid-column:span 3;display:flex;align-items:center;justify-content:center;height:200px;background:var(--parchment);font-family:\'DM Mono\',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(28,20,16,0.3);">Photos coming soon</div>';
-      return;
-    }
-    grid.innerHTML = mixed.map(item => `
-      <div class="gallery-item" data-painter="${item.painter}" data-title="${escHtml(item.title)}" data-description="${escHtml(item.description)}">
-        <span class="painter-badge">${item.painter === 'dad' ? 'Dad' : 'Son'}</span>
-        <img src="${item.src}" alt="${escHtml(item.alt)}" />
-        <div class="gallery-overlay"><span>${escHtml(item.title)}</span></div>
-      </div>`).join('');
-    grid.querySelectorAll('.gallery-item').forEach(el => el.addEventListener('click', () => openLightbox(el)));
-  }
-  buildIndexGallery();
-
-  document.getElementById('lb-close').addEventListener('click', closeLightbox);
-  lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 </body>
 </html>

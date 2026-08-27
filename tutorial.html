@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thinning Your Paints — Mini Forge Dad</title>
+<meta name="description" content="The fix nobody told us about for a year. The paint-to-water ratio we settled on, and how to tell when it's right." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #100E0C;
+    --panel:     #16110E;
+    --slot:      #1B1714;
+    --bone:      #F5F1EA;
+    --orange:    #E2622C;
+    --orange-lt: #F2854F;
+    --gold:      #C9A227;
+    --rust:      #9A5024;
+    --shade:     #E4DED3;
+    --nav-h:     74px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-lt); }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 40px;
+    height: var(--nav-h);
+    background: rgba(16,14,12,.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(245,241,234,.1);
+  }
+  .nav-logo { display: flex; align-items: baseline; gap: 9px; color: var(--bone); flex-shrink: 0; }
+  .nav-logo:hover { color: var(--bone); }
+  .nav-logo b {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 19px;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+  }
+  .nav-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .nav-links a { color: rgba(245,241,234,.62); white-space: nowrap; }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] { color: var(--bone); }
+  .nav-cta {
+    padding: 9px 16px;
+    background: var(--bone);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--orange); color: #fff; }
+
+  /* ── SLOTS ── */
+  .slot {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--slot);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slot span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.3);
+    text-align: center;
+    padding: 16px;
+    line-height: 1.5;
+  }
+  .slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slot-light { background: var(--shade); }
+  .slot-light span { color: rgba(16,14,12,.35); }
+
+  /* ── HEADER ── */
+  .head { padding: 64px 40px 0; }
+  .head-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.45);
+  }
+  .crumbs a { color: rgba(245,241,234,.45); }
+  .crumbs a:hover { color: var(--bone); }
+  .crumbs .here { color: var(--gold); }
+
+  .chips {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .chip { padding: 6px 11px; border: 1px solid rgba(245,241,234,.25); color: rgba(245,241,234,.7); }
+  .chip-level { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+  h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 64px;
+    line-height: .96;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+    max-width: 20ch;
+  }
+  .lede {
+    font-size: 21px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.74);
+    max-width: 60ch;
+  }
+
+  .hero-photo { padding: 44px 40px 0; }
+  .hero-photo .slot { max-width: 1160px; margin: 0 auto; aspect-ratio: 21 / 9; }
+
+  /* ── STEPS ── */
+  .steps { padding: 80px 40px 100px; }
+  .steps-grid {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 72px;
+    align-items: start;
+  }
+  .step-list { display: flex; flex-direction: column; gap: 56px; }
+  .step {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+  .step-n {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 44px;
+    line-height: .8;
+    letter-spacing: -.05em;
+    color: rgba(201,162,39,.5);
+  }
+  .step-body { display: flex; flex-direction: column; gap: 16px; }
+  .step-body h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -.03em;
+  }
+  .step-body p {
+    font-size: 19px;
+    line-height: 1.65;
+    font-weight: 300;
+    color: rgba(245,241,234,.74);
+    max-width: 58ch;
+  }
+  .step-body .slot { aspect-ratio: 16 / 9; }
+
+  /* ── ASIDE ── */
+  .aside {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .panel {
+    padding: 26px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.12);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .panel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(245,241,234,.75);
+  }
+  .paints { display: flex; flex-direction: column; gap: 12px; }
+  .paint { display: flex; align-items: center; gap: 12px; }
+  .paint i { width: 18px; height: 18px; flex-shrink: 0; display: block; }
+  .paint span { font-size: 17px; font-weight: 300; color: rgba(245,241,234,.8); }
+
+  .panel-cta { background: var(--orange); color: #fff; border: 0; padding: 26px; gap: 14px; }
+  .panel-cta .panel-label { color: rgba(255,255,255,.85); }
+  .panel-cta p { font-size: 19px; line-height: 1.5; font-weight: 300; }
+  .panel-cta a {
+    align-self: flex-start;
+    padding: 12px 18px;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .panel-cta a:hover { background: #fff; color: var(--ink); }
+
+  /* ── NEXT (light) ── */
+  .next { background: var(--bone); color: var(--ink); padding: 90px 40px; }
+  .next-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .next h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
+  }
+  .next-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid rgba(16,14,12,.1);
+    color: var(--ink);
+  }
+  a.card:hover { border-color: var(--ink); color: var(--ink); }
+  .card .slot { aspect-ratio: 16 / 9; }
+  .card-body { display: flex; flex-direction: column; gap: 8px; padding: 24px; }
+  .card-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+  .card h3 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 23px;
+    letter-spacing: -.02em;
+  }
+  .card-soon {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(16,14,12,.4);
+    margin-top: 2px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    padding: 48px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.4);
+    border-top: 1px solid rgba(245,241,234,.12);
+  }
+  .footer-verse { color: rgba(201,162,39,.75); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav { padding: 14px 20px; height: auto; flex-wrap: wrap; gap: 12px; }
+    .nav-links { order: 3; width: 100%; gap: 18px; overflow-x: auto; padding-bottom: 2px; }
+    .head { padding: 48px 20px 0; }
+    h1 { font-size: 38px; }
+    .lede { font-size: 19px; }
+    .hero-photo { padding: 28px 20px 0; }
+    .steps { padding: 56px 20px 72px; }
+    .steps-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .step { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .aside { position: static; }
+    .next { padding: 56px 20px; }
+    .next h2 { font-size: 30px; }
+    .next-cards { grid-template-columns: minmax(0, 1fr); }
+    .footer { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <b>Mini Forge Dad</b>
+    <span class="nav-dot"></span>
+  </a>
+  <div class="nav-links">
+    <a href="story.html">Our story</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="tutorial.html" aria-current="page">Tutorials</a>
+    <a href="hpc.html">HPC 2025</a>
+  </div>
+  <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="nav-cta">Subscribe</a>
+</nav>
+
+<main>
+  <!-- HEADER -->
+  <section class="head">
+    <div class="head-inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="index.html#tutorials">Tutorials</a>
+        <span>/</span>
+        <span class="here">Thinning your paints</span>
+      </nav>
+      <div class="chips">
+        <span class="chip chip-level">Beginner</span>
+        <span class="chip">6 steps</span>
+        <span class="chip">~20 min</span>
+      </div>
+      <h1>Thinning your paints</h1>
+      <p class="lede">This is the fix nobody told us about for a year. Thick paint hides detail, dries gluey, and makes every other technique harder. Here's the ratio we settled on and how to tell when it's right.</p>
+    </div>
+  </section>
+
+  <!-- HERO PHOTO -->
+  <section class="hero-photo">
+    <div class="slot"><span>Wide photo: palette with thinned paint</span></div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="steps">
+    <div class="steps-grid">
+      <div class="step-list">
+
+        <div class="step">
+          <span class="step-n">01</span>
+          <div class="step-body">
+            <h2>Get a wet palette, or fake one</h2>
+            <p>A shop-bought wet palette is worth it, but a takeaway lid, a folded paper towel and baking parchment does the same job. Your paint stays workable for an hour instead of two minutes, which is half the battle.</p>
+            <div class="slot"><span>Wet palette setup</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-n">02</span>
+          <div class="step-body">
+            <h2>Start at one part water to two parts paint</h2>
+            <p>Put the paint down first, then add water a drop at a time with the tip of your brush. It's much easier to thin further than to thicken back up.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-n">03</span>
+          <div class="step-body">
+            <h2>Test it on your thumbnail, not the model</h2>
+            <p>Right consistency looks like single cream: it flows off the brush in one smooth line and levels out with no ridge at the edge. If it beads up it's too thin. If it drags, add another drop.</p>
+            <div class="slot"><span>Consistency test swatch</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-n">04</span>
+          <div class="step-body">
+            <h2>Two thin coats, properly dry between</h2>
+            <p>Thinned paint will look patchy on the first pass — that's normal, don't panic and load the brush. Let it dry fully, then go again. Two thin coats cover better than one thick one and keep every panel line visible.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-n">05</span>
+          <div class="step-body">
+            <h2>Wipe the ferrule, keep the tip loaded</h2>
+            <p>Paint creeping up into the metal is what ruins brushes. Pull the brush across the palette edge before each stroke so the belly is loaded and the base is clean.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-n">06</span>
+          <div class="step-body">
+            <h2>Adjust by paint, not by rule</h2>
+            <p>Whites and yellows need more coats and less water. Contrast and speed paints want almost none. The ratio is a starting point, and after a week your hand will know before your head does.</p>
+            <div class="slot"><span>Finished model, smooth coats</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <aside class="aside">
+        <div class="panel">
+          <span class="panel-label">What you need</span>
+          <div class="panel-list">
+            <span>Wet palette (or a lid + parchment)</span>
+            <span>Pipette or clean brush for water</span>
+            <span>Size 1 synthetic brush</span>
+            <span>Kitchen roll</span>
+          </div>
+        </div>
+        <div class="panel">
+          <span class="panel-label">Paints we used</span>
+          <div class="paints">
+            <div class="paint"><i style="background:#2E4A7D"></i><span>Macragge Blue</span></div>
+            <div class="paint"><i style="background:#C9A227"></i><span>Retributor Armour</span></div>
+            <div class="paint"><i style="background:#8B3A2E"></i><span>Mephiston Red</span></div>
+            <div class="paint"><i style="background:#E8E4DA"></i><span>White Scar</span></div>
+          </div>
+        </div>
+        <div class="panel panel-cta">
+          <span class="panel-label">Watch it instead</span>
+          <p>We filmed this whole tutorial start to finish — 14 minutes, no cuts on the tricky bits.</p>
+          <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <section class="next">
+    <div class="next-inner">
+      <h2>Try this next</h2>
+      <div class="next-cards">
+        <div class="card">
+          <div class="slot slot-light"><span>Tutorial photo</span></div>
+          <div class="card-body">
+            <span class="card-meta">Intermediate · 8 steps</span>
+            <h3>Dry brushing armour</h3>
+            <span class="card-soon">Coming soon</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="slot slot-light"><span>Tutorial photo</span></div>
+          <div class="card-body">
+            <span class="card-meta">Any level · 5 steps</span>
+            <h3>Bases that finish a model</h3>
+            <span class="card-soon">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>&copy; 2026 Mini Forge Dad</span>
+  <span class="footer-verse">Colossians 3:23</span>
+</footer>
+
+</body>
+</html>

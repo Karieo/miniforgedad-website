@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story — Mini Forge Dad</title>
+<meta name="description" content="How a father and son ended up learning patience at a hobby desk, two inches at a time." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #100E0C;
+    --panel:     #16110E;
+    --slot:      #1B1714;
+    --bone:      #F5F1EA;
+    --orange:    #E2622C;
+    --orange-lt: #F2854F;
+    --gold:      #C9A227;
+    --nav-h:     74px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-lt); }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 40px;
+    height: var(--nav-h);
+    background: rgba(16,14,12,.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(245,241,234,.1);
+  }
+  .nav-logo { display: flex; align-items: baseline; gap: 9px; color: var(--bone); flex-shrink: 0; }
+  .nav-logo:hover { color: var(--bone); }
+  .nav-logo b {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 19px;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+  }
+  .nav-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .nav-links a { color: rgba(245,241,234,.62); white-space: nowrap; }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] { color: var(--bone); }
+  .nav-cta {
+    padding: 9px 16px;
+    background: var(--bone);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--orange); color: #fff; }
+
+  /* ── SHARED ── */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .eyebrow::before { content: ''; width: 26px; height: 1px; background: currentColor; flex-shrink: 0; }
+
+  .slot {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--slot);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slot span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.3);
+    text-align: center;
+    padding: 16px;
+    line-height: 1.5;
+  }
+  .slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ── HERO ── */
+  .hero { padding: 80px 40px 0; }
+  .hero-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+  h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 68px;
+    line-height: .94;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+  }
+  .lede {
+    font-size: 23px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.78);
+    max-width: 60ch;
+  }
+
+  .hero-photo { padding: 52px 40px 0; }
+  .hero-photo .slot { max-width: 1160px; margin: 0 auto; aspect-ratio: 21 / 9; }
+
+  /* ── BODY ── */
+  .body { padding: 88px 40px; }
+  .body-grid {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 80px;
+    align-items: start;
+  }
+  .prose { display: flex; flex-direction: column; gap: 26px; }
+  .prose p {
+    font-size: 21px;
+    line-height: 1.7;
+    font-weight: 300;
+    color: rgba(245,241,234,.82);
+    max-width: 62ch;
+  }
+
+  .quote {
+    border-left: 2px solid var(--gold);
+    padding: 6px 0 6px 30px;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .quote blockquote {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 27px;
+    line-height: 1.4;
+  }
+  .quote figcaption {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .aside { display: flex; flex-direction: column; gap: 24px; }
+  .panel {
+    padding: 24px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.12);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .panel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(245,241,234,.75);
+  }
+  .aside .slot { aspect-ratio: 3 / 4; }
+
+  /* ── MILESTONES ── */
+  .miles {
+    background: var(--panel);
+    border-top: 1px solid rgba(245,241,234,.1);
+    padding: 96px 40px;
+  }
+  .miles-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .miles h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
+  }
+  .mile {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 32px;
+    padding: 26px 0;
+    border-top: 1px solid rgba(245,241,234,.14);
+  }
+  .mile:last-child { border-bottom: 1px solid rgba(245,241,234,.14); }
+  .mile-when {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .14em;
+    color: var(--gold);
+    padding-top: 5px;
+  }
+  .mile-body { display: flex; flex-direction: column; gap: 8px; }
+  .mile-body h3 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -.02em;
+  }
+  .mile-body p {
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.7);
+    max-width: 56ch;
+  }
+
+  /* ── PHOTO WALL ── */
+  .wall { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; }
+  .wall .slot { aspect-ratio: 1; }
+
+  /* ── CTA ── */
+  .cta { background: var(--orange); color: #fff; padding: 88px 40px; }
+  .cta-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: flex-start;
+  }
+  .cta h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
+  }
+  .cta p {
+    font-size: 21px;
+    line-height: 1.55;
+    font-weight: 300;
+    color: rgba(255,255,255,.92);
+    max-width: 48ch;
+  }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 16px 26px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .btn-dark { background: var(--ink); color: #fff; }
+  .btn-dark:hover { background: #fff; color: var(--ink); }
+  .btn-outline { border: 1px solid rgba(255,255,255,.6); color: #fff; }
+  .btn-outline:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    padding: 48px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.4);
+  }
+  .footer-verse { color: rgba(201,162,39,.75); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav { padding: 14px 20px; height: auto; flex-wrap: wrap; gap: 12px; }
+    .nav-links { order: 3; width: 100%; gap: 18px; overflow-x: auto; padding-bottom: 2px; }
+    .hero { padding: 56px 20px 0; }
+    h1 { font-size: 42px; }
+    .lede { font-size: 19px; }
+    .hero-photo { padding: 32px 20px 0; }
+    .body { padding: 56px 20px; }
+    .body-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .prose p { font-size: 19px; }
+    .quote { padding-left: 22px; }
+    .quote blockquote { font-size: 23px; }
+    .miles { padding: 56px 20px; }
+    .miles h2, .cta h2 { font-size: 32px; }
+    .mile { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cta { padding: 56px 20px; }
+    .footer { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <b>Mini Forge Dad</b>
+    <span class="nav-dot"></span>
+  </a>
+  <div class="nav-links">
+    <a href="story.html" aria-current="page">Our story</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="tutorial.html">Tutorials</a>
+    <a href="hpc.html">HPC 2025</a>
+  </div>
+  <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="nav-cta">Subscribe</a>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Our story</div>
+      <h1>We didn't plan on learning patience.</h1>
+      <p class="lede">When my son and I first sat down at the hobby desk, the goal was simple — paint some cool-looking miniatures. We didn't realise we were signing up for a masterclass in patience.</p>
+    </div>
+  </section>
+
+  <!-- WIDE PHOTO -->
+  <section class="hero-photo">
+    <div class="slot"><span>Wide photo of the two of you at the desk</span></div>
+  </section>
+
+  <!-- BODY -->
+  <section class="body">
+    <div class="body-grid">
+      <div class="prose">
+        <p>We started exactly where you'd expect: messy palettes, paint way too thick, and a lot of mistakes. Whole models went in the stripping jar. There was one evening we spent an hour on a cloak and then agreed, without saying much, that it had to come off.</p>
+        <p>That's where the best parts of the story happened. The ruined cloak became the reason we learned dry brushing. The gluey base coats became the reason we finally learned to thin paint properly. Every technique we know now came out of something we got wrong first.</p>
+        <p>Somewhere in there it stopped being about the models. We started celebrating small wins — the high five when he nails the glow on a tiny weapon, or when I finish a base we're both proud of. He got braver with a brush than I am. I got slower and more careful than I've ever been about anything.</p>
+        <p>In a world that moves this fast, spending two hours debating which shade of blue to use is a rare kind of peace. We aren't professionals. We're a team learning to thin our paints the hard way — and loving every minute of it.</p>
+        <figure class="quote">
+          <blockquote>"Whatever you do, work at it with all your heart, as working for the Lord, not for human masters."</blockquote>
+          <figcaption>Colossians 3:23</figcaption>
+        </figure>
+      </div>
+
+      <aside class="aside">
+        <div class="panel">
+          <span class="panel-label">The short version</span>
+          <div class="panel-list">
+            <span>Two painters — a dad and his son</span>
+            <span>One shared hobby desk</span>
+            <span>Warhammer 40K &amp; Age of Sigmar</span>
+            <span>Filming everything we learn</span>
+          </div>
+        </div>
+        <div class="slot"><span>Candid photo</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- MILESTONES -->
+  <section class="miles">
+    <div class="miles-inner">
+      <h2>How it went</h2>
+      <div>
+        <div class="mile">
+          <span class="mile-when">Year one</span>
+          <div class="mile-body">
+            <h3>Two starter sets and a lot of thick paint</h3>
+            <p>Everything was too thick and everything was glossy. We loved it anyway.</p>
+          </div>
+        </div>
+        <div class="mile">
+          <span class="mile-when">The turn</span>
+          <div class="mile-body">
+            <h3>Someone told us to thin our paints</h3>
+            <p>One sentence, and the next model looked twice as good. It's why the tutorials exist.</p>
+          </div>
+        </div>
+        <div class="mile">
+          <span class="mile-when">First camera</span>
+          <div class="mile-body">
+            <h3>A phone on an arm over the desk</h3>
+            <p>We started filming so he could see his own progress. Other people started watching.</p>
+          </div>
+        </div>
+        <div class="mile">
+          <span class="mile-when">Now</span>
+          <div class="mile-body">
+            <h3>Painting for HPC 2025, together</h3>
+            <p>Our first competition entry, one model, both of us on it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO WALL -->
+  <section class="wall">
+    <div class="slot"><span>Desk photo</span></div>
+    <div class="slot"><span>Desk photo</span></div>
+    <div class="slot"><span>Desk photo</span></div>
+    <div class="slot"><span>Desk photo</span></div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-inner">
+      <h2>Come paint with us</h2>
+      <p>Every technique we've worked out is on the channel, and the live sessions are open — bring whatever you're working on.</p>
+      <div class="cta-actions">
+        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="btn btn-dark">Watch on YouTube ↗</a>
+        <a href="tutorial.html" class="btn btn-outline">Read the tutorials</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>&copy; 2026 Mini Forge Dad</span>
+  <span class="footer-verse">Colossians 3:23</span>
+</footer>
+
+</body>
+</html>
