@@ -9,6 +9,9 @@ Source for [miniforgedad.com](https://miniforgedad.com) — a father & son minia
 | File | URL | Description |
 |---|---|---|
 | `index.html` | `/` | Main site — hero, story, gallery, content hub, on the bench, FAQ |
+| `gallery.html` | `/gallery.html` | Full gallery — filter by painter and faction |
+| `dad.html` | `/dad.html` | Dad's painted miniatures |
+| `son.html` | `/son.html` | Son's painted miniatures |
 | `hpc.html` | `/hpc.html` | 2025 Independent Characters Hobby Progress Challenge tracker |
 | `stream.html` | `/stream.html` | YouTube live stream embed — shows the stream when live |
 | `obs-ticker.html` | `/obs-ticker.html` | OBS Browser Source ticker overlay (1920×60px) |
@@ -20,9 +23,13 @@ Source for [miniforgedad.com](https://miniforgedad.com) — a father & son minia
 ```
 miniforgedad-website/
 ├── index.html          # Main site
+├── gallery.html        # Full gallery with painter + faction filters
+├── dad.html            # Dad's miniatures
+├── son.html            # Son's miniatures
 ├── hpc.html            # HPC 2025 tracker
 ├── stream.html         # YouTube live stream page
 ├── obs-ticker.html     # OBS ticker overlay
+├── gallery-data.js     # Single source of truth for all gallery photos
 └── images/
     ├── hero.jpg         # Hero section image
     ├── about.jpg        # Story/about section image
@@ -63,8 +70,35 @@ No configuration needed — it just works.
 
 ## Adding photos
 
-### Gallery (`index.html`)
-Drop images into `images/gallery/` and update the `<img>` tags inside `.gallery-item` divs in `index.html`. The first gallery item spans two columns — use a landscape photo there.
+### Gallery (all pages)
+
+Every gallery photo on the site comes from one file: **`gallery-data.js`**. Drop the
+image into `images/gallery/`, add an entry, and it appears on the gallery page and
+the right painter's page automatically — no HTML editing.
+
+```js
+{
+  painter: 'dad',                       // 'dad' or 'son' — drives dad.html / son.html
+  src: 'images/gallery/my-photo.jpeg',
+  alt: 'Short alt text',
+  title: 'Model name',                  // shown in the home-page overlay + lightbox
+  description: 'Painting notes…',       // shown in the lightbox panel
+  featured: true,                       // also show on the home page (max 9)
+
+  // gallery.html fields — all optional
+  faction: 'Imperial Knights',          // adds/uses a faction filter chip
+  year: 2025,                           // shown under the card title
+  credit: 'Together',                   // 'Dad' | 'Son' | 'Together' (defaults to painter)
+  caption: 'Heraldry detail',           // short card title (defaults to title)
+},
+```
+
+**Notes**
+- Cards render in the order listed in `gallery-data.js`, on every page.
+- Filter chips are built from the data — add a new `faction` and its chip appears
+  on its own. Entries without a faction still show under **All**.
+- Use `credit: 'Together'` for pieces you both worked on. Leave `painter` as `'dad'`
+  or `'son'` so the piece still shows up on that painter's page.
 
 ### Story section (`index.html`)
 Replace the `📷 Add photo` placeholder divs in `.story-image-grid` with:
