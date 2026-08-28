@@ -38,6 +38,10 @@ miniforgedad-website/
 ├── stream.html         # YouTube live stream page
 ├── obs-ticker.html     # OBS ticker overlay
 ├── gallery-data.js     # Single source of truth for all gallery photos
+├── live-status.js      # Reveals the nav "Live" pill when streaming
+├── netlify/
+│   └── functions/
+│       └── live-status.js   # Server-side YouTube live check (hides the API key)
 └── images/
     ├── og-image.png     # Social preview image (1200×630px recommended)
     ├── placeholder.svg  # Development placeholder
@@ -91,6 +95,49 @@ image:
 
 Slots are on the homepage (hero, painters, video thumbnails, Instagram),
 `story.html` (wide photo, candid, photo wall) and `tutorial.html` (hero, steps).
+
+### The "Live" pill
+
+The Live button in the nav only appears while the YouTube channel is **actually
+streaming**. It's hidden in the HTML by default and revealed by JavaScript, so it
+never shows on a guess.
+
+Two pieces:
+
+| File | Role |
+|---|---|
+| `netlify/functions/live-status.js` | Asks the YouTube API server-side, so the key stays private. Returns `{ live: true/false }`. |
+| `live-status.js` | Runs on the page, calls that endpoint, and reveals the pill only on `live: true`. |
+
+**One-time setup** — until this is done the pill simply never appears:
+
+1. Create a free YouTube Data API v3 key at
+   [console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials)
+   (new project → enable "YouTube Data API v3" → create an API key).
+2. In Netlify: **Site configuration → Environment variables** →
+   `YOUTUBE_API_KEY` = your key.
+3. Redeploy.
+
+`YOUTUBE_CHANNEL_ID` is an optional second variable; it defaults to the current
+channel, so you only need it if the channel changes.
+
+**Quota** — two API units per check against a free 10,000/day allowance, and
+responses are CDN-cached for five minutes, so it's roughly 576 units a day no
+matter how much traffic the site gets.
+
+**It fails safe.** Missing key, expired key, exhausted quota, network error, JS
+disabled — every one of those hides the pill rather than falsely advertising a
+stream. The tradeoff is up to five minutes of lag either side of going live.
+
+To add the pill to another page, mark the element and include the script:
+
+```html
+<a href="stream.html" class="nav-live" data-live-pill style="display:none">…</a>
+<script src="live-status.js" defer></script>
+```
+
+The inline `display:none` is deliberate — it beats whatever `display` the page's
+own nav CSS sets without needing a rule in every stylesheet.
 
 ### Newsletter
 

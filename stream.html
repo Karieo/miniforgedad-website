@@ -397,7 +397,7 @@
     <li><a href="index.html#bench">On the Bench</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
     <li><a href="hpc.html" class="nav-link-page">HPC 2025</a></li>
-    <li><a href="stream.html" class="nav-link-live"><span class="live-dot" style="animation-duration:1.5s"></span>Live</a></li>
+    <li data-live-pill style="display:none"><a href="stream.html" class="nav-link-live"><span class="live-dot" style="animation-duration:1.5s"></span>Live</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
     <li><a href="https://youtube.com/@MiniForgeDad" target="_blank" class="nav-link-ext">YouTube</a></li>
     <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
@@ -485,5 +485,6 @@
     link.addEventListener('click', closeNav);
   });
 </script>
+<script src="live-status.js" defer></script>
 </body>
 </html>

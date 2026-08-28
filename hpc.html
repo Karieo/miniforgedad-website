@@ -665,7 +665,7 @@
     <li><a href="index.html#bench">On the Bench</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
     <li><a href="#" class="nav-link-page">HPC 2025</a></li>
-    <li><a href="stream.html" class="nav-link-live"><span style="width:8px;height:8px;background:#c0392b;border-radius:50%;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>Live</a></li>
+    <li data-live-pill style="display:none"><a href="stream.html" class="nav-link-live"><span style="width:8px;height:8px;background:#c0392b;border-radius:50%;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>Live</a></li>
     <li class="nav-sep" aria-hidden="true"></li>
     <li><a href="https://youtube.com/@MiniForgeDad" target="_blank" class="nav-link-ext">YouTube</a></li>
     <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
@@ -1205,5 +1205,6 @@ async function castVote(key) {
 render();
 updateCounts();
 </script>
+<script src="live-status.js" defer></script>
 </body>
 </html>
