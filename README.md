@@ -8,13 +8,19 @@ Source for [miniforgedad.com](https://miniforgedad.com) — a father & son minia
 
 | File | URL | Description |
 |---|---|---|
-| `index.html` | `/` | Main site — hero, story, gallery, content hub, on the bench, FAQ |
+| `index.html` | `/` | Homepage — hero, why we do this, painters, gallery preview, videos, tutorials, on the bench, Instagram, FAQ, newsletter |
 | `gallery.html` | `/gallery.html` | Full gallery — filter by painter and faction |
+| `story.html` | `/story.html` | Our story — long-form, milestones, photo wall |
+| `tutorial.html` | `/tutorial.html` | Tutorial article — "Thinning your paints" |
 | `dad.html` | `/dad.html` | Dad's painted miniatures |
 | `son.html` | `/son.html` | Son's painted miniatures |
 | `hpc.html` | `/hpc.html` | 2025 Independent Characters Hobby Progress Challenge tracker |
 | `stream.html` | `/stream.html` | YouTube live stream embed — shows the stream when live |
 | `obs-ticker.html` | `/obs-ticker.html` | OBS Browser Source ticker overlay (1920×60px) |
+
+`index.html`, `gallery.html`, `story.html` and `tutorial.html` use the **forge**
+design language (see below). `dad.html`, `hpc.html` and `stream.html` are still
+on the older parchment/green styling.
 
 ---
 
@@ -22,8 +28,10 @@ Source for [miniforgedad.com](https://miniforgedad.com) — a father & son minia
 
 ```
 miniforgedad-website/
-├── index.html          # Main site
+├── index.html          # Homepage
 ├── gallery.html        # Full gallery with painter + faction filters
+├── story.html          # Our story
+├── tutorial.html       # Tutorial article
 ├── dad.html            # Dad's miniatures
 ├── son.html            # Son's miniatures
 ├── hpc.html            # HPC 2025 tracker
@@ -31,16 +39,65 @@ miniforgedad-website/
 ├── obs-ticker.html     # OBS ticker overlay
 ├── gallery-data.js     # Single source of truth for all gallery photos
 └── images/
-    ├── hero.jpg         # Hero section image
-    ├── about.jpg        # Story/about section image
     ├── og-image.png     # Social preview image (1200×630px recommended)
     ├── placeholder.svg  # Development placeholder
-    ├── gallery/         # Main site gallery photos
-    │   ├── knight-1.jpg
-    │   └── knight-2.jpg
+    ├── gallery/         # Gallery photos (see gallery-data.js)
+    │   ├── knights-1.jpeg … knights-5.jpeg
+    │   └── Psychophase-1.jpg, Psychophase-2.jpg
     └── hpc/             # HPC tracker before/after photos
-        └── (monthly photos go here)
+        └── [mon]-[year]-before/after.jpg
 ```
+
+---
+
+## The forge design language
+
+The redesigned pages share one palette and type system. There's no build step and
+no shared stylesheet — each page inlines its own CSS, so these values are repeated
+per file. Change one, change them all.
+
+```css
+--ink:       #100E0C   /* page background, dark sections */
+--panel:     #16110E   /* raised panel on dark */
+--slot:      #1B1714   /* image placeholder on dark */
+--bone:      #F5F1EA   /* text on dark; background of light sections */
+--orange:    #E2622C   /* primary accent */
+--orange-lt: #F2854F   /* accent hover */
+--gold:      #C9A227   /* eyebrow + rules on dark */
+--rust:      #9A5024   /* eyebrow on light sections */
+--amber:     #E9A96A   /* painter credit on gallery cards */
+--shade:     #E4DED3   /* image placeholder on light */
+```
+
+- **Headings** Archivo (900 for display, 600–800 for sub-heads), uppercase, tight `-.04em` tracking
+- **Body** Newsreader 300, with italic for pull-quotes
+- **Labels** DM Mono, uppercase, wide `.14em`–`.2em` tracking
+- Pages are dark by default; gallery and tutorial-card sections flip to `--bone`
+- Nav is 74px sticky; on mobile it wraps and the link row scrolls horizontally
+
+### Photo placeholders
+
+Sections that need photos we don't have yet render a `.slot` — a styled block
+labelled with what belongs there. To fill one, replace the inner `<span>` with an
+image:
+
+```html
+<!-- before -->
+<div class="slot"><span>Photo of Dad</span></div>
+
+<!-- after -->
+<div class="slot"><img src="images/painters/dad.jpg" alt="Dad at the desk" /></div>
+```
+
+Slots are on the homepage (hero, painters, video thumbnails, Instagram),
+`story.html` (wide photo, candid, photo wall) and `tutorial.html` (hero, steps).
+
+### Newsletter
+
+The signup form on the homepage is **inert** — a static site has no backend to
+accept a POST. Submitting reveals a note pointing at email instead. To make it
+real, point the `<form>` at a hosted form service (Buttondown, Mailchimp,
+Formspree) and drop the `submit` handler at the bottom of `index.html`.
 
 ---
 
