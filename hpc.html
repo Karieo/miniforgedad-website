@@ -3,1119 +3,842 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HPC 2025 — miniforgedad</title>
-<meta name="description" content="miniforgedad's 2025 Independent Characters Hobby Progress Challenge tracker." />
+<title>HPC 2025 — Mini Forge Dad</title>
+<meta name="description" content="Tracking our progress through the 2025 Independent Characters Hobby Progress Challenge — one unit a month, Sep 2025 through Aug 2026." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:        #1c1410;
-    --parchment:  #f5ede0;
-    --warm:       #f0dfc0;
-    --green:      #2d5a3d;
-    --green-dark: #224730;
-    --green-light:#e8f0eb;
-    --gold:       #b8882a;
-    --mist:       #8a7a6a;
-    --light:      #faf5ee;
-    --rust:       #c0522a;
+    --ink:       #100E0C;  /* page background */
+    --panel:     #16110E;  /* raised panel */
+    --slot:      #1B1714;  /* image placeholder */
+    --bone:      #F5F1EA;  /* text */
+    --orange:    #E2622C;  /* primary accent — complete */
+    --orange-lt: #F2854F;  /* accent hover */
+    --gold:      #C9A227;  /* eyebrows, in-progress */
+    --miss:      #8B3A2E;  /* missed month */
+    --nav-h:     74px;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--light);
-    color: var(--ink);
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 18px;
-    line-height: 1.7;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.6;
-  }
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-lt); }
+  button { font: inherit; color: inherit; }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+  @media (prefers-reduced-motion: reduce) { .live-dot { animation: none !important; } }
+
+  .wrap { max-width: 1300px; margin: 0 auto; }
 
   /* ── NAV ── */
-  nav {
+  .nav {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 60;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 48px;
-    background: rgba(245, 237, 224, 0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(176, 136, 42, 0.2);
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 40px;
+    height: var(--nav-h);
+    background: rgba(16,14,12,.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(245,241,234,.1);
   }
-
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--ink);
-    text-decoration: none;
-    letter-spacing: -0.5px;
+  .nav-logo { display: flex; align-items: baseline; gap: 9px; color: var(--bone); flex-shrink: 0; }
+  .nav-logo:hover { color: var(--bone); }
+  .nav-logo b {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 19px;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
   }
-
-  .nav-logo span { color: var(--green); }
-
+  .nav-dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 28px;
-    list-style: none;
-  }
-
-  .nav-links a {
+    gap: 30px;
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 1.5px;
+    font-size: 11.5px;
+    letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--mist);
-    text-decoration: none;
-    transition: color 0.2s;
+  }
+  .nav-links a { color: rgba(245,241,234,.62); white-space: nowrap; }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] { color: var(--bone); }
+  .nav-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .nav-live {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border: 1px solid rgba(226,98,44,.5);
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .nav-live:hover { background: rgba(226,98,44,.14); color: var(--orange-lt); }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: var(--orange);
+    border-radius: 50%;
+    animation: blink 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .nav-cta {
+    padding: 9px 16px;
+    background: var(--bone);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--orange); color: #fff; }
+
+  /* ── SHARED ── */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .eyebrow::before { content: ''; width: 26px; height: 1px; background: currentColor; flex-shrink: 0; }
+
+  .h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 52px;
+    line-height: .98;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
+  }
+  .section-sub {
+    font-size: 20px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.7);
+    max-width: 60ch;
   }
 
-  .nav-links a:hover { color: var(--green); }
-
-  .nav-link-page { color: var(--green) !important; }
-  .nav-link-ext  { color: var(--gold)  !important; }
-  .nav-link-ext::after { content: ' ↗'; font-size: 9px; opacity: 0.7; }
-  .nav-link-live { color: #c0392b !important; display: flex !important; align-items: center; gap: 6px; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
-  .nav-sep { width: 1px; height: 14px; background: rgba(28,20,16,0.15); flex-shrink: 0; }
+  .section { padding: 110px 40px; }
+  .section-panel { background: var(--panel); border-top: 1px solid rgba(245,241,234,.1); }
+  .head { display: flex; flex-direction: column; gap: 18px; margin-bottom: 48px; }
 
   /* ── PAGE HEADER ── */
-  .page-header {
-    background: var(--parchment);
-    padding: 80px 80px 64px;
-    border-bottom: 1px solid rgba(45,90,61,0.1);
-  }
-
-  .page-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
+  .page-header { padding: 80px 40px 56px; }
+  .page-header .wrap { display: flex; flex-direction: column; gap: 24px; }
+  h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 66px;
+    line-height: .95;
+    letter-spacing: -.045em;
     text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
   }
-
-  .page-eyebrow::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--green);
-  }
-
-  .page-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 5vw, 60px);
-    line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 16px;
-  }
-
-  .page-header h1 em {
-    font-style: italic;
-    color: var(--green);
-  }
-
+  h1 em { font-style: normal; color: var(--orange); }
   .page-header p {
-    color: var(--mist);
-    font-size: 18px;
-    max-width: 56ch;
-    margin-bottom: 40px;
+    font-size: 21px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.72);
+    max-width: 62ch;
   }
 
-  .page-header a {
-    color: var(--green);
-    text-underline-offset: 3px;
-  }
-
-  /* ── SCORE SUMMARY ── */
+  /* ── SCORE BAR ── */
   .score-bar {
     display: flex;
-    gap: 0;
     flex-wrap: wrap;
-    border: 1px solid rgba(45,90,61,0.15);
+    border: 1px solid rgba(245,241,234,.14);
     overflow: hidden;
-    max-width: 600px;
+    max-width: 640px;
+    margin-top: 12px;
   }
-
   .score-cell {
     flex: 1;
-    min-width: 140px;
-    padding: 20px 24px;
-    background: var(--light);
-    border-right: 1px solid rgba(45,90,61,0.1);
+    min-width: 150px;
+    padding: 22px 26px;
+    background: var(--panel);
+    border-right: 1px solid rgba(245,241,234,.12);
   }
-
   .score-cell:last-child { border-right: none; }
-
-  .score-cell .score-label {
+  .score-label {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    letter-spacing: 2px;
+    letter-spacing: .18em;
     text-transform: uppercase;
-    color: var(--mist);
-    margin-bottom: 6px;
-  }
-
-  .score-cell .score-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--green);
-    line-height: 1;
-  }
-
-  .score-cell .score-denom {
-    font-size: 16px;
-    color: var(--mist);
-  }
-
-  .score-cell.total { background: var(--green); }
-  .score-cell.total .score-label { color: rgba(255,255,255,0.6); }
-  .score-cell.total .score-value { color: #fff; }
-  .score-cell.total .score-denom { color: rgba(255,255,255,0.6); }
-
-  /* ── SECTIONS ── */
-  .section { padding: 80px; }
-  .section-alt { background: var(--parchment); }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--green);
-  }
-
-  h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 3vw, 40px);
-    line-height: 1.15;
-    letter-spacing: -0.5px;
+    color: rgba(245,241,234,.45);
     margin-bottom: 8px;
   }
-
-  .section-sub {
-    color: var(--mist);
-    font-size: 16px;
-    margin-bottom: 48px;
+  .score-value {
+    font-family: 'Archivo', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -.03em;
+    color: var(--bone);
+    line-height: 1;
   }
+  .score-denom { font-size: 16px; font-weight: 500; color: rgba(245,241,234,.45); }
+  .score-cell.total { background: var(--orange); }
+  .score-cell.total .score-label { color: rgba(255,255,255,.75); }
+  .score-cell.total .score-value { color: #fff; }
+  .score-cell.total .score-denom { color: rgba(255,255,255,.7); }
 
-  /* ── MONTHLY GRID ── */
+  /* ── MONTHS ── */
   .month-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
   }
 
-  /* Status classes: data-status="pending" | "active" | "complete" | "missed" */
+  /* Status: data-status="pending" | "active" | "complete" | "missed" */
   .month-card {
-    border: 1.5px solid var(--color-border, rgba(28,20,16,0.1));
-    background: var(--light);
+    border: 1px solid rgba(245,241,234,.14);
+    background: var(--panel);
     overflow: hidden;
     display: flex;
     flex-direction: column;
   }
-
-  .month-card[data-status="complete"] { border-color: var(--green); }
+  .month-card[data-status="complete"] { border-color: var(--orange); }
   .month-card[data-status="active"]   { border-color: var(--gold); }
-  .month-card[data-status="missed"]   { border-color: var(--rust); opacity: 0.65; }
+  .month-card[data-status="missed"]   { border-color: var(--miss); opacity: .6; }
 
   .month-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 18px;
-    border-bottom: 1px solid rgba(28,20,16,0.07);
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(245,241,234,.1);
   }
-
   .month-name {
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 1.5px;
+    font-size: 11.5px;
+    letter-spacing: .14em;
     text-transform: uppercase;
     font-weight: 500;
   }
-
   .month-badge {
     font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1.5px;
+    font-size: 9.5px;
+    letter-spacing: .16em;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 2px;
+    padding: 5px 9px;
+    white-space: nowrap;
   }
+  [data-status="complete"] .month-badge { background: var(--orange); color: #fff; }
+  [data-status="active"]   .month-badge { background: var(--gold); color: var(--ink); }
+  [data-status="pending"]  .month-badge { background: rgba(245,241,234,.08); color: rgba(245,241,234,.5); }
+  [data-status="missed"]   .month-badge { background: var(--miss); color: #fff; }
 
-  [data-status="complete"] .month-badge { background: var(--green-light); color: var(--green); }
-  [data-status="active"]   .month-badge { background: #fdf3e0; color: var(--gold); }
-  [data-status="pending"]  .month-badge { background: rgba(28,20,16,0.05); color: var(--mist); }
-  [data-status="missed"]   .month-badge { background: #fde8e3; color: var(--rust); }
-
-  .month-photos {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    flex: 1;
-  }
-
+  .month-photos { display: grid; grid-template-columns: 1fr 1fr; }
   .photo-slot {
-    aspect-ratio: 4/3;
-    background: var(--warm);
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--slot);
+    border-right: 1px solid rgba(245,241,234,.1);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    color: rgba(28,20,16,0.25);
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 8px;
     overflow: hidden;
-    position: relative;
-    border-right: 1px solid rgba(28,20,16,0.07);
   }
-
   .photo-slot:last-child { border-right: none; }
-
-  .photo-slot img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
+  .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .photo-slot-label {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
     font-family: 'DM Mono', monospace;
     font-size: 9px;
-    letter-spacing: 1px;
+    letter-spacing: .16em;
     text-transform: uppercase;
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    background: rgba(250,245,238,0.85);
-    color: var(--mist);
-    padding: 2px 6px;
+    color: rgba(245,241,234,.45);
+    background: rgba(16,14,12,.7);
+    padding: 3px 7px;
   }
-
-  /* ── INQUISITORIAL PURGE OVERLAY (missed months) ── */
-  [data-status="missed"] .photo-slot {
-    background: #140808;
-    color: transparent; /* hide 📷 emoji */
-  }
-
-  [data-status="missed"] .photo-slot-label { display: none; }
-
-  [data-status="missed"] .photo-slot::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      -45deg,
-      transparent 0,
-      transparent 10px,
-      rgba(192,82,42,0.18) 10px,
-      rgba(192,82,42,0.18) 12px
-    );
-    z-index: 1;
-  }
-
-  [data-status="missed"] .photo-slot::after {
-    content: '✠\A PICT-FEED\A PURGED';
-    white-space: pre;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 2.5px;
-    color: rgba(192,82,42,0.85);
-    line-height: 2.2;
-    z-index: 2;
-    width: 90%;
-    text-shadow: 0 0 12px rgba(192,82,42,0.4);
-  }
+  .photo-slot:has(img) .photo-slot-label { color: rgba(245,241,234,.75); }
 
   .month-notes {
-    padding: 12px 18px;
-    border-top: 1px solid rgba(28,20,16,0.07);
-    font-size: 14px;
-    color: var(--mist);
-    font-style: italic;
-    line-height: 1.5;
-    min-height: 44px;
+    padding: 16px 18px;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(245,241,234,.7);
+    flex: 1;
   }
+  .month-notes:empty { display: none; }
 
-  .month-entry-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--green);
-    padding: 2px 8px;
-    background: var(--green-light);
-    float: right;
-    margin-top: 2px;
-  }
-
-  /* ── BONUS CATEGORIES ── */
+  /* ── BONUS ── */
   .bonus-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 16px;
   }
-
   .bonus-card {
-    border: 1.5px solid rgba(28,20,16,0.1);
-    background: var(--light);
-    padding: 20px 22px;
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    transition: border-color 0.2s;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+    padding: 22px;
+    background: var(--ink);
+    border: 1px solid rgba(245,241,234,.12);
   }
-
-  .bonus-card.done {
-    border-color: var(--green);
-    background: var(--green-light);
-  }
-
+  .bonus-card.done { border-color: var(--orange); background: rgba(226,98,44,.07); }
   .bonus-check {
-    width: 22px;
-    height: 22px;
-    border: 1.5px solid rgba(28,20,16,0.2);
-    border-radius: 2px;
-    flex-shrink: 0;
-    margin-top: 3px;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(245,241,234,.22);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--green);
     font-size: 14px;
-    background: var(--light);
+    color: transparent;
+    flex-shrink: 0;
   }
-
-  .bonus-card.done .bonus-check {
-    background: var(--green);
-    border-color: var(--green);
-    color: #fff;
-  }
-
-  .bonus-content {}
-
+  .bonus-card.done .bonus-check { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .bonus-content { display: flex; flex-direction: column; gap: 8px; }
   .bonus-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 4px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -.02em;
   }
-
   .bonus-desc {
-    font-size: 14px;
-    color: var(--mist);
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.55;
+    font-weight: 300;
+    color: rgba(245,241,234,.66);
   }
-
   .bonus-value {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    letter-spacing: 1.5px;
+    letter-spacing: .16em;
     text-transform: uppercase;
-    color: var(--green);
-    margin-top: 6px;
+    color: var(--gold);
   }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink);
-    color: rgba(245,237,224,0.5);
-    padding: 36px 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    color: var(--parchment);
-  }
-
-  .footer-logo span { color: var(--green); }
-
-  .footer-note {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
-  }
+  .bonus-card.done .bonus-value { color: var(--orange); }
 
   /* ── POLL ── */
-  .poll-section { background: var(--parchment); }
-
-  .poll-options { display: flex; flex-direction: column; gap: 12px; max-width: 680px; }
-
+  .poll-options { display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
   .poll-option {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 180px 44px auto;
     align-items: center;
-    gap: 16px;
-    padding: 18px 22px;
-    border: 1.5px solid rgba(28,20,16,0.1);
-    background: var(--light);
-    transition: border-color 0.2s, background 0.2s;
+    gap: 18px;
+    padding: 16px 18px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.12);
   }
-
-  .poll-option.my-vote {
-    border-color: var(--green);
-    background: var(--green-light);
-  }
-
-  .poll-option-label {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    flex: 1;
-  }
-
-  .poll-bar-wrap {
-    flex: 2;
-    height: 5px;
-    background: rgba(28,20,16,0.08);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .poll-bar {
-    height: 100%;
-    background: var(--green);
-    border-radius: 3px;
-    width: 0%;
-    transition: width 0.6s ease;
-  }
-
-  .poll-option.my-vote .poll-bar { background: var(--green-dark); }
-
+  .poll-option.my-vote { border-color: var(--gold); }
+  .poll-option-label { font-size: 18px; font-weight: 300; }
+  .poll-bar-wrap { height: 4px; background: rgba(245,241,234,.14); overflow: hidden; }
+  .poll-bar { height: 100%; width: 0; background: var(--orange); transition: width .5s ease; }
+  .my-vote .poll-bar { background: var(--gold); }
   .poll-pct {
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--mist);
-    min-width: 36px;
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: rgba(245,241,234,.55);
     text-align: right;
   }
-
   .poll-btn {
+    padding: 9px 16px;
+    border: 1px solid rgba(245,241,234,.28);
+    background: transparent;
+    color: var(--bone);
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1.5px;
+    font-size: 10.5px;
+    letter-spacing: .14em;
     text-transform: uppercase;
-    padding: 9px 18px;
-    background: var(--green);
-    color: #fff;
-    border: none;
     cursor: pointer;
-    flex-shrink: 0;
-    transition: background 0.2s, transform 0.15s;
+    transition: background .15s, border-color .15s;
   }
-
-  .poll-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
-
-  .poll-voted .poll-btn { display: none; }
-
-  .poll-meta {
-    margin-top: 20px;
+  .poll-btn:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .poll-voted .poll-option { grid-template-columns: minmax(0, 1fr) 180px 44px; }
+  .poll-meta, .poll-error {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    letter-spacing: 1px;
-    color: var(--mist);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.45);
+    margin-top: 20px;
   }
+  .poll-error { color: var(--miss); }
 
-  .poll-error {
-    font-size: 14px;
-    color: var(--mist);
-    font-style: italic;
-    margin-top: 8px;
-  }
-
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    z-index: 102;
-  }
-  .nav-toggle span {
-    display: block;
-    width: 22px;
-    height: 2px;
+  /* ── FOOTER ── */
+  .footer {
     background: var(--ink);
-    border-radius: 2px;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-    transform-origin: center;
+    border-top: 1px solid rgba(245,241,234,.12);
+    padding: 48px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,.4);
   }
-  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle.open span:nth-child(2) { opacity: 0; }
-  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  .nav-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(28,20,16,0.45);
-    z-index: 99;
-    backdrop-filter: blur(2px);
-  }
-  .nav-overlay.visible { display: block; }
+  .footer-verse { color: rgba(201,162,39,.75); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .nav-toggle { display: flex; }
-    .nav-sep { display: none; }
-    .nav-links {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--parchment);
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 88px 40px 32px;
-      gap: 0;
-      z-index: 101;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      border-left: none;
-      box-shadow: none;
-    }
-    .nav-links.open { transform: translateX(0); }
-    .nav-links li { width: 100%; text-align: center; }
-    .nav-links a {
-      display: block;
-      padding: 14px 0;
-      font-size: 14px;
-      letter-spacing: 2.5px;
-      border-bottom: 1px solid rgba(28,20,16,0.08);
-    }
-    .nav-links li:last-child a { border-bottom: none; }
-    .nav-link-ext::after { display: none; }
-    .page-header { padding: 48px 24px 40px; }
-    .section { padding: 56px 24px; }
+    .nav { padding: 14px 20px; height: auto; flex-wrap: wrap; gap: 14px; row-gap: 12px; }
+    .nav-links { order: 3; width: 100%; gap: 18px; overflow-x: auto; padding-bottom: 2px; }
+    .page-header { padding: 48px 20px 40px; }
+    h1 { font-size: 40px; }
+    .page-header p, .section-sub { font-size: 18px; }
+    .section { padding: 64px 20px; }
+    .h2 { font-size: 34px; }
     .month-grid { grid-template-columns: 1fr 1fr; }
-    footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+    .bonus-grid { grid-template-columns: minmax(0, 1fr); }
+    .poll-option { grid-template-columns: minmax(0, 1fr) auto; row-gap: 12px; }
+    .poll-bar-wrap { grid-column: 1 / -1; }
+    .poll-voted .poll-option { grid-template-columns: minmax(0, 1fr) auto; }
+    .footer { padding: 40px 20px; }
   }
 
   @media (max-width: 600px) {
-    .month-grid { grid-template-columns: 1fr; }
+    .month-grid { grid-template-columns: minmax(0, 1fr); }
     .score-bar { flex-direction: column; }
-    .score-cell { border-right: none; border-bottom: 1px solid rgba(45,90,61,0.1); }
+    .score-cell { border-right: none; border-bottom: 1px solid rgba(245,241,234,.12); }
+    .score-cell:last-child { border-bottom: none; }
+    h1 { font-size: 34px; }
+    .h2 { font-size: 28px; }
   }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<div class="nav-overlay" id="nav-overlay"></div>
-<nav>
-  <a href="index.html" class="nav-logo">mini<span>for</span>gedad</a>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="index.html#story">Our Story</a></li>
-    <li><a href="index.html#gallery">Gallery</a></li>
-    <li><a href="index.html#bench">On the Bench</a></li>
-    <li class="nav-sep" aria-hidden="true"></li>
-    <li><a href="#" class="nav-link-page">HPC 2025</a></li>
-    <li data-live-pill style="display:none"><a href="stream.html" class="nav-link-live"><span style="width:8px;height:8px;background:#c0392b;border-radius:50%;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>Live</a></li>
-    <li class="nav-sep" aria-hidden="true"></li>
-    <li><a href="https://youtube.com/@MiniForgeDad" target="_blank" class="nav-link-ext">YouTube</a></li>
-    <li><a href="https://patreon.com/miniforgedad" target="_blank" class="nav-link-ext">Patreon</a></li>
-  </ul>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <b>Mini Forge Dad</b>
+    <span class="nav-dot"></span>
+  </a>
+  <div class="nav-links">
+    <a href="story.html">Our story</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="tutorial.html">Tutorials</a>
+    <a href="hpc.html" aria-current="page">HPC 2025</a>
+  </div>
+  <div class="nav-actions">
+    <a href="stream.html" class="nav-live" data-live-pill style="display:none"><span class="live-dot"></span>Live</a>
+    <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="nav-cta">Subscribe</a>
+  </div>
 </nav>
 
-<!-- PAGE HEADER -->
-<div class="page-header">
-  <div class="page-eyebrow">Independent Characters</div>
-  <h1>2025 Hobby Progress<br><em>Challenge</em></h1>
-  <p>Tracking my progress through the <a href="https://theindependentcharacters.com/blog/the-2025-hobby-progress-challenge/" target="_blank" rel="noopener">Independent Characters HPC</a> — one unit a month, Sep 2025 through Aug 2026.</p>
+<main>
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="wrap">
+      <div class="eyebrow">Independent Characters</div>
+      <h1>2025 Hobby Progress<br><em>Challenge</em></h1>
+      <p>Tracking my progress through the <a href="https://theindependentcharacters.com/blog/the-2025-hobby-progress-challenge/" target="_blank" rel="noopener">Independent Characters HPC</a> — one unit a month, Sep 2025 through Aug 2026.</p>
 
-  <!-- ╔══════════════════════════════════════╗
-       ║  UPDATE THESE NUMBERS AS YOU GO     ║
-       ╚══════════════════════════════════════╝ -->
-  <div class="score-bar">
-    <div class="score-cell">
-      <div class="score-label">Monthly Entries</div>
-      <div class="score-value">1 <span class="score-denom">/ 12</span></div>
-    </div>
-    <div class="score-cell">
-      <div class="score-label">Bonus Entries</div>
-      <div class="score-value">1 <span class="score-denom">/ 6</span></div>
-    </div>
-    <div class="score-cell total">
-      <div class="score-label">Total Entries</div>
-      <div class="score-value">2 <span class="score-denom">/ 18</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- MONTHLY TRACKER -->
-<!--
-  HOW TO UPDATE EACH MONTH:
-  - data-status="pending"  → upcoming, not started
-  - data-status="active"   → current month, in progress
-  - data-status="complete" → done, entry earned
-  - data-status="missed"   → month passed without completing
-
-  For photos: replace the photo-slot contents with:
-    <img src="images/hpc/sep-before.jpg" alt="..." />
-    <span class="photo-slot-label">Before</span>
-
-  Update .month-notes with what you painted.
--->
-<section class="section">
-  <div class="section-label">Monthly Entries</div>
-  <h2>The 12 Months</h2>
-  <p class="section-sub">One unit per month. Before photo by the 10th, finished photo by the last day.</p>
-
-  <div class="month-grid">
-
-    <!-- SEPTEMBER 2025 -->
-    <div class="month-card" data-status="complete">
-      <div class="month-header">
-        <span class="month-name">September 2025</span>
-        <span class="month-badge">Complete</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          <img src="images/hpc/sep-2025-before.jpg" alt="Imperial Knight Paladin — before" />
+      <!-- ╔══════════════════════════════════════╗
+           ║  UPDATE THESE NUMBERS AS YOU GO     ║
+           ╚══════════════════════════════════════╝ -->
+      <div class="score-bar">
+        <div class="score-cell">
+          <div class="score-label">Monthly Entries</div>
+          <div class="score-value">1 <span class="score-denom">/ 12</span></div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          <img src="images/hpc/sep-2025-after.jpg" alt="Imperial Knight Paladin — finished" />
+        <div class="score-cell">
+          <div class="score-label">Bonus Entries</div>
+          <div class="score-value">1 <span class="score-denom">/ 6</span></div>
+        </div>
+        <div class="score-cell total">
+          <div class="score-label">Total Entries</div>
+          <div class="score-value">2 <span class="score-denom">/ 18</span></div>
         </div>
       </div>
-      <div class="month-notes">Imperial Knight Paladin — House Griffith livery, bone &amp; gold. Titanic bonus.</div>
     </div>
+  </section>
 
-    <!-- OCTOBER 2025 -->
-    <div class="month-card" data-status="complete">
-      <div class="month-header">
-        <span class="month-name">October 2025</span>
-        <span class="month-badge">Complete</span>
+  <!-- MONTHLY TRACKER -->
+  <!--
+    HOW TO UPDATE EACH MONTH:
+    - data-status="pending"  → upcoming, not started
+    - data-status="active"   → current month, in progress
+    - data-status="complete" → done, entry earned
+    - data-status="missed"   → month passed without completing
+
+    Photos: drop files into images/hpc/ named [mon]-[year]-before.jpg and
+    [mon]-[year]-after.jpg, then add the <img> inside the matching .photo-slot.
+    An empty slot renders as a dark block with just its label.
+
+    Update .month-notes with what you painted.
+  -->
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow">Monthly Entries</div>
+        <h2 class="h2">The 12 Months</h2>
+        <p class="section-sub">One unit per month. Before photo by the 10th, finished photo by the last day.</p>
       </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          <img src="images/hpc/oct-2025-before.jpg" alt="October 2025 — before" />
+
+      <div class="month-grid">
+
+        <!-- SEPTEMBER 2025 -->
+        <div class="month-card" data-status="complete">
+          <div class="month-header">
+            <span class="month-name">September 2025</span>
+            <span class="month-badge">Complete</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot">
+              <span class="photo-slot-label">Before</span>
+              <img src="images/hpc/sep-2025-before.jpg" alt="Imperial Knight Paladin — before" />
+            </div>
+            <div class="photo-slot">
+              <span class="photo-slot-label">After</span>
+              <img src="images/hpc/sep-2025-after.jpg" alt="Imperial Knight Paladin — finished" />
+            </div>
+          </div>
+          <div class="month-notes">Imperial Knight Paladin — House Griffith livery, bone &amp; gold. Titanic bonus.</div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          <img src="images/hpc/oct-2025-after.jpg" alt="October 2025 — finished" />
+
+        <!-- OCTOBER 2025 -->
+        <div class="month-card" data-status="complete">
+          <div class="month-header">
+            <span class="month-name">October 2025</span>
+            <span class="month-badge">Complete</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot">
+              <span class="photo-slot-label">Before</span>
+              <img src="images/hpc/oct-2025-before.jpg" alt="October 2025 — before" />
+            </div>
+            <div class="photo-slot">
+              <span class="photo-slot-label">After</span>
+              <img src="images/hpc/oct-2025-after.jpg" alt="October 2025 — finished" />
+            </div>
+          </div>
+          <div class="month-notes">Add what you painted this month…</div>
         </div>
-      </div>
-      <div class="month-notes">Add what you painted this month…</div>
-    </div>
 
-    <!-- NOVEMBER 2025 -->
-    <div class="month-card" data-status="complete">
-      <div class="month-header">
-        <span class="month-name">November 2025</span>
-        <span class="month-badge">Complete</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          <img src="images/hpc/nov-2025-before.jpg" alt="November 2025 — before" />
+        <!-- NOVEMBER 2025 -->
+        <div class="month-card" data-status="complete">
+          <div class="month-header">
+            <span class="month-name">November 2025</span>
+            <span class="month-badge">Complete</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot">
+              <span class="photo-slot-label">Before</span>
+              <img src="images/hpc/nov-2025-before.jpg" alt="November 2025 — before" />
+            </div>
+            <div class="photo-slot">
+              <span class="photo-slot-label">After</span>
+              <img src="images/hpc/nov-2025-after.jpg" alt="November 2025 — finished" />
+            </div>
+          </div>
+          <div class="month-notes">Add what you painted this month…</div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          <img src="images/hpc/nov-2025-after.jpg" alt="November 2025 — finished" />
+
+        <!-- DECEMBER 2025 -->
+        <div class="month-card" data-status="complete">
+          <div class="month-header">
+            <span class="month-name">December 2025</span>
+            <span class="month-badge">Complete</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot">
+              <span class="photo-slot-label">Before</span>
+              <img src="images/hpc/dec-2025-before.jpg" alt="December 2025 — before" />
+            </div>
+            <div class="photo-slot">
+              <span class="photo-slot-label">After</span>
+              <img src="images/hpc/dec-2025-after.jpg" alt="December 2025 — finished" />
+            </div>
+          </div>
+          <div class="month-notes">Add what you painted this month…</div>
         </div>
-      </div>
-      <div class="month-notes">Add what you painted this month…</div>
-    </div>
 
-    <!-- DECEMBER 2025 -->
-    <div class="month-card" data-status="complete">
-      <div class="month-header">
-        <span class="month-name">December 2025</span>
-        <span class="month-badge">Complete</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          <img src="images/hpc/dec-2025-before.jpg" alt="December 2025 — before" />
+        <!-- JANUARY 2026 -->
+        <div class="month-card" data-status="pending">
+          <div class="month-header">
+            <span class="month-name">January 2026</span>
+            <span class="month-badge">Pending</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot">
+              <span class="photo-slot-label">Before</span>
+              <img src="images/hpc/jan-2026-before.jpg" alt="January 2026 — before" />
+            </div>
+            <div class="photo-slot">
+              <span class="photo-slot-label">After</span>
+            </div>
+          </div>
+          <div class="month-notes">Add what you painted this month…</div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          <img src="images/hpc/dec-2025-after.jpg" alt="December 2025 — finished" />
+
+        <!-- FEBRUARY 2026 -->
+        <div class="month-card" data-status="pending">
+          <div class="month-header">
+            <span class="month-name">February 2026</span>
+            <span class="month-badge">Pending</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot">
+              <span class="photo-slot-label">Before</span>
+              <img src="images/hpc/feb-2026-before.jpg" alt="February 2026 — before" />
+            </div>
+            <div class="photo-slot">
+              <span class="photo-slot-label">After</span>
+            </div>
+          </div>
+          <div class="month-notes">Add what you painted this month…</div>
         </div>
-      </div>
-      <div class="month-notes">Add what you painted this month…</div>
-    </div>
 
-    <!-- JANUARY 2026 -->
-    <div class="month-card" data-status="pending">
-      <div class="month-header">
-        <span class="month-name">January 2026</span>
-        <span class="month-badge">Pending</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          <img src="images/hpc/jan-2026-before.jpg" alt="January 2026 — before" />
+        <!-- MARCH 2026 -->
+        <div class="month-card" data-status="missed">
+          <div class="month-header">
+            <span class="month-name">March 2026</span>
+            <span class="month-badge">Missed</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot"><span class="photo-slot-label">Before</span></div>
+            <div class="photo-slot"><span class="photo-slot-label">After</span></div>
+          </div>
+          <div class="month-notes">Add what you painted this month…</div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <!-- APRIL 2026 -->
+        <div class="month-card" data-status="missed">
+          <div class="month-header">
+            <span class="month-name">April 2026</span>
+            <span class="month-badge">Missed</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot"><span class="photo-slot-label">Before</span></div>
+            <div class="photo-slot"><span class="photo-slot-label">After</span></div>
+          </div>
+          <div class="month-notes">Add what you painted this month…</div>
         </div>
-      </div>
-      <div class="month-notes">Add what you painted this month…</div>
-    </div>
 
-    <!-- FEBRUARY 2026 -->
-    <div class="month-card" data-status="pending">
-      <div class="month-header">
-        <span class="month-name">February 2026</span>
-        <span class="month-badge">Pending</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          <img src="images/hpc/feb-2026-before.jpg" alt="February 2026 — before" />
+        <!-- MAY 2026 -->
+        <div class="month-card" data-status="active">
+          <div class="month-header">
+            <span class="month-name">May 2026</span>
+            <span class="month-badge">In Progress</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot"><span class="photo-slot-label">Before</span></div>
+            <div class="photo-slot"><span class="photo-slot-label">After</span></div>
+          </div>
+          <div class="month-notes">Add what you're painting this month…</div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <!-- JUNE 2026 -->
+        <div class="month-card" data-status="pending">
+          <div class="month-header">
+            <span class="month-name">June 2026</span>
+            <span class="month-badge">Upcoming</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot"><span class="photo-slot-label">Before</span></div>
+            <div class="photo-slot"><span class="photo-slot-label">After</span></div>
+          </div>
+          <div class="month-notes"></div>
         </div>
-      </div>
-      <div class="month-notes">Add what you painted this month…</div>
-    </div>
 
-    <!-- MARCH 2026 -->
-    <div class="month-card" data-status="missed">
-      <div class="month-header">
-        <span class="month-name">March 2026</span>
-        <span class="month-badge">Missed</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          📷
+        <!-- JULY 2026 -->
+        <div class="month-card" data-status="pending">
+          <div class="month-header">
+            <span class="month-name">July 2026</span>
+            <span class="month-badge">Upcoming</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot"><span class="photo-slot-label">Before</span></div>
+            <div class="photo-slot"><span class="photo-slot-label">After</span></div>
+          </div>
+          <div class="month-notes"></div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <!-- AUGUST 2026 -->
+        <div class="month-card" data-status="pending">
+          <div class="month-header">
+            <span class="month-name">August 2026</span>
+            <span class="month-badge">Upcoming</span>
+          </div>
+          <div class="month-photos">
+            <div class="photo-slot"><span class="photo-slot-label">Before</span></div>
+            <div class="photo-slot"><span class="photo-slot-label">After</span></div>
+          </div>
+          <div class="month-notes"></div>
         </div>
-      </div>
-      <div class="month-notes">Add what you painted this month…</div>
-    </div>
 
-    <!-- APRIL 2026 -->
-    <div class="month-card" data-status="missed">
-      <div class="month-header">
-        <span class="month-name">April 2026</span>
-        <span class="month-badge">Missed</span>
       </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          📷
+    </div>
+  </section>
+
+  <!-- BONUS CATEGORIES -->
+  <!--
+    HOW TO MARK A BONUS DONE:
+    Add class "done" to the .bonus-card, e.g.:
+      <div class="bonus-card done">
+    The checkmark fills in automatically.
+  -->
+  <section class="section section-panel">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow">Bonus Entries</div>
+        <h2 class="h2">Bonus Categories</h2>
+        <p class="section-sub">11 opportunities to earn up to 6 additional prize draw entries. Each can only be done once.</p>
+      </div>
+
+      <div class="bonus-grid">
+
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Just Get It Done!</div>
+            <div class="bonus-desc">Finish any two previously started units that are no more than 75% complete. Before &amp; after photos required for both.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Vehicle / Behemoth / Cavalry</div>
+            <div class="bonus-desc">Paint a Vehicle, Behemoth, or Cavalry unit as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-      </div>
-      <div class="month-notes">Add what you painted this month…</div>
-    </div>
 
-    <!-- MAY 2026 -->
-    <div class="month-card" data-status="active">
-      <div class="month-header">
-        <span class="month-name">May 2026</span>
-        <span class="month-badge">In Progress</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          📷
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Character</div>
+            <div class="bonus-desc">Paint a Character model as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Battle Line</div>
+            <div class="bonus-desc">Paint a Battle Line unit as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-      </div>
-      <div class="month-notes">Add what you're painting this month…</div>
-    </div>
 
-    <!-- JUNE 2026 -->
-    <div class="month-card" data-status="pending">
-      <div class="month-header">
-        <span class="month-name">June 2026</span>
-        <span class="month-badge">Upcoming</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          📷
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Double Up</div>
+            <div class="bonus-desc">Complete two full units this month instead of the usual one.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Reset the Mechanism</div>
+            <div class="bonus-desc">Post before &amp; after photos of your hobby workspace/environment. Must be paired with a completed monthly unit.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-      </div>
-      <div class="month-notes"></div>
-    </div>
 
-    <!-- JULY 2026 -->
-    <div class="month-card" data-status="pending">
-      <div class="month-header">
-        <span class="month-name">July 2026</span>
-        <span class="month-badge">Upcoming</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          📷
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Monstrous / Dreadnought</div>
+            <div class="bonus-desc">Paint a Monstrous Creature or Dreadnought as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <div class="bonus-card done">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Titanic</div>
+            <div class="bonus-desc">Paint a Titanic unit as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-      </div>
-      <div class="month-notes"></div>
-    </div>
 
-    <!-- AUGUST 2026 -->
-    <div class="month-card" data-status="pending">
-      <div class="month-header">
-        <span class="month-name">August 2026</span>
-        <span class="month-badge">Upcoming</span>
-      </div>
-      <div class="month-photos">
-        <div class="photo-slot">
-          <span class="photo-slot-label">Before</span>
-          📷
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Terrain</div>
+            <div class="bonus-desc">Paint a piece of terrain as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-        <div class="photo-slot">
-          <span class="photo-slot-label">After</span>
-          📷
+
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Display Board</div>
+            <div class="bonus-desc">Complete a display board as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
         </div>
-      </div>
-      <div class="month-notes"></div>
-    </div>
 
-  </div>
-</section>
+        <div class="bonus-card">
+          <div class="bonus-check">✓</div>
+          <div class="bonus-content">
+            <div class="bonus-title">Flyer</div>
+            <div class="bonus-desc">Paint a Flyer unit as your monthly entry.</div>
+            <div class="bonus-value">+1 entry</div>
+          </div>
+        </div>
 
-<!-- BONUS CATEGORIES -->
-<!--
-  HOW TO MARK A BONUS DONE:
-  Add class "done" to the .bonus-card, e.g.:
-    <div class="bonus-card done">
-  The checkmark will fill in automatically.
--->
-<section class="section section-alt">
-  <div class="section-label">Bonus Entries</div>
-  <h2>Bonus Categories</h2>
-  <p class="section-sub">11 opportunities to earn up to 6 additional prize draw entries. Each can only be done once.</p>
-
-  <div class="bonus-grid">
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Just Get It Done!</div>
-        <div class="bonus-desc">Finish any two previously started units that are no more than 75% complete. Before &amp; after photos required for both.</div>
-        <div class="bonus-value">+1 entry</div>
       </div>
     </div>
+  </section>
 
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Vehicle / Behemoth / Cavalry</div>
-        <div class="bonus-desc">Paint a Vehicle, Behemoth, or Cavalry unit as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
+  <!-- POLL -->
+  <section class="section" id="poll">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow">Community Vote</div>
+        <h2 class="h2">What should I paint next?</h2>
+        <p class="section-sub">Vote for what you want to see on the bench next month.</p>
       </div>
+      <div class="poll-options" id="poll-options"></div>
+      <p class="poll-meta" id="poll-meta"></p>
+      <p class="poll-error" id="poll-error"></p>
     </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Character</div>
-        <div class="bonus-desc">Paint a Character model as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Battle Line</div>
-        <div class="bonus-desc">Paint a Battle Line unit as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Double Up</div>
-        <div class="bonus-desc">Complete two full units this month instead of the usual one.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Reset the Mechanism</div>
-        <div class="bonus-desc">Post before &amp; after photos of your hobby workspace/environment. Must be paired with a completed monthly unit.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Monstrous / Dreadnought</div>
-        <div class="bonus-desc">Paint a Monstrous Creature or Dreadnought as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card done">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Titanic</div>
-        <div class="bonus-desc">Paint a Titanic unit as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Terrain</div>
-        <div class="bonus-desc">Paint a piece of terrain as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Display Board</div>
-        <div class="bonus-desc">Complete a display board as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-    <div class="bonus-card">
-      <div class="bonus-check">✓</div>
-      <div class="bonus-content">
-        <div class="bonus-title">Flyer</div>
-        <div class="bonus-desc">Paint a Flyer unit as your monthly entry.</div>
-        <div class="bonus-value">+1 entry</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- POLL -->
-<section class="section poll-section" id="poll">
-  <div class="section-label">Community Vote</div>
-  <h2>What should I paint next?</h2>
-  <p class="section-sub">Vote for what you want to see on the bench next month.</p>
-  <div class="poll-options" id="poll-options"></div>
-  <p class="poll-meta" id="poll-meta"></p>
-  <p class="poll-error" id="poll-error"></p>
-</section>
+  </section>
+</main>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-logo">mini<span>for</span>gedad</div>
-  <div class="footer-note">2025 Independent Characters Hobby Progress Challenge</div>
+<footer class="footer">
+  <span>&copy; 2026 Mini Forge Dad · Independent Characters HPC 2025</span>
+  <span class="footer-verse">Colossians 3:23</span>
 </footer>
 
 <script>
-// ── Nav hamburger ──────────────────────────────────────────
-const navToggle  = document.getElementById('nav-toggle');
-const navLinks   = document.getElementById('nav-links');
-const navOverlay = document.getElementById('nav-overlay');
-// Save original DOM position so we can restore after close animation
-const navParent  = navLinks.parentNode;
-const navAnchor  = navLinks.nextSibling;
-function openNav() {
-  document.body.appendChild(navLinks); // lift out of nav's stacking context
-  navLinks.classList.add('open');
-  navToggle.classList.add('open');
-  navOverlay.classList.add('visible');
-  navToggle.setAttribute('aria-expanded', 'true');
-  navToggle.setAttribute('aria-label', 'Close menu');
-  document.body.style.overflow = 'hidden';
-}
-function closeNav() {
-  navLinks.classList.remove('open');
-  navToggle.classList.remove('open');
-  navOverlay.classList.remove('visible');
-  navToggle.setAttribute('aria-expanded', 'false');
-  navToggle.setAttribute('aria-label', 'Open menu');
-  document.body.style.overflow = '';
-  setTimeout(() => navParent.insertBefore(navLinks, navAnchor), 310);
-}
-navToggle.addEventListener('click', () =>
-  navLinks.classList.contains('open') ? closeNav() : openNav()
-);
-navOverlay.addEventListener('click', closeNav);
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
-
 // ╔═══════════════════════════════════════════════════════╗
 // ║  POLL CONFIG — edit this to change the poll options  ║
 // ║                                                       ║
