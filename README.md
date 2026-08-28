@@ -38,10 +38,12 @@ miniforgedad-website/
 ├── stream.html         # YouTube live stream page
 ├── obs-ticker.html     # OBS ticker overlay
 ├── gallery-data.js     # Single source of truth for all gallery photos
+├── upload.html         # Private page for phone photo uploads
 ├── live-status.js      # Reveals the nav "Live" pill when streaming
 ├── netlify/
 │   └── functions/
-│       └── live-status.js   # Server-side YouTube live check (hides the API key)
+│       ├── live-status.js        # Server-side YouTube live check (hides the API key)
+│       └── upload-hpc-photo.js   # Commits an uploaded photo to images/hpc/
 └── images/
     ├── og-image.png     # Social preview image (1200×630px recommended)
     ├── placeholder.svg  # Development placeholder
@@ -95,6 +97,32 @@ image:
 
 Slots are on the homepage (hero, painters, video thumbnails, Instagram),
 `story.html` (wide photo, candid, photo wall) and `tutorial.html` (hero, steps).
+
+### Uploading photos from your phone
+
+`/upload.html` is a private page for adding HPC before/after shots without
+renaming files or touching GitHub. Pick the month, pick Before or After, choose
+the photo — it resizes on your device, names the file correctly, and commits it.
+Netlify rebuilds, and the photo is live in about a minute.
+
+**One-time setup** — two more Netlify environment variables:
+
+| Variable | What |
+|---|---|
+| `UPLOAD_PASSWORD` | Any passphrase. Gates the page. |
+| `GITHUB_TOKEN` | A [fine-grained token](https://github.com/settings/personal-access-tokens) scoped to **this repo only**, with **Contents: Read and write**. Nothing else. |
+
+Until both are set the page returns "Uploads are not configured yet".
+
+**Notes**
+- Photos are resized to 1600px on the long edge and re-encoded as JPEG before
+  upload, so a 5MB phone photo arrives as a few hundred KB and the committed
+  file is always a real `.jpg`.
+- Uploading to a month that already has that shot **replaces** it.
+- The filename is built server-side from the month you pick, so nothing can be
+  written outside `images/hpc/`.
+- The page is `noindex`, but it is not secret — the password is what protects
+  it. Use a decent one.
 
 ### The "Live" pill
 
