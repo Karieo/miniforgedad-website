@@ -293,11 +293,12 @@ Edit the three numbers at the top of `hpc.html` manually:
 
 | Category | Earned | Possible |
 |---|---|---|
-| Monthly entries | 1 | 12 |
+| Monthly entries | 4 | 12 |
 | Bonus entries | 1 | 6 |
-| **Total** | **2** | **18** |
+| **Total** | **5** | **18** |
 
-**Completed months:** September 2025 (Imperial Knight Paladin — Titanic bonus)
+**Completed months:** September 2025 (Imperial Knight Paladin — Titanic bonus),
+October 2025, November 2025, December 2025
 
 ---
 
