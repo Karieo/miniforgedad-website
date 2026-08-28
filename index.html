@@ -440,8 +440,9 @@
 
   /* ── VIDEOS ── */
   .video { display: flex; flex-direction: column; gap: 16px; color: var(--bone); }
-  .video:hover { color: var(--bone); }
-  .video:hover .slot { opacity: .9; }
+  /* hover affordance only on cards that are actually links */
+  a.video:hover { color: var(--bone); }
+  a.video:hover .slot { opacity: .9; }
   .video .slot { aspect-ratio: 16 / 9; }
   .video-meta {
     font-family: 'DM Mono', monospace;
@@ -908,30 +909,33 @@
         <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="link-more">All videos on YouTube ↗</a>
       </div>
       <div class="cards-3">
-        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="video">
+        <!-- Newest video. Thumbnail comes straight from YouTube; maxresdefault is
+             the full vertical frame for a Short, falling back to hqdefault if a
+             given video has no maxres. object-fit:cover crops it to the 16:9 card. -->
+        <a href="https://youtube.com/shorts/DjWGYvkKBrg" target="_blank" rel="noopener" class="video">
           <div class="slot">
             <span class="badge-new">New</span>
-            <span>Video thumbnail</span>
+            <img src="https://img.youtube.com/vi/DjWGYvkKBrg/maxresdefault.jpg"
+                 onerror="this.onerror=null;this.src='https://img.youtube.com/vi/DjWGYvkKBrg/hqdefault.jpg';"
+                 alt="Thinning your paints — tutorial Short" loading="lazy" />
           </div>
           <div>
-            <span class="video-meta">Tutorial · 14 min</span>
-            <h3>How we paint gold that actually looks like metal</h3>
+            <span class="video-meta">Tutorial · Short</span>
+            <h3>Thinning your paints</h3>
           </div>
         </a>
-        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="video">
-          <div class="slot"><span>Video thumbnail</span></div>
+        <div class="video">
+          <div class="slot"><span>More videos soon</span></div>
           <div>
-            <span class="video-meta">Father &amp; son · 22 min</span>
-            <h3>My son paints his first character model, start to finish</h3>
+            <span class="video-meta">Coming soon</span>
           </div>
-        </a>
-        <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="video">
-          <div class="slot"><span>Video thumbnail</span></div>
+        </div>
+        <div class="video">
+          <div class="slot"><span>More videos soon</span></div>
           <div>
-            <span class="video-meta">Army project · 18 min</span>
-            <h3>Batch painting knights without losing your mind</h3>
+            <span class="video-meta">Coming soon</span>
           </div>
-        </a>
+        </div>
       </div>
     </div>
   </section>
