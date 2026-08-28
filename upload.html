@@ -160,6 +160,40 @@
     word-break: break-all;
   }
 
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+  .tabs button {
+    padding: 14px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16);
+    color: rgba(245,241,234,.6);
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 15px 16px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.5;
+    resize: vertical;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  textarea:focus { outline: none; border-color: var(--orange); }
+  .count {
+    display: block; margin-top: 6px; text-align: right;
+    font-family: 'DM Mono', monospace; font-size: 10.5px;
+    color: rgba(245,241,234,.35);
+  }
+  [hidden] { display: none !important; }
+
   footer {
     margin-top: 36px;
     font-family: 'DM Mono', monospace;
@@ -176,6 +210,11 @@
     <h1>Add a photo</h1>
     <p>Pick the month and whether it's the before or after shot. The file gets named and committed for you — nothing to rename.</p>
   </header>
+
+  <div class="tabs" role="tablist">
+    <button type="button" id="tab-photo" role="tab" aria-selected="true">Add photo</button>
+    <button type="button" id="tab-edit"  role="tab" aria-selected="false">Edit month</button>
+  </div>
 
   <form id="form">
     <div>
@@ -230,8 +269,44 @@
     </div>
 
     <button type="submit" id="submit" disabled>Upload</button>
-    <div class="status" id="status" role="status" aria-live="polite"></div>
   </form>
+
+  <form id="edit-form" hidden>
+    <div>
+      <label for="edit-password">Password</label>
+      <input type="password" id="edit-password" autocomplete="current-password" required />
+    </div>
+
+    <div>
+      <label for="edit-month">Month</label>
+      <select id="edit-month" required><option value="">Choose…</option></select>
+    </div>
+
+    <div>
+      <label for="edit-notes">Caption</label>
+      <textarea id="edit-notes" maxlength="400" placeholder="What you painted this month…"></textarea>
+      <span class="count" id="edit-count">0 / 400</span>
+    </div>
+
+    <div>
+      <label for="edit-status">Status</label>
+      <select id="edit-status">
+        <option value="pending">Pending</option>
+        <option value="active">In progress</option>
+        <option value="complete">Complete</option>
+        <option value="missed">Missed</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="edit-badge">Badge label</label>
+      <input type="text" id="edit-badge" maxlength="24" style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'DM Mono',monospace;font-size:16px;-webkit-appearance:none;border-radius:0" />
+    </div>
+
+    <button type="submit" id="edit-submit">Save changes</button>
+  </form>
+
+  <div class="status" id="status" role="status" aria-live="polite"></div>
 
   <footer>
     <a href="hpc.html">← Back to the tracker</a>
@@ -239,6 +314,7 @@
 
 </div>
 
+<script src="hpc-data.js"></script>
 <script>
   // Phone photos run 3–5MB, which would blow past the function's payload limit
   // and bloat the repo. Resize and re-encode to JPEG on the device first — this
@@ -306,6 +382,97 @@
       say('bad', "That file doesn't look like a photo. Try another.");
       preview.classList.remove('show');
     }
+  });
+
+
+  // ── Tabs ───────────────────────────────────────────────────
+  const photoForm = $('form'), editForm = $('edit-form');
+  const tabPhoto = $('tab-photo'), tabEdit = $('tab-edit');
+  const heading = document.querySelector('h1'), blurb = document.querySelector('header p');
+
+  function showTab(which) {
+    const editing = which === 'edit';
+    tabPhoto.setAttribute('aria-selected', String(!editing));
+    tabEdit.setAttribute('aria-selected', String(editing));
+    photoForm.hidden = editing;
+    editForm.hidden = !editing;
+    statusEl.className = 'status';
+    heading.textContent = editing ? 'Edit a month' : 'Add a photo';
+    blurb.textContent = editing
+      ? "Change the caption, status or badge. The tracker's score bar counts itself from the statuses."
+      : "Pick the month and whether it's the before or after shot. The file gets named and committed for you — nothing to rename.";
+  }
+  tabPhoto.addEventListener('click', () => showTab('photo'));
+  tabEdit.addEventListener('click', () => showTab('edit'));
+
+  // ── Month editor ───────────────────────────────────────────
+  // Pre-fills from hpc-data.js so you can see what's there before changing it.
+  const DATA = typeof HPC_DATA !== 'undefined' ? HPC_DATA : { months: [] };
+  const editMonth = $('edit-month'), editNotes = $('edit-notes');
+  const editStatus = $('edit-status'), editBadge = $('edit-badge'), editCount = $('edit-count');
+
+  DATA.months.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m.slug;
+    o.textContent = `${m.name}  ·  ${m.badge}`;
+    editMonth.append(o);
+  });
+
+  const countChars = () => { editCount.textContent = `${editNotes.value.length} / 400`; };
+  editNotes.addEventListener('input', countChars);
+
+  // Placeholder captions from the original template aren't worth re-saving.
+  const isPlaceholder = s => /^Add what you(\'re)? paint(ed|ing) this month/.test(s || '');
+
+  editMonth.addEventListener('change', () => {
+    const m = DATA.months.find(x => x.slug === editMonth.value);
+    if (!m) { editNotes.value = ''; editBadge.value = ''; countChars(); return; }
+    editNotes.value = isPlaceholder(m.notes) ? '' : (m.notes || '');
+    editStatus.value = m.status;
+    editBadge.value = m.badge || '';
+    countChars();
+    statusEl.className = 'status';
+  });
+
+  // Changing status suggests a matching badge, but you can still override it.
+  const BADGE_FOR = { pending:'Pending', active:'In Progress', complete:'Complete', missed:'Missed' };
+  editStatus.addEventListener('change', () => { editBadge.value = BADGE_FOR[editStatus.value] || ''; });
+
+  editForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const slug = editMonth.value;
+    if (!slug) return say('bad', 'Pick a month.');
+
+    const btn = $('edit-submit');
+    btn.disabled = true;
+    say('', 'Saving…');
+
+    try {
+      const res = await fetch('/.netlify/functions/update-hpc-month', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: $('edit-password').value,
+          slug,
+          notes: editNotes.value,
+          status: editStatus.value,
+          badge: editBadge.value,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        say('ok', data.message, data.changed && data.changed.length ? `changed: ${data.changed.join(', ')}` : '');
+        // Keep the in-page copy in step so a second edit starts from the truth.
+        const m = DATA.months.find(x => x.slug === slug);
+        if (m) { m.notes = editNotes.value.trim(); m.status = editStatus.value; m.badge = editBadge.value.trim(); }
+      } else {
+        say('bad', data.error || `Save failed (${res.status}).`, data.detail);
+      }
+    } catch {
+      say('bad', 'Could not reach the server. Check your connection and try again.');
+    }
+    btn.disabled = false;
   });
 
   form.addEventListener('submit', async e => {

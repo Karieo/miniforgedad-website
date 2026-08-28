@@ -38,12 +38,14 @@ miniforgedad-website/
 ├── stream.html         # YouTube live stream page
 ├── obs-ticker.html     # OBS ticker overlay
 ├── gallery-data.js     # Single source of truth for all gallery photos
-├── upload.html         # Private page for phone photo uploads
+├── hpc-data.js         # Single source of truth for the HPC tracker
+├── upload.html         # Private page for phone uploads + month editing
 ├── live-status.js      # Reveals the nav "Live" pill when streaming
 ├── netlify/
 │   └── functions/
 │       ├── live-status.js        # Server-side YouTube live check (hides the API key)
-│       └── upload-hpc-photo.js   # Commits an uploaded photo to images/hpc/
+│       ├── upload-hpc-photo.js   # Commits an uploaded photo to images/hpc/
+│       └── update-hpc-month.js   # Edits a month's caption/status in hpc-data.js
 └── images/
     ├── og-image.png     # Social preview image (1200×630px recommended)
     ├── placeholder.svg  # Development placeholder
@@ -98,12 +100,16 @@ image:
 Slots are on the homepage (hero, painters, video thumbnails, Instagram),
 `story.html` (wide photo, candid, photo wall) and `tutorial.html` (hero, steps).
 
-### Uploading photos from your phone
+### Uploading and editing from your phone
 
-`/upload.html` is a private page for adding HPC before/after shots without
-renaming files or touching GitHub. Pick the month, pick Before or After, choose
-the photo — it resizes on your device, names the file correctly, and commits it.
-Netlify rebuilds, and the photo is live in about a minute.
+`/upload.html` is a private page with two tabs:
+
+- **Add photo** — pick the month and Before/After, choose the photo. It resizes
+  on your device, names the file correctly, and commits it.
+- **Edit month** — change a month's caption, status or badge. Pre-fills with
+  what's currently set so you can see before you change it.
+
+Both commit straight to `main`; Netlify rebuilds and it's live in about a minute.
 
 **One-time setup** — two more Netlify environment variables:
 
@@ -264,18 +270,22 @@ Edit the bench card in `index.html` — find the `<!-- ON THE BENCH -->` section
 
 The [Independent Characters Hobby Progress Challenge](https://theindependentcharacters.com/blog/the-2025-hobby-progress-challenge/) runs **September 2025 – August 2026**.
 
-### Marking a month complete
+### Editing a month
 
-Find the month's card and change its `data-status`:
+Everything the tracker shows lives in **`hpc-data.js`** — statuses, badges and
+captions. Edit it there, or use `/upload.html` on your phone, which writes to it
+for you.
 
-```html
-<!-- Options: pending | active | complete | missed -->
-<div class="month-card" data-status="complete">
-  <div class="month-header">
-    <span class="month-name">September 2025</span>
-    <span class="month-badge">Complete</span>  <!-- update badge text too -->
-  </div>
+```js
+{
+  "name": "June 2026",
+  "slug": "jun-2026",          // photo filenames: images/hpc/jun-2026-before.jpg
+  "status": "complete",        // pending | active | complete | missed
+  "badge": "Complete",         // the label on the card — free text
+  "notes": "What you painted…" // the caption under the photos
+}
 ```
+
 
 ### Adding before/after photos
 
@@ -307,15 +317,12 @@ const POLL_OPTIONS = [
 - Votes are stored via [countapi.xyz](https://api.countapi.xyz) and persist across all visitors
 - If the API is unreachable, votes are saved in the visitor's browser and the poll still works
 
-### Updating the score bar
+### The score bar
 
-Edit the three numbers at the top of `hpc.html` manually:
+**It counts itself.** Monthly entries = months with `status: "complete"`, bonus
+entries = bonuses with `done: true` (capped at 6), total = the two added. There
+are no numbers to keep in step by hand — change a status and the bar follows.
 
-```html
-<div class="score-value">1 <span class="score-denom">/ 12</span></div>  <!-- monthly -->
-<div class="score-value">1 <span class="score-denom">/ 6</span></div>   <!-- bonus -->
-<div class="score-value">2 <span class="score-denom">/ 18</span></div>  <!-- total -->
-```
 
 ### Current progress
 
