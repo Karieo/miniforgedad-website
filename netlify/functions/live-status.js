@@ -39,10 +39,25 @@ const json = (body, cacheSeconds) => ({
   body: JSON.stringify(body),
 });
 
+// Never let the key reach the response body, whatever Google echoes back.
+const scrub = s => typeof s === 'string' ? s.replace(/key=[\w-]+/gi, 'key=***') : undefined;
+
 async function getJson(url, signal) {
   const res = await fetch(url, { signal });
-  if (!res.ok) throw new Error(`YouTube API ${res.status}`);
-  return res.json();
+  const body = await res.json().catch(() => null);
+  if (!res.ok) {
+    // Google puts the useful part in error.errors[0].reason — e.g.
+    // accessNotConfigured (API not enabled), keyInvalid, ipRefererBlocked
+    // (key restricted to HTTP referrers, which breaks server-side calls),
+    // quotaExceeded. Carry it through so the cause is visible.
+    const e = (body && body.error) || {};
+    const err = new Error('youtube-api');
+    err.status = res.status;
+    err.apiReason = e.errors && e.errors[0] && e.errors[0].reason;
+    err.detail = e.message;
+    throw err;
+  }
+  return body;
 }
 
 exports.handler = async () => {
@@ -90,9 +105,17 @@ exports.handler = async () => {
     }, 300);
 
   } catch (err) {
-    // Network blip, quota exhaustion, revoked key — all the same to the site.
+    // The pill stays hidden either way, but say WHY so a misconfigured key
+    // is diagnosable from the endpoint instead of guessed at. The key itself
+    // is scrubbed from anything echoed back.
     // Cache the failure briefly so one bad minute doesn't hammer the API.
-    return json({ live: false, reason: 'error' }, 60);
+    return json({
+      live: false,
+      reason: err.name === 'AbortError' ? 'timeout' : 'error',
+      status: err.status,
+      apiReason: err.apiReason,
+      detail: scrub(err.detail),
+    }, 60);
   } finally {
     clearTimeout(timeout);
   }
