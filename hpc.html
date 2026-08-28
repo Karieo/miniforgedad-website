@@ -468,19 +468,7 @@
       <!-- ╔══════════════════════════════════════╗
            ║  UPDATE THESE NUMBERS AS YOU GO     ║
            ╚══════════════════════════════════════╝ -->
-      <div class="score-bar">
-        <div class="score-cell">
-          <div class="score-label">Monthly Entries</div>
-          <div class="score-value">4 <span class="score-denom">/ 12</span></div>
-        </div>
-        <div class="score-cell">
-          <div class="score-label">Bonus Entries</div>
-          <div class="score-value">1 <span class="score-denom">/ 6</span></div>
-        </div>
-        <div class="score-cell total">
-          <div class="score-label">Total Entries</div>
-          <div class="score-value">5 <span class="score-denom">/ 18</span></div>
-        </div>
+      <div class="score-bar" id="score-bar"></div>
       </div>
     </div>
   </section>
@@ -507,238 +495,7 @@
         <p class="section-sub">One unit per month. Before photo by the 10th, finished photo by the last day.</p>
       </div>
 
-      <div class="month-grid">
-
-        <!-- SEPTEMBER 2025 -->
-        <div class="month-card" data-status="complete">
-          <div class="month-header">
-            <span class="month-name">September 2025</span>
-            <span class="month-badge">Complete</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/sep-2025-before.jpg" alt="Imperial Knight Paladin — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/sep-2025-after.jpg" alt="Imperial Knight Paladin — finished" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Imperial Knight Paladin — House Griffith livery, bone &amp; gold. Titanic bonus.</div>
-        </div>
-
-        <!-- OCTOBER 2025 -->
-        <div class="month-card" data-status="complete">
-          <div class="month-header">
-            <span class="month-name">October 2025</span>
-            <span class="month-badge">Complete</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/oct-2025-before.jpg" alt="October 2025 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/oct-2025-after.jpg" alt="October 2025 — finished" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you painted this month…</div>
-        </div>
-
-        <!-- NOVEMBER 2025 -->
-        <div class="month-card" data-status="complete">
-          <div class="month-header">
-            <span class="month-name">November 2025</span>
-            <span class="month-badge">Complete</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/nov-2025-before.jpg" alt="November 2025 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/nov-2025-after.jpg" alt="November 2025 — finished" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you painted this month…</div>
-        </div>
-
-        <!-- DECEMBER 2025 -->
-        <div class="month-card" data-status="complete">
-          <div class="month-header">
-            <span class="month-name">December 2025</span>
-            <span class="month-badge">Complete</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/dec-2025-before.jpg" alt="December 2025 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/dec-2025-after.jpg" alt="December 2025 — finished" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you painted this month…</div>
-        </div>
-
-        <!-- JANUARY 2026 -->
-        <div class="month-card" data-status="pending">
-          <div class="month-header">
-            <span class="month-name">January 2026</span>
-            <span class="month-badge">Pending</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/jan-2026-before.jpg" alt="January 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/jan-2026-after.jpg" alt="January 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you painted this month…</div>
-        </div>
-
-        <!-- FEBRUARY 2026 -->
-        <div class="month-card" data-status="pending">
-          <div class="month-header">
-            <span class="month-name">February 2026</span>
-            <span class="month-badge">Pending</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/feb-2026-before.jpg" alt="February 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/feb-2026-after.jpg" alt="February 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you painted this month…</div>
-        </div>
-
-        <!-- MARCH 2026 -->
-        <div class="month-card" data-status="missed">
-          <div class="month-header">
-            <span class="month-name">March 2026</span>
-            <span class="month-badge">Missed</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/mar-2026-before.jpg" alt="March 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/mar-2026-after.jpg" alt="March 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you painted this month…</div>
-        </div>
-
-        <!-- APRIL 2026 -->
-        <div class="month-card" data-status="missed">
-          <div class="month-header">
-            <span class="month-name">April 2026</span>
-            <span class="month-badge">Missed</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/apr-2026-before.jpg" alt="April 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/apr-2026-after.jpg" alt="April 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you painted this month…</div>
-        </div>
-
-        <!-- MAY 2026 -->
-        <div class="month-card" data-status="active">
-          <div class="month-header">
-            <span class="month-name">May 2026</span>
-            <span class="month-badge">In Progress</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/may-2026-before.jpg" alt="May 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/may-2026-after.jpg" alt="May 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes">Add what you're painting this month…</div>
-        </div>
-
-        <!-- JUNE 2026 -->
-        <div class="month-card" data-status="pending">
-          <div class="month-header">
-            <span class="month-name">June 2026</span>
-            <span class="month-badge">Upcoming</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/jun-2026-before.jpg" alt="June 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/jun-2026-after.jpg" alt="June 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes"></div>
-        </div>
-
-        <!-- JULY 2026 -->
-        <div class="month-card" data-status="pending">
-          <div class="month-header">
-            <span class="month-name">July 2026</span>
-            <span class="month-badge">Upcoming</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/jul-2026-before.jpg" alt="July 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/jul-2026-after.jpg" alt="July 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes"></div>
-        </div>
-
-        <!-- AUGUST 2026 -->
-        <div class="month-card" data-status="pending">
-          <div class="month-header">
-            <span class="month-name">August 2026</span>
-            <span class="month-badge">Upcoming</span>
-          </div>
-          <div class="month-photos">
-          <div class="photo-slot">
-            <span class="photo-slot-label">Before</span>
-            <img src="images/hpc/aug-2026-before.jpg" alt="August 2026 — before" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          <div class="photo-slot">
-            <span class="photo-slot-label">After</span>
-            <img src="images/hpc/aug-2026-after.jpg" alt="August 2026 — after" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
-          </div>
-          </div>
-          <div class="month-notes"></div>
-        </div>
-
-      </div>
-    </div>
+      <div class="month-grid" id="month-grid"></div>
   </section>
 
   <!-- BONUS CATEGORIES -->
@@ -756,109 +513,7 @@
         <p class="section-sub">11 opportunities to earn up to 6 additional prize draw entries. Each can only be done once.</p>
       </div>
 
-      <div class="bonus-grid">
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Just Get It Done!</div>
-            <div class="bonus-desc">Finish any two previously started units that are no more than 75% complete. Before &amp; after photos required for both.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Vehicle / Behemoth / Cavalry</div>
-            <div class="bonus-desc">Paint a Vehicle, Behemoth, or Cavalry unit as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Character</div>
-            <div class="bonus-desc">Paint a Character model as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Battle Line</div>
-            <div class="bonus-desc">Paint a Battle Line unit as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Double Up</div>
-            <div class="bonus-desc">Complete two full units this month instead of the usual one.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Reset the Mechanism</div>
-            <div class="bonus-desc">Post before &amp; after photos of your hobby workspace/environment. Must be paired with a completed monthly unit.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Monstrous / Dreadnought</div>
-            <div class="bonus-desc">Paint a Monstrous Creature or Dreadnought as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card done">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Titanic</div>
-            <div class="bonus-desc">Paint a Titanic unit as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Terrain</div>
-            <div class="bonus-desc">Paint a piece of terrain as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Display Board</div>
-            <div class="bonus-desc">Complete a display board as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-check">✓</div>
-          <div class="bonus-content">
-            <div class="bonus-title">Flyer</div>
-            <div class="bonus-desc">Paint a Flyer unit as your monthly entry.</div>
-            <div class="bonus-value">+1 entry</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+      <div class="bonus-grid" id="bonus-grid"></div>
   </section>
 
   <!-- POLL -->
@@ -882,7 +537,74 @@
   <span class="footer-verse">Colossians 3:23</span>
 </footer>
 
+<script src="hpc-data.js"></script>
 <script>
+// ── RENDER FROM hpc-data.js ────────────────────────────────
+// Cards and the score bar are built from HPC_DATA, so editing that one file
+// (by hand or from /upload.html) is all it takes to update the tracker.
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+
+const DATA = typeof HPC_DATA !== 'undefined' ? HPC_DATA : { months: [], bonuses: [] };
+
+// The challenge allows 12 monthly entries and caps bonuses at 6, however many
+// categories get ticked.
+const MAX_MONTHS = 12, MAX_BONUS = 6;
+
+function renderScore() {
+  const monthly = DATA.months.filter(m => m.status === 'complete').length;
+  const bonus   = Math.min(DATA.bonuses.filter(b => b.done).length, MAX_BONUS);
+  const cells = [
+    ['Monthly Entries', monthly, MAX_MONTHS, ''],
+    ['Bonus Entries',   bonus,   MAX_BONUS,  ''],
+    ['Total Entries',   monthly + bonus, MAX_MONTHS + MAX_BONUS, ' total'],
+  ];
+  document.getElementById('score-bar').innerHTML = cells.map(([label, n, d, cls]) => `
+    <div class="score-cell${cls}">
+      <div class="score-label">${esc(label)}</div>
+      <div class="score-value">${n} <span class="score-denom">/ ${d}</span></div>
+    </div>`).join('');
+}
+
+function photoSlot(slug, which) {
+  const label = which === 'before' ? 'Before' : 'After';
+  return `
+        <div class="photo-slot">
+          <span class="photo-slot-label">${label}</span>
+          <img src="images/hpc/${esc(slug)}-${which}.jpg" alt="${esc(slug)} ${which}"
+               loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()" />
+        </div>`;
+}
+
+function renderMonths() {
+  document.getElementById('month-grid').innerHTML = DATA.months.map(m => `
+      <div class="month-card" data-status="${esc(m.status)}">
+        <div class="month-header">
+          <span class="month-name">${esc(m.name)}</span>
+          <span class="month-badge">${esc(m.badge)}</span>
+        </div>
+        <div class="month-photos">${photoSlot(m.slug, 'before')}${photoSlot(m.slug, 'after')}
+        </div>
+        <div class="month-notes">${esc(m.notes)}</div>
+      </div>`).join('');
+}
+
+function renderBonuses() {
+  document.getElementById('bonus-grid').innerHTML = DATA.bonuses.map(b => `
+      <div class="bonus-card${b.done ? ' done' : ''}">
+        <div class="bonus-check">\u2713</div>
+        <div class="bonus-content">
+          <div class="bonus-title">${esc(b.title)}</div>
+          <div class="bonus-desc">${esc(b.desc)}</div>
+          <div class="bonus-value">+1 entry</div>
+        </div>
+      </div>`).join('');
+}
+
+renderScore();
+renderMonths();
+renderBonuses();
+
 // ╔═══════════════════════════════════════════════════════╗
 // ║  POLL CONFIG — edit this to change the poll options  ║
 // ║                                                       ║
