@@ -140,30 +140,14 @@
   </div>
 </div>
 
+<script src="ticker-data.js"></script>
 <script>
-  const TICKER_CONFIG = {
-    currentTopic: "Today's project: painting Space Marines",
-    schedule: "Live every Tue & Thu at 7PM CT",
-    messages: [
-      "Welcome to the stream — glad you're here!",
-      "Drop a question in the chat — we read every message",
-      "Enjoying the stream? Share it with a friend!",
-      "Thanks for watching — your support means everything",
-    ],
-    youtube:   "@miniforgedad",
-    instagram: "@miniforgedad",
-    patreon:   "patreon.com/miniforgedad",
-    scrollSpeed: 100,
-    newsFeeds: [
-      { name: 'WarCom',             enabled: true, url: 'https://warcomfeed.link/rss.xml' },
-      { name: 'Bell of Lost Souls', enabled: true, url: 'https://www.belloflostsouls.net/feed' },
-      { name: 'Tale of Painters',   enabled: true, url: 'https://taleofpainters.com/feed' },
-    ],
-    headlinesPerFeed: 3,
+  // Config comes from ticker-data.js so it can be edited from /upload.html.
+  // Falls back to an empty shape if that file fails to load, so a bad deploy
+  // gives an empty ticker rather than a broken one mid-stream.
+  const TICKER_CONFIG = typeof TICKER_DATA !== 'undefined' ? TICKER_DATA : {
+    currentTopic: '', schedule: '', messages: [], scrollSpeed: 100,
   };
-</script>
-<script>
-  const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
   function getStaticItems() {
     const items = [];
@@ -190,21 +174,23 @@
     track.style.animationDuration = TICKER_CONFIG.scrollSpeed + 's';
   }
 
+  // Headlines come from our own function, which fetches the feeds server-side.
+  // The old path went through api.rss2json.com and swallowed every failure, so
+  // a rate-limited proxy looked identical to "no news today".
   async function fetchNewsHeadlines() {
-    const headlines = [];
-    const feeds = TICKER_CONFIG.newsFeeds.filter(f => f.enabled);
-    for (const feed of feeds) {
-      try {
-        const res = await fetch(RSS2JSON + encodeURIComponent(feed.url));
-        const data = await res.json();
-        if (data.status === 'ok' && data.items) {
-          data.items.slice(0, TICKER_CONFIG.headlinesPerFeed).forEach(item => {
-            headlines.push('📰 [' + feed.name + '] ' + item.title);
-          });
-        }
-      } catch(e) { /* silently skip failed feeds */ }
+    try {
+      const res = await fetch('/.netlify/functions/ticker-feed');
+      if (!res.ok) throw new Error('ticker-feed ' + res.status);
+      const data = await res.json();
+      // Feed problems are surfaced in the console for the admin page to echo,
+      // rather than disappearing.
+      (data.feeds || []).filter(f => !f.ok).forEach(f =>
+        console.warn(`[ticker] feed "${f.name}" failed: ${f.error}`));
+      return data.headlines || [];
+    } catch (err) {
+      console.warn('[ticker] headlines unavailable:', err.message);
+      return [];
     }
-    return headlines;
   }
 
   function shuffle(arr) {
@@ -249,11 +235,18 @@
 
   async function fetchWeather() {
     try {
-      const url = 'https://api.open-meteo.com/v1/forecast?latitude=30.27&longitude=-97.74&current=temperature_2m,weathercode&temperature_unit=fahrenheit&timezone=America%2FChicago';
+      // Open-Meteo's current= block uses weather_code (snake_case). The older
+      // weathercode spelling belongs to current_weather=true, and asking for it
+      // here gets the whole request rejected.
+      const url = 'https://api.open-meteo.com/v1/forecast?latitude=30.27&longitude=-97.74&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America%2FChicago';
       const res = await fetch(url);
+      if (!res.ok) throw new Error('weather ' + res.status);
       const data = await res.json();
-      const temp = Math.round(data.current.temperature_2m);
-      const desc = WMO[data.current.weathercode] || 'Unknown';
+      const now = data.current || data.current_weather || {};
+      const temp = Math.round(now.temperature_2m ?? now.temperature);
+      // Accept either spelling so a future API change doesn't blank this out.
+      const code = now.weather_code ?? now.weathercode;
+      const desc = WMO[code] || 'Unknown';
       document.getElementById('weather').textContent = `${temp}°F · ${desc}`;
     } catch(e) {
       document.getElementById('weather').textContent = 'Weather unavailable';

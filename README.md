@@ -39,13 +39,16 @@ miniforgedad-website/
 ├── obs-ticker.html     # OBS ticker overlay
 ├── gallery-data.js     # Single source of truth for all gallery photos
 ├── hpc-data.js         # Single source of truth for the HPC tracker
-├── upload.html         # Private page for phone uploads + month editing
+├── ticker-data.js      # Single source of truth for the OBS ticker
+├── upload.html         # Private admin page — photos, months, ticker
 ├── live-status.js      # Reveals the nav "Live" pill when streaming
 ├── netlify/
 │   └── functions/
 │       ├── live-status.js        # Server-side YouTube live check (hides the API key)
 │       ├── upload-hpc-photo.js   # Commits an uploaded photo to images/hpc/
-│       └── update-hpc-month.js   # Edits a month's caption/status in hpc-data.js
+│       ├── update-hpc-month.js   # Edits a month's caption/status in hpc-data.js
+│       ├── ticker-feed.js        # Fetches the ticker's RSS feeds server-side
+│       └── update-ticker.js      # Edits ticker-data.js from the admin page
 └── images/
     ├── og-image.png     # Social preview image (1200×630px recommended)
     ├── placeholder.svg  # Development placeholder
@@ -102,14 +105,17 @@ Slots are on the homepage (hero, painters, video thumbnails, Instagram),
 
 ### Uploading and editing from your phone
 
-`/upload.html` is a private page with two tabs:
+`/upload.html` is a private page with three tabs:
 
 - **Add photo** — pick the month and Before/After, choose the photo. It resizes
   on your device, names the file correctly, and commits it.
 - **Edit month** — change a month's caption, status or badge. Pre-fills with
   what's currently set so you can see before you change it.
+- **Ticker** — set your current project, schedule, rotating messages, scroll
+  speed and which news feeds are on. Shows live feed health, so a broken feed
+  is visible rather than silently producing no news.
 
-Both commit straight to `main`; Netlify rebuilds and it's live in about a minute.
+All three commit straight to `main`; Netlify rebuilds and it's live in about a minute.
 
 **One-time setup** — two more Netlify environment variables:
 
@@ -339,34 +345,47 @@ October 2025, November 2025, December 2025
 
 ## OBS ticker (`obs-ticker.html`)
 
-Used as an OBS Browser Source overlay. Displays a scrolling ticker with live news from Warhammer hobby RSS feeds, Central Time clock, and Austin TX weather.
+An OBS Browser Source overlay: scrolling ticker with your current project,
+schedule, rotating messages, social handles, hobby news headlines, a Central
+time clock and Austin weather.
 
-**OBS setup:**
+**OBS setup**
 - Source type: Browser Source
-- URL: `https://yourdomain.com/obs-ticker.html`
-- Width: `1920`, Height: `60`
+- URL: `https://miniforgedad.com/obs-ticker.html`
+- Width `1920`, Height `60`
 - ✅ Shutdown source when not visible
 
-**Configuring the ticker** — edit `TICKER_CONFIG` near the top of `obs-ticker.html`:
+**Changing what it says** — use the **Ticker** tab on `/upload.html`, or edit
+`ticker-data.js` directly. `currentTopic` is the one you'll change most; it
+shows first as "Now: …".
 
-```js
-const TICKER_CONFIG = {
-  currentTopic: "Today's project: ...",   // shown as "Now: ..."
-  schedule: "Live every Tue & Thu at 7PM CT",
-  messages: [ "..." ],                    // custom scrolling messages
-  twitch:    "miniforgedad",
-  youtube:   "@miniforgedad",
-  instagram: "@miniforgedad",
-  patreon:   "patreon.com/miniforgedad",
-  scrollSpeed: 30,                        // seconds for one full scroll
-  newsFeeds: [ ... ],                     // toggle feeds on/off here
-  headlinesPerFeed: 3,
-};
+### How the news works
+
+Headlines are fetched by `netlify/functions/ticker-feed.js`, **server-side**.
+
+This used to go through `api.rss2json.com` from the browser to dodge CORS. That
+endpoint is rate-limited without an API key, and the old code did
+`catch(e) { /* silently skip */ }` — so once it started refusing, the ticker
+showed no news while looking perfectly healthy. That is why articles stopped
+updating.
+
+Fetching server-side removes the CORS workaround, the third-party dependency
+and the rate limit. It needs no key and no configuration.
+
+The endpoint returns per-feed status, which the admin page displays:
+
+```json
+{ "headlines": ["📰 [WarCom] …"],
+  "feeds": [{ "name": "WarCom", "ok": true, "count": 3 },
+            { "name": "Tale of Painters", "ok": false, "error": "HTTP 404" }] }
 ```
 
-Update `currentTopic` before each stream. The news feeds and weather refresh automatically while the source is active.
+Handles RSS and Atom, decodes CDATA and HTML entities, caps headlines per feed,
+times out at 6s per feed, and caches for 10 minutes (1 minute if every feed
+failed, so an outage clears quickly). A failing feed never blocks the others —
+the ticker just runs with fewer headlines, and falls back to static messages if
+all of them are down.
 
----
 
 ## Socials
 
