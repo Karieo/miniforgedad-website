@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Upload HPC Photo — Mini Forge Dad</title>
+<title>Admin — Mini Forge Dad</title>
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,14 +160,14 @@
     word-break: break-all;
   }
 
-  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+  .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 28px; }
   .tabs button {
     padding: 14px;
     background: var(--panel);
     border: 1px solid rgba(245,241,234,.16);
     color: rgba(245,241,234,.6);
     font-family: 'DM Mono', monospace;
-    font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
     cursor: pointer;
   }
   .tabs button[aria-selected="true"] { background: var(--orange); border-color: var(--orange); color: #fff; }
@@ -192,6 +192,37 @@
     font-family: 'DM Mono', monospace; font-size: 10.5px;
     color: rgba(245,241,234,.35);
   }
+  .feeds { display: flex; flex-direction: column; gap: 8px; }
+  .feed {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16);
+  }
+  .feed input { width: 18px; height: 18px; accent-color: var(--orange); flex-shrink: 0; }
+  .feed-name { flex: 1; font-size: 16px; font-weight: 300; }
+  .feed-state {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .feed-state.ok  { color: var(--ok); }
+  .feed-state.bad { color: var(--miss); }
+  .feed-state.unknown { color: rgba(245,241,234,.35); }
+
+  .msg-row { display: flex; gap: 8px; align-items: center; }
+  .msg-row input { flex: 1; padding: 13px 14px; background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16); color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif; font-size: 16px;
+    -webkit-appearance: none; border-radius: 0; }
+  .msg-row input:focus { outline: none; border-color: var(--orange); }
+
+  .hint {
+    font-family: 'DM Mono', monospace; font-size: 10.5px;
+    letter-spacing: .06em; color: rgba(245,241,234,.35);
+    margin-top: 6px; line-height: 1.5;
+  }
+
   [hidden] { display: none !important; }
 
   footer {
@@ -214,6 +245,7 @@
   <div class="tabs" role="tablist">
     <button type="button" id="tab-photo" role="tab" aria-selected="true">Add photo</button>
     <button type="button" id="tab-edit"  role="tab" aria-selected="false">Edit month</button>
+    <button type="button" id="tab-ticker" role="tab" aria-selected="false">Ticker</button>
   </div>
 
   <form id="form">
@@ -306,6 +338,47 @@
     <button type="submit" id="edit-submit">Save changes</button>
   </form>
 
+  <form id="ticker-form" hidden>
+    <div>
+      <label for="t-password">Password</label>
+      <input type="password" id="t-password" autocomplete="current-password" required />
+    </div>
+
+    <div>
+      <label for="t-topic">Current project</label>
+      <input type="text" id="t-topic" maxlength="160" placeholder="Painting the Armiger's carapace"
+        style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'Newsreader',Georgia,serif;font-size:16px;-webkit-appearance:none;border-radius:0" />
+      <span class="hint">Shown first as "Now: …". The one you'll change most.</span>
+    </div>
+
+    <div>
+      <label for="t-schedule">Schedule</label>
+      <input type="text" id="t-schedule" maxlength="120" placeholder="Live every Tue &amp; Thu at 7PM CT"
+        style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'Newsreader',Georgia,serif;font-size:16px;-webkit-appearance:none;border-radius:0" />
+    </div>
+
+    <div>
+      <label>Rotating messages</label>
+      <div class="feeds" id="t-messages"></div>
+      <span class="hint">Leave one blank to remove it.</span>
+    </div>
+
+    <div>
+      <label>News feeds</label>
+      <div class="feeds" id="t-feeds"></div>
+      <span class="hint" id="t-feed-hint">Checking feeds…</span>
+    </div>
+
+    <div>
+      <label for="t-speed">Scroll speed — seconds per pass</label>
+      <input type="number" id="t-speed" min="20" max="300" step="5"
+        style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'DM Mono',monospace;font-size:16px;-webkit-appearance:none;border-radius:0" />
+      <span class="hint">Higher is slower. 100 is a comfortable default.</span>
+    </div>
+
+    <button type="submit" id="t-submit">Save ticker</button>
+  </form>
+
   <div class="status" id="status" role="status" aria-live="polite"></div>
 
   <footer>
@@ -315,6 +388,7 @@
 </div>
 
 <script src="hpc-data.js"></script>
+<script src="ticker-data.js"></script>
 <script>
   // Phone photos run 3–5MB, which would blow past the function's payload limit
   // and bloat the repo. Resize and re-encode to JPEG on the device first — this
@@ -390,17 +464,21 @@
   const tabPhoto = $('tab-photo'), tabEdit = $('tab-edit');
   const heading = document.querySelector('h1'), blurb = document.querySelector('header p');
 
+  const TAB_TEXT = {
+    photo:  ['Add a photo', "Pick the month and whether it's the before or after shot. The file gets named and committed for you — nothing to rename."],
+    edit:   ['Edit a month', "Change the caption, status or badge. The tracker's score bar counts itself from the statuses."],
+    ticker: ['Stream ticker', "What scrolls across the OBS overlay. Change your current project before you go live."],
+  };
+
   function showTab(which) {
-    const editing = which === 'edit';
-    tabPhoto.setAttribute('aria-selected', String(!editing));
-    tabEdit.setAttribute('aria-selected', String(editing));
-    photoForm.hidden = editing;
-    editForm.hidden = !editing;
+    const panes = { photo: photoForm, edit: editForm, ticker: document.getElementById('ticker-form') };
+    const tabs  = { photo: tabPhoto, edit: tabEdit, ticker: document.getElementById('tab-ticker') };
+    Object.entries(panes).forEach(([k, el]) => { if (el) el.hidden = k !== which; });
+    Object.entries(tabs).forEach(([k, el]) => { if (el) el.setAttribute('aria-selected', String(k === which)); });
     statusEl.className = 'status';
-    heading.textContent = editing ? 'Edit a month' : 'Add a photo';
-    blurb.textContent = editing
-      ? "Change the caption, status or badge. The tracker's score bar counts itself from the statuses."
-      : "Pick the month and whether it's the before or after shot. The file gets named and committed for you — nothing to rename.";
+    const [h1, p] = TAB_TEXT[which] || TAB_TEXT.photo;
+    heading.textContent = h1;
+    blurb.textContent = p;
   }
   tabPhoto.addEventListener('click', () => showTab('photo'));
   tabEdit.addEventListener('click', () => showTab('edit'));
@@ -474,6 +552,123 @@
     }
     btn.disabled = false;
   });
+
+
+  // ── Ticker tab ─────────────────────────────────────────────
+  const TICK = typeof TICKER_DATA !== 'undefined' ? TICKER_DATA : null;
+  const tickerForm = $('ticker-form'), tabTicker = $('tab-ticker');
+  const tTopic = $('t-topic'), tSchedule = $('t-schedule'), tSpeed = $('t-speed');
+  const tMessages = $('t-messages'), tFeeds = $('t-feeds'), tFeedHint = $('t-feed-hint');
+
+  const MSG_SLOTS = 6;   // room to add a couple beyond what's there
+
+  function fillTicker() {
+    if (!TICK) return;
+    tTopic.value = TICK.currentTopic || '';
+    tSchedule.value = TICK.schedule || '';
+    tSpeed.value = TICK.scrollSpeed || 100;
+
+    tMessages.innerHTML = '';
+    const msgs = (TICK.messages || []).slice(0, MSG_SLOTS);
+    while (msgs.length < Math.min(MSG_SLOTS, (TICK.messages || []).length + 2)) msgs.push('');
+    msgs.forEach(text => {
+      const row = document.createElement('div');
+      row.className = 'msg-row';
+      const input = document.createElement('input');
+      input.type = 'text'; input.maxLength = 160; input.value = text;
+      input.placeholder = 'A line to rotate through…';
+      row.append(input);
+      tMessages.append(row);
+    });
+
+    tFeeds.innerHTML = '';
+    (TICK.newsFeeds || []).forEach(feed => {
+      const row = document.createElement('label');
+      row.className = 'feed';
+      row.innerHTML = `
+        <input type="checkbox" data-feed="${feed.name.replace(/"/g, '&quot;')}" ${feed.enabled ? 'checked' : ''} />
+        <span class="feed-name">${feed.name.replace(/</g, '&lt;')}</span>
+        <span class="feed-state unknown" data-state-for="${feed.name.replace(/"/g, '&quot;')}">checking…</span>`;
+      tFeeds.append(row);
+    });
+  }
+
+  // Ask the feed function how each source is actually doing, so a dead feed is
+  // visible here instead of silently producing no news on stream.
+  async function checkFeeds() {
+    try {
+      const res = await fetch('/.netlify/functions/ticker-feed');
+      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      (data.feeds || []).forEach(f => {
+        const el = tFeeds.querySelector(`[data-state-for="${CSS.escape(f.name)}"]`);
+        if (!el) return;
+        el.className = 'feed-state ' + (f.ok ? 'ok' : 'bad');
+        el.textContent = f.ok ? `${f.count} stories` : f.error;
+      });
+      const bad = (data.feeds || []).filter(f => !f.ok);
+      const off = (TICK && TICK.newsFeeds || []).filter(f => !f.enabled).length;
+      tFeedHint.textContent = !data.feeds || !data.feeds.length
+        ? 'No feeds enabled.'
+        : bad.length
+          ? `${bad.length} of ${data.feeds.length} feeds are failing — untick one to drop it from the ticker.`
+          : `All ${data.feeds.length} feeds responding.${off ? ` ${off} turned off.` : ''}`;
+    } catch (err) {
+      tFeeds.querySelectorAll('.feed-state').forEach(el => {
+        el.className = 'feed-state unknown'; el.textContent = 'unknown';
+      });
+      tFeedHint.textContent = 'Could not check feeds — the endpoint may not be deployed yet.';
+    }
+  }
+
+  tabTicker.addEventListener('click', () => {
+    showTab('ticker');
+    if (!tabTicker.dataset.checked) { tabTicker.dataset.checked = '1'; checkFeeds(); }
+  });
+
+  tickerForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('t-submit');
+    btn.disabled = true;
+    say('', 'Saving…');
+
+    const feedsEnabled = {};
+    tFeeds.querySelectorAll('input[data-feed]').forEach(cb => { feedsEnabled[cb.dataset.feed] = cb.checked; });
+
+    try {
+      const res = await fetch('/.netlify/functions/update-ticker', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: $('t-password').value,
+          currentTopic: tTopic.value,
+          schedule: tSchedule.value,
+          messages: [...tMessages.querySelectorAll('input')].map(i => i.value),
+          scrollSpeed: tSpeed.value,
+          feedsEnabled,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        say('ok', data.message, data.changed && data.changed.length ? `changed: ${data.changed.join(', ')}` : '');
+        if (TICK) {
+          TICK.currentTopic = tTopic.value.trim();
+          TICK.schedule = tSchedule.value.trim();
+          TICK.scrollSpeed = Number(tSpeed.value);
+          TICK.messages = [...tMessages.querySelectorAll('input')].map(i => i.value.trim()).filter(Boolean);
+          (TICK.newsFeeds || []).forEach(f => { if (f.name in feedsEnabled) f.enabled = feedsEnabled[f.name]; });
+        }
+      } else {
+        say('bad', data.error || `Save failed (${res.status}).`, data.detail);
+      }
+    } catch {
+      say('bad', 'Could not reach the server. Check your connection and try again.');
+    }
+    btn.disabled = false;
+  });
+
+  fillTicker();
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
