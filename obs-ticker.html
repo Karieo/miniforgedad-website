@@ -249,11 +249,18 @@
 
   async function fetchWeather() {
     try {
-      const url = 'https://api.open-meteo.com/v1/forecast?latitude=30.27&longitude=-97.74&current=temperature_2m,weathercode&temperature_unit=fahrenheit&timezone=America%2FChicago';
+      // Open-Meteo's current= block uses weather_code (snake_case). The older
+      // weathercode spelling belongs to current_weather=true, and asking for it
+      // here gets the whole request rejected.
+      const url = 'https://api.open-meteo.com/v1/forecast?latitude=30.27&longitude=-97.74&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America%2FChicago';
       const res = await fetch(url);
+      if (!res.ok) throw new Error('weather ' + res.status);
       const data = await res.json();
-      const temp = Math.round(data.current.temperature_2m);
-      const desc = WMO[data.current.weathercode] || 'Unknown';
+      const now = data.current || data.current_weather || {};
+      const temp = Math.round(now.temperature_2m ?? now.temperature);
+      // Accept either spelling so a future API change doesn't blank this out.
+      const code = now.weather_code ?? now.weathercode;
+      const desc = WMO[code] || 'Unknown';
       document.getElementById('weather').textContent = `${temp}°F · ${desc}`;
     } catch(e) {
       document.getElementById('weather').textContent = 'Weather unavailable';
