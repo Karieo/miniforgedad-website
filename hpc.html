@@ -435,16 +435,20 @@
     h1 { font-size: 34px; }
     .h2 { font-size: 28px; }
   }
+
+/* Miniforgedad brand: compact mark with accessible, readable wordmark. */
+.nav-logo, .brand-lockup { display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo .brand-mark, .brand-lockup .brand-mark { display:block; width:44px; height:44px; object-fit:contain; border-radius:8px; flex-shrink:0; }
+.nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
+@media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
+<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="index.html" class="nav-logo">
-    <b>Mini Forge Dad</b>
-    <span class="nav-dot"></span>
-  </a>
+  <a href="index.html" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
   <div class="nav-links">
     <a href="story.html">Our story</a>
     <a href="gallery.html">Gallery</a>

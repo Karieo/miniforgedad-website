@@ -8,7 +8,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Watch Live — miniforgedad" />
 <meta property="og:description" content="Watch MiniForgeDad live — father & son miniature painting streams on YouTube." />
-<meta property="og:image" content="images/og-image.png" />
+<meta property="og:image" content="https://miniforgedad.com/images/brand/miniforgedad-avatar.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Watch Live — miniforgedad" />
 <meta name="twitter:description" content="Watch MiniForgeDad live — father & son miniature painting streams on YouTube." />
@@ -383,13 +383,20 @@
     footer { flex-direction: column; gap: 24px; text-align: center; }
     .footer-socials { flex-wrap: wrap; justify-content: center; }
   }
+
+/* Miniforgedad brand: compact mark with accessible, readable wordmark. */
+.nav-logo, .brand-lockup { display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo .brand-mark, .brand-lockup .brand-mark { display:block; width:44px; height:44px; object-fit:contain; border-radius:8px; flex-shrink:0; }
+.nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
+@media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
+<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
 </head>
 <body>
 
 <div class="nav-overlay" id="nav-overlay"></div>
 <nav>
-  <a href="index.html" class="nav-logo">mini<span>for</span>gedad</a>
+  <a href="index.html" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
   <ul class="nav-links" id="nav-links">
     <li><a href="index.html#story">Our Story</a></li>
     <li><a href="index.html#gallery">Gallery</a></li>
@@ -442,7 +449,7 @@
 </div>
 
 <footer>
-  <div class="footer-logo">mini<span>for</span>gedad</div>
+  <div class="footer-logo brand-lockup"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></div>
   <div class="footer-socials">
     <a href="https://youtube.com/@MiniForgeDad" target="_blank">YouTube</a>
     <a href="https://instagram.com/miniforgedad" target="_blank">Instagram</a>

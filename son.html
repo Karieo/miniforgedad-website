@@ -101,12 +101,19 @@
 
   .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Miniforgedad brand: compact mark with accessible, readable wordmark. */
+.nav-logo, .brand-lockup { display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo .brand-mark, .brand-lockup .brand-mark { display:block; width:44px; height:44px; object-fit:contain; border-radius:8px; flex-shrink:0; }
+.nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
+@media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
+<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">mini<span>forge</span>dad</a>
+  <a href="index.html" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
   <ul class="nav-links">
     <li><a href="index.html#gallery">Gallery</a></li>
     <li><a href="index.html#painters">The Painters</a></li>
@@ -185,7 +192,7 @@
 </div>
 
 <footer>
-  <div class="footer-logo">mini<span>forge</span>dad</div>
+  <div class="footer-logo brand-lockup"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></div>
   <div class="footer-socials">
     <a href="https://youtube.com/@miniforgedad" target="_blank">YouTube</a>
     <a href="https://instagram.com/miniforgedad" target="_blank">Instagram</a>

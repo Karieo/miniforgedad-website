@@ -7,7 +7,7 @@
 <meta name="description" content="A dad and a son learning to paint miniatures the hard way. Tutorials, a gallery of everything off our desk, and the projects on the bench right now." />
 <meta property="og:title" content="Mini Forge Dad" />
 <meta property="og:description" content="A dad and a son learning to paint miniatures the hard way. Everything we figure out, we film." />
-<meta property="og:image" content="images/og-image.png" />
+<meta property="og:image" content="https://miniforgedad.com/images/brand/miniforgedad-avatar.png" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -779,16 +779,20 @@
     .ig-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .footer-grid { grid-template-columns: minmax(0, 1fr); }
   }
+
+/* Miniforgedad brand: compact mark with accessible, readable wordmark. */
+.nav-logo, .brand-lockup { display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo .brand-mark, .brand-lockup .brand-mark { display:block; width:44px; height:44px; object-fit:contain; border-radius:8px; flex-shrink:0; }
+.nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
+@media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
+<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="#top" class="nav-logo">
-    <b>Mini Forge Dad</b>
-    <span class="nav-dot"></span>
-  </a>
+  <a href="#top" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
   <div class="nav-links">
     <a href="#why">Why we do this</a>
     <a href="story.html">Our story</a>
@@ -1094,7 +1098,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <b>Mini Forge Dad</b>
+      <div class="brand-lockup"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></div>
       <p>A dad and a son, one hobby desk, and a lot of thinned paint.</p>
     </div>
     <div class="footer-col">

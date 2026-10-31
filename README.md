@@ -396,3 +396,8 @@ all of them are down.
 | Twitch | [twitch.tv/miniforgedad](https://twitch.tv/miniforgedad) |
 | Patreon | [patreon.com/miniforgedad](https://patreon.com/miniforgedad) |
 | Email | miniforgedad@gmail.com |
+
+
+## Miniforgedad brand refresh
+
+The public pages use the anvil-and-brush mark with the exact wordmark `Miniforgedad` in navigation, plus matching footer branding where present. The dark-background ivory-and-copper mark is in `images/brand/miniforgedad-avatar.png`; this square image is also suitable for an Instagram profile photo. Icons have empty alternative text when paired with the visible brand name. Existing page content, navigation links, trackers, forms, and hosting remain unchanged.
