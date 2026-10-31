@@ -408,3 +408,6 @@ Selected palette: burgundy `#421F2C`, ivory `#F4EADD`, brass `#CDA468`. The eigh
 Shared accessible navigation and skip links use site-brand.css and site-nav.js. Placeholder photos/cards and stale home bench percentages are removed; existing miniature imagery illustrates the hero. Contact is a clearly labeled direct email action, not a subscription service. Added canonical/social metadata, sitemap, robots.txt, branded 404, optimized icon/favicon and gallery thumbnails. HPC entries are unchanged; poll errors now distinguish service failure from no votes and only persist a vote after a successful response. Admin/OBS are marked noindex. Authentication configuration and controlled admin write testing remain separate verification tasks.
 
 Instagram imagery authorized by Clay: paint-desk.webp from /miniforgedad/p/Dchm_vilLaw/ and brush-closeup.webp from /miniforgedad/p/DZRDpsPFALD/. Captions could not be read without sign-in, so site labels describe visible objects only. Photos are hosted locally; source post links are preserved.
+
+## Homepage image and HPC navigation
+The hero now uses the existing painted Imperial Knight photograph. HPC navigation/footer links, home tags, and its sitemap entry are removed at Clay’s request; existing challenge records remain accessible by their direct URL.
