@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Gallery — Mini Forge Dad</title>
-<meta name="description" content="Everything we've finished, warts and all — a father & son miniature painting gallery." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta content="Everything we've finished, warts and all — a father &amp; son miniature painting gallery." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&amp;family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --bg:      #F4EADD;  /* bone page background */
@@ -335,61 +336,46 @@
 .nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
 @media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
-<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
-</head>
-<body>
 
+<link href="images/brand/favicon.png" rel="icon" type="image/png"/><link href="site-brand.css" rel="stylesheet"/><link href="https://miniforgedad.com/gallery" rel="canonical"/><meta content="https://miniforgedad.com/images/brand/miniforgedad-avatar.png" property="og:image"/><meta content="Gallery — Mini Forge Dad" property="og:title"/><meta content="website" property="og:type"/><meta content="https://miniforgedad.com/gallery" property="og:url"/></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
 <!-- NAV -->
-<nav class="nav">
-  <a href="index.html" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
-  <div class="nav-links">
-    <a href="story.html">Our story</a>
-    <a href="gallery.html" aria-current="page">Gallery</a>
-    <a href="tutorial.html">Tutorials</a>
-    <a href="hpc.html">HPC 2025</a>
-  </div>
-  <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="nav-cta">Subscribe</a>
-</nav>
-
-<main>
-  <!-- HEADER -->
-  <section class="page-header">
-    <div class="wrap">
-      <div class="eyebrow" id="count-label" aria-live="polite">Loading…</div>
-      <h1>The gallery</h1>
-      <p class="lede">Everything we've finished, warts and all. The early ones stay up on purpose — it's the only honest way to show progress.</p>
-    </div>
-  </section>
-
-  <!-- FILTERS -->
-  <section class="filters">
-    <div class="wrap filter-bar">
-      <div class="filter-group">
-        <span class="filter-label" id="painter-label">Painter</span>
-        <div class="chips" id="painter-chips" role="group" aria-labelledby="painter-label"></div>
-      </div>
-      <div class="filter-group">
-        <span class="filter-label" id="faction-label">Faction</span>
-        <div class="chips" id="faction-chips" role="group" aria-labelledby="faction-label"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GRID -->
-  <section class="grid-section">
-    <div class="wrap">
-      <div class="grid" id="grid"></div>
-      <p class="empty" id="empty" hidden>Nothing matches those two filters yet.</p>
-    </div>
-  </section>
+<header class="site-header"><a class="site-brand" href="index.html"><img alt="" height="40" src="images/brand/mark-small.webp" width="40"/>Miniforgedad</a><button aria-controls="site-menu" aria-expanded="false" class="site-menu-button" type="button">Menu</button><nav aria-label="Main navigation" class="site-menu" id="site-menu"><a href="index.html">Home</a><a href="story.html">Our story</a><a aria-current="page" href="gallery.html">Gallery</a><a href="tutorial.html">Tutorials</a><a href="hpc.html">HPC 2025</a><a href="stream.html">Watch live</a></nav><a class="site-subscribe" href="https://youtube.com/@MiniForgeDad" rel="noopener noreferrer" target="_blank">Subscribe</a></header>
+<main id="main" tabindex="-1">
+<!-- HEADER -->
+<section class="page-header">
+<div class="wrap">
+<div aria-live="polite" class="eyebrow" id="count-label">Loading…</div>
+<h1>The gallery</h1>
+<p class="lede">Everything we've finished, warts and all. The early ones stay up on purpose — it's the only honest way to show progress.</p>
+</div>
+</section>
+<!-- FILTERS -->
+<section class="filters">
+<div class="wrap filter-bar">
+<div class="filter-group">
+<span class="filter-label" id="painter-label">Painter</span>
+<div aria-labelledby="painter-label" class="chips" id="painter-chips" role="group"></div>
+</div>
+<div class="filter-group">
+<span class="filter-label" id="faction-label">Faction</span>
+<div aria-labelledby="faction-label" class="chips" id="faction-chips" role="group"></div>
+</div>
+</div>
+</section>
+<!-- GRID -->
+<section class="grid-section">
+<div class="wrap">
+<div class="grid" id="grid"></div>
+<p class="empty" hidden="" id="empty">Nothing matches those two filters yet.</p>
+</div>
+</section>
 </main>
-
 <!-- FOOTER -->
 <footer class="footer">
-  <span>&copy; 2026 Mini Forge Dad</span>
-  <span class="footer-verse">Colossians 3:23</span>
+<span>© 2026 Mini Forge Dad</span>
+<span class="footer-verse">Colossians 3:23</span>
 </footer>
-
 <script src="gallery-data.js"></script>
 <script>
   const escHtml = s => String(s).replace(/[&<>"']/g, c =>
@@ -452,7 +438,7 @@
       const meta = [item.faction, item.year].filter(Boolean).join(' · ');
       return `
         <a class="card" href="${escHtml(item.src)}" target="_blank" rel="noopener">
-          <img src="${escHtml(item.src)}" alt="${escHtml(item.alt)}" loading="lazy" />
+          <img src="${escHtml(item.src.replace(/\.(jpe?g)$/i, '.webp').replace('images/gallery/', 'images/gallery/thumbs/'))}" alt="${escHtml(item.alt)}" loading="lazy" />
           <div class="card-overlay">
             <div class="card-text">
               <span class="card-title">${escHtml(item.caption)}</span>
@@ -479,5 +465,5 @@
   renderChips(document.getElementById('faction-chips'), factions, 'faction');
   render();
 </script>
-</body>
+<script defer="" src="site-nav.js"></script></body>
 </html>

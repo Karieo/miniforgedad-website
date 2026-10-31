@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>HPC 2025 — Mini Forge Dad</title>
-<meta name="description" content="Tracking our progress through the 2025 Independent Characters Hobby Progress Challenge — one unit a month, Sep 2025 through Aug 2026." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta content="Tracking our progress through the 2025 Independent Characters Hobby Progress Challenge — one unit a month, Sep 2025 through Aug 2026." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&amp;family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --ink:       #421F2C;  /* page background */
@@ -442,43 +443,27 @@
 .nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
 @media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
-<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
-</head>
-<body>
 
+<link href="images/brand/favicon.png" rel="icon" type="image/png"/><link href="site-brand.css" rel="stylesheet"/><link href="https://miniforgedad.com/hpc" rel="canonical"/><meta content="https://miniforgedad.com/images/brand/miniforgedad-avatar.png" property="og:image"/><meta content="HPC 2025 — Mini Forge Dad" property="og:title"/><meta content="website" property="og:type"/><meta content="https://miniforgedad.com/hpc" property="og:url"/></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
 <!-- NAV -->
-<nav class="nav">
-  <a href="index.html" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
-  <div class="nav-links">
-    <a href="story.html">Our story</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="tutorial.html">Tutorials</a>
-    <a href="hpc.html" aria-current="page">HPC 2025</a>
-  </div>
-  <div class="nav-actions">
-    <a href="stream.html" class="nav-live" data-live-pill style="display:none"><span class="live-dot"></span>Live</a>
-    <a href="https://youtube.com/@MiniForgeDad" target="_blank" rel="noopener" class="nav-cta">Subscribe</a>
-  </div>
-</nav>
-
-<main>
-  <!-- PAGE HEADER -->
-  <section class="page-header">
-    <div class="wrap">
-      <div class="eyebrow">Independent Characters</div>
-      <h1>2025 Hobby Progress<br><em>Challenge</em></h1>
-      <p>Tracking my progress through the <a href="https://theindependentcharacters.com/blog/the-2025-hobby-progress-challenge/" target="_blank" rel="noopener">Independent Characters HPC</a> — one unit a month, Sep 2025 through Aug 2026.</p>
-
-      <!-- ╔══════════════════════════════════════╗
+<header class="site-header"><a class="site-brand" href="index.html"><img alt="" height="40" src="images/brand/mark-small.webp" width="40"/>Miniforgedad</a><button aria-controls="site-menu" aria-expanded="false" class="site-menu-button" type="button">Menu</button><nav aria-label="Main navigation" class="site-menu" id="site-menu"><a href="index.html">Home</a><a href="story.html">Our story</a><a href="gallery.html">Gallery</a><a href="tutorial.html">Tutorials</a><a aria-current="page" href="hpc.html">HPC 2025</a><a href="stream.html">Watch live</a></nav><a class="site-subscribe" href="https://youtube.com/@MiniForgeDad" rel="noopener noreferrer" target="_blank">Subscribe</a></header>
+<main id="main" tabindex="-1">
+<!-- PAGE HEADER -->
+<section class="page-header">
+<div class="wrap">
+<div class="eyebrow">Independent Characters</div>
+<h1>2025 Hobby Progress<br/><em>Challenge</em></h1>
+<p>Tracking my progress through the <a href="https://theindependentcharacters.com/blog/the-2025-hobby-progress-challenge/" rel="noopener noreferrer" target="_blank">Independent Characters HPC</a> — one unit a month, Sep 2025 through Aug 2026.</p>
+<!-- ╔══════════════════════════════════════╗
            ║  UPDATE THESE NUMBERS AS YOU GO     ║
            ╚══════════════════════════════════════╝ -->
-      <div class="score-bar" id="score-bar"></div>
-      </div>
-    </div>
-  </section>
+<div class="score-bar" id="score-bar"></div>
+</div>
 
-  <!-- MONTHLY TRACKER -->
-  <!--
+</section>
+<!-- MONTHLY TRACKER -->
+<!--
     HOW TO UPDATE EACH MONTH:
     - data-status="pending"  → upcoming, not started
     - data-status="active"   → current month, in progress
@@ -491,56 +476,50 @@
 
     Update .month-notes with what you painted.
   -->
-  <section class="section">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow">Monthly Entries</div>
-        <h2 class="h2">The 12 Months</h2>
-        <p class="section-sub">One unit per month. Before photo by the 10th, finished photo by the last day.</p>
-      </div>
-
-      <div class="month-grid" id="month-grid"></div>
-  </section>
-
-  <!-- BONUS CATEGORIES -->
-  <!--
+<section class="section">
+<div class="wrap">
+<div class="head">
+<div class="eyebrow">Monthly Entries</div>
+<h2 class="h2">The 12 Months</h2>
+<p class="section-sub">One unit per month. Before photo by the 10th, finished photo by the last day.</p>
+</div>
+<div class="month-grid" id="month-grid"></div>
+</div></section>
+<!-- BONUS CATEGORIES -->
+<!--
     HOW TO MARK A BONUS DONE:
     Add class "done" to the .bonus-card, e.g.:
       <div class="bonus-card done">
     The checkmark fills in automatically.
   -->
-  <section class="section section-panel">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow">Bonus Entries</div>
-        <h2 class="h2">Bonus Categories</h2>
-        <p class="section-sub">11 opportunities to earn up to 6 additional prize draw entries. Each can only be done once.</p>
-      </div>
-
-      <div class="bonus-grid" id="bonus-grid"></div>
-  </section>
-
-  <!-- POLL -->
-  <section class="section" id="poll">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow">Community Vote</div>
-        <h2 class="h2">What should I paint next?</h2>
-        <p class="section-sub">Vote for what you want to see on the bench next month.</p>
-      </div>
-      <div class="poll-options" id="poll-options"></div>
-      <p class="poll-meta" id="poll-meta"></p>
-      <p class="poll-error" id="poll-error"></p>
-    </div>
-  </section>
+<section class="section section-panel">
+<div class="wrap">
+<div class="head">
+<div class="eyebrow">Bonus Entries</div>
+<h2 class="h2">Bonus Categories</h2>
+<p class="section-sub">11 opportunities to earn up to 6 additional prize draw entries. Each can only be done once.</p>
+</div>
+<div class="bonus-grid" id="bonus-grid"></div>
+</div></section>
+<!-- POLL -->
+<section class="section" id="poll">
+<div class="wrap">
+<div class="head">
+<div class="eyebrow">Community Vote</div>
+<h2 class="h2">What should I paint next?</h2>
+<p class="section-sub">Vote for what you want to see on the bench next month.</p>
+</div>
+<div class="poll-options" id="poll-options"></div>
+<p class="poll-meta" id="poll-meta"></p>
+<p class="poll-error" id="poll-error"></p>
+</div>
+</section>
 </main>
-
 <!-- FOOTER -->
 <footer class="footer">
-  <span>&copy; 2026 Mini Forge Dad · Independent Characters HPC 2025</span>
-  <span class="footer-verse">Colossians 3:23</span>
+<span>© 2026 Mini Forge Dad · Independent Characters HPC 2025</span>
+<span class="footer-verse">Colossians 3:23</span>
 </footer>
-
 <script src="hpc-data.js"></script>
 <script>
 // ── RENDER FROM hpc-data.js ────────────────────────────────
@@ -636,13 +615,13 @@ const errorEl  = document.getElementById('poll-error');
 let   votedKey = localStorage.getItem(VOTED_KEY);
 
 const apiGet = async key => {
-  const r = await fetch(`https://api.countapi.xyz/get/${NS}/${key}`);
+  const r = await fetch(`https://api.countapi.xyz/get/${NS}/${key}`, {signal: AbortSignal.timeout(8000)});
   if (!r.ok) throw new Error();
   return (await r.json()).value ?? 0;
 };
 
 const apiHit = async key => {
-  const r = await fetch(`https://api.countapi.xyz/hit/${NS}/${key}`);
+  const r = await fetch(`https://api.countapi.xyz/hit/${NS}/${key}`, {signal: AbortSignal.timeout(8000)});
   if (!r.ok) throw new Error();
   return (await r.json()).value ?? 1;
 };
@@ -666,7 +645,7 @@ function render() {
 
 async function updateCounts() {
   try {
-    const counts = await Promise.all(options.map(o => apiGet(o.key).catch(() => 0)));
+    const counts = await Promise.all(options.map(o => apiGet(o.key)));
     const total  = counts.reduce((a, b) => a + b, 0);
     options.forEach(({ key }, i) => {
       const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
@@ -679,25 +658,29 @@ async function updateCounts() {
       ? 'No votes yet — be the first!'
       : `${total} vote${total !== 1 ? 's' : ''} total${votedKey ? ' · Thanks for voting!' : ''}`;
   } catch(e) {
-    if (votedKey) errorEl.textContent = 'Counts unavailable right now — your vote is saved.';
+    metaEl.textContent = 'Vote totals unavailable'; errorEl.textContent = 'The poll service is unavailable. Please try again later.';
   }
 }
 
 async function castVote(key) {
-  votedKey = key;
-  localStorage.setItem(VOTED_KEY, key);
-  wrap.classList.add('poll-voted');
-  document.querySelectorAll('.poll-btn').forEach(b => b.remove());
-  document.querySelectorAll('.poll-option').forEach(el => el.classList.remove('my-vote'));
-  const el = document.getElementById(`poll-opt-${key}`);
-  if (el) el.classList.add('my-vote');
-  try { await apiHit(key); } catch(e) {}
-  await updateCounts();
+  const buttons = document.querySelectorAll('.poll-btn');
+  buttons.forEach(b => b.disabled = true);
+  errorEl.textContent = '';
+  try {
+    await apiHit(key);
+    votedKey = key;
+    localStorage.setItem(VOTED_KEY, key);
+    render();
+    await updateCounts();
+  } catch(e) {
+    errorEl.textContent = 'Your vote could not be confirmed. Please try again.';
+    buttons.forEach(b => b.disabled = false);
+  }
 }
 
 render();
 updateCounts();
 </script>
-<script src="live-status.js" defer></script>
-</body>
+<script defer="" src="live-status.js"></script>
+<script defer="" src="site-nav.js"></script></body>
 </html>

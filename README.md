@@ -403,3 +403,8 @@ all of them are down.
 The public pages use the anvil-and-brush mark with the exact wordmark `Miniforgedad` in navigation, plus matching footer branding where present. The burgundy-background ivory-and-brass mark is in `images/brand/miniforgedad-avatar.png`; this square image is also suitable for an Instagram profile photo. Icons have empty alternative text when paired with the visible brand name. Existing page content, navigation links, trackers, forms, and hosting remain unchanged.
 
 Selected palette: burgundy `#421F2C`, ivory `#F4EADD`, brass `#CDA468`. The eight public pages use the selected palette, with legacy light pages retaining light backgrounds and burgundy accents.
+
+## Audit cleanup (2026-10-31)
+Shared accessible navigation and skip links use site-brand.css and site-nav.js. Placeholder photos/cards and stale home bench percentages are removed; existing miniature imagery illustrates the hero. Contact is a clearly labeled direct email action, not a subscription service. Added canonical/social metadata, sitemap, robots.txt, branded 404, optimized icon/favicon and gallery thumbnails. HPC entries are unchanged; poll errors now distinguish service failure from no votes and only persist a vote after a successful response. Admin/OBS are marked noindex. Authentication configuration and controlled admin write testing remain separate verification tasks.
+
+Instagram imagery authorized by Clay: paint-desk.webp from /miniforgedad/p/Dchm_vilLaw/ and brush-closeup.webp from /miniforgedad/p/DZRDpsPFALD/. Captions could not be read without sign-in, so site labels describe visible objects only. Photos are hosted locally; source post links are preserved.
