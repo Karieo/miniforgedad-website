@@ -10,13 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:       #100E0C;
-    --panel:     #16110E;
-    --slot:      #1B1714;
-    --bone:      #F5F1EA;
-    --orange:    #E2622C;
-    --orange-lt: #F2854F;
-    --gold:      #C9A227;
+    --ink:       #421F2C;
+    --panel:     #502737;
+    --slot:      #351924;
+    --bone:      #F4EADD;
+    --orange:    #CDA468;
+    --orange-lt: #DDBB88;
+    --gold:      #CDA468;
     --nav-h:     74px;
   }
 
@@ -44,9 +44,9 @@
     gap: 40px;
     padding: 0 40px;
     height: var(--nav-h);
-    background: rgba(16,14,12,.88);
+    background: rgba(66,31,44,.88);
     backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(245,241,234,.1);
+    border-bottom: 1px solid rgba(244,234,221,.1);
   }
   .nav-logo { display: flex; align-items: baseline; gap: 9px; color: var(--bone); flex-shrink: 0; }
   .nav-logo:hover { color: var(--bone); }
@@ -67,7 +67,7 @@
     letter-spacing: .14em;
     text-transform: uppercase;
   }
-  .nav-links a { color: rgba(245,241,234,.62); white-space: nowrap; }
+  .nav-links a { color: rgba(244,234,221,.62); white-space: nowrap; }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] { color: var(--bone); }
   .nav-cta {
@@ -110,7 +110,7 @@
     font-size: 10.5px;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.3);
+    color: rgba(244,234,221,.3);
     text-align: center;
     padding: 16px;
     line-height: 1.5;
@@ -138,7 +138,7 @@
     font-size: 23px;
     line-height: 1.6;
     font-weight: 300;
-    color: rgba(245,241,234,.78);
+    color: rgba(244,234,221,.78);
     max-width: 60ch;
   }
 
@@ -160,7 +160,7 @@
     font-size: 21px;
     line-height: 1.7;
     font-weight: 300;
-    color: rgba(245,241,234,.82);
+    color: rgba(244,234,221,.82);
     max-width: 62ch;
   }
 
@@ -190,7 +190,7 @@
   .panel {
     padding: 24px;
     background: var(--panel);
-    border: 1px solid rgba(245,241,234,.12);
+    border: 1px solid rgba(244,234,221,.12);
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -208,14 +208,14 @@
     gap: 12px;
     font-size: 17px;
     font-weight: 300;
-    color: rgba(245,241,234,.75);
+    color: rgba(244,234,221,.75);
   }
   .aside .slot { aspect-ratio: 3 / 4; }
 
   /* ── MILESTONES ── */
   .miles {
     background: var(--panel);
-    border-top: 1px solid rgba(245,241,234,.1);
+    border-top: 1px solid rgba(244,234,221,.1);
     padding: 96px 40px;
   }
   .miles-inner {
@@ -238,9 +238,9 @@
     grid-template-columns: 110px minmax(0, 1fr);
     gap: 32px;
     padding: 26px 0;
-    border-top: 1px solid rgba(245,241,234,.14);
+    border-top: 1px solid rgba(244,234,221,.14);
   }
-  .mile:last-child { border-bottom: 1px solid rgba(245,241,234,.14); }
+  .mile:last-child { border-bottom: 1px solid rgba(244,234,221,.14); }
   .mile-when {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
@@ -259,7 +259,7 @@
     font-size: 18px;
     line-height: 1.6;
     font-weight: 300;
-    color: rgba(245,241,234,.7);
+    color: rgba(244,234,221,.7);
     max-width: 56ch;
   }
 
@@ -319,7 +319,7 @@
     font-size: 10.5px;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.4);
+    color: rgba(244,234,221,.4);
   }
   .footer-verse { color: rgba(201,162,39,.75); }
 
@@ -343,16 +343,20 @@
     .cta { padding: 56px 20px; }
     .footer { padding: 40px 20px; }
   }
+
+/* Miniforgedad brand: compact mark with accessible, readable wordmark. */
+.nav-logo, .brand-lockup { display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo .brand-mark, .brand-lockup .brand-mark { display:block; width:44px; height:44px; object-fit:contain; border-radius:8px; flex-shrink:0; }
+.nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
+@media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
+<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="index.html" class="nav-logo">
-    <b>Mini Forge Dad</b>
-    <span class="nav-dot"></span>
-  </a>
+  <a href="index.html" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
   <div class="nav-links">
     <a href="story.html" aria-current="page">Our story</a>
     <a href="gallery.html">Gallery</a>

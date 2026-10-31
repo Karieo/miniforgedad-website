@@ -7,7 +7,7 @@
 <meta name="description" content="A dad and a son learning to paint miniatures the hard way. Tutorials, a gallery of everything off our desk, and the projects on the bench right now." />
 <meta property="og:title" content="Mini Forge Dad" />
 <meta property="og:description" content="A dad and a son learning to paint miniatures the hard way. Everything we figure out, we film." />
-<meta property="og:image" content="images/og-image.png" />
+<meta property="og:image" content="https://miniforgedad.com/images/brand/miniforgedad-avatar.png" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,15 +15,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:       #100E0C;  /* page background, dark sections */
-    --panel:     #16110E;  /* raised panel on dark */
-    --slot:      #1B1714;  /* image placeholder on dark */
-    --bone:      #F5F1EA;  /* text on dark, light section background */
-    --orange:    #E2622C;  /* primary accent */
-    --orange-lt: #F2854F;  /* accent hover */
-    --gold:      #C9A227;  /* eyebrow on dark */
-    --rust:      #9A5024;  /* eyebrow on light */
-    --amber:     #E9A96A;  /* painter credit on gallery cards */
+    --ink:       #421F2C;  /* page background, dark sections */
+    --panel:     #502737;  /* raised panel on dark */
+    --slot:      #351924;  /* image placeholder on dark */
+    --bone:      #F4EADD;  /* text on dark, light section background */
+    --orange:    #CDA468;  /* primary accent */
+    --orange-lt: #DDBB88;  /* accent hover */
+    --gold:      #CDA468;  /* eyebrow on dark */
+    --rust:      #805B2D;  /* eyebrow on light */
+    --amber:     #DDBB88;  /* painter credit on gallery cards */
     --shade:     #E4DED3;  /* image placeholder on light */
     --nav-h:     74px;
   }
@@ -82,8 +82,8 @@
   .section { padding: 110px 40px; }
   .section-light { background: var(--bone); color: var(--ink); }
   .section-panel { background: var(--panel); }
-  .rule-top    { border-top: 1px solid rgba(245,241,234,.1); }
-  .rule-bottom { border-bottom: 1px solid rgba(245,241,234,.1); }
+  .rule-top    { border-top: 1px solid rgba(244,234,221,.1); }
+  .rule-bottom { border-bottom: 1px solid rgba(244,234,221,.1); }
 
   .link-more {
     font-family: 'DM Mono', monospace;
@@ -91,13 +91,13 @@
     letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--bone);
-    border-bottom: 1px solid rgba(245,241,234,.3);
+    border-bottom: 1px solid rgba(244,234,221,.3);
     padding-bottom: 4px;
   }
   .link-more:hover { color: var(--orange); border-color: var(--orange); }
   .link-more-dark {
     color: var(--ink);
-    border-bottom-color: rgba(16,14,12,.35);
+    border-bottom-color: rgba(66,31,44,.35);
     padding-bottom: 3px;
   }
   .link-more-dark:hover { color: var(--orange); border-color: var(--orange); }
@@ -112,8 +112,8 @@
   }
   .btn-orange { background: var(--orange); color: #fff; }
   .btn-orange:hover { background: var(--orange-lt); color: #fff; }
-  .btn-ghost { border: 1px solid rgba(245,241,234,.28); color: var(--bone); }
-  .btn-ghost:hover { border-color: var(--bone); background: rgba(245,241,234,.07); color: var(--bone); }
+  .btn-ghost { border: 1px solid rgba(244,234,221,.28); color: var(--bone); }
+  .btn-ghost:hover { border-color: var(--bone); background: rgba(244,234,221,.07); color: var(--bone); }
 
   /* image placeholder slots — real photos drop in as <img> later */
   .slot {
@@ -130,14 +130,14 @@
     font-size: 10.5px;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.3);
+    color: rgba(244,234,221,.3);
     text-align: center;
     padding: 16px;
     line-height: 1.5;
   }
   .slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .slot-light { background: var(--shade); }
-  .slot-light span { color: rgba(16,14,12,.35); }
+  .slot-light span { color: rgba(66,31,44,.35); }
 
   /* ── NAV ── */
   .nav {
@@ -150,9 +150,9 @@
     gap: 40px;
     padding: 0 40px;
     height: var(--nav-h);
-    background: rgba(16,14,12,.88);
+    background: rgba(66,31,44,.88);
     backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(245,241,234,.1);
+    border-bottom: 1px solid rgba(244,234,221,.1);
   }
 
   .nav-logo {
@@ -187,7 +187,7 @@
     letter-spacing: .14em;
     text-transform: uppercase;
   }
-  .nav-links a { color: rgba(245,241,234,.62); white-space: nowrap; }
+  .nav-links a { color: rgba(244,234,221,.62); white-space: nowrap; }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] { color: var(--bone); }
 
@@ -198,14 +198,14 @@
     align-items: center;
     gap: 8px;
     padding: 9px 14px;
-    border: 1px solid rgba(226,98,44,.5);
+    border: 1px solid rgba(205,164,104,.5);
     color: var(--orange);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     letter-spacing: .14em;
     text-transform: uppercase;
   }
-  .nav-live:hover { background: rgba(226,98,44,.14); color: var(--orange-lt); }
+  .nav-live:hover { background: rgba(205,164,104,.14); color: var(--orange-lt); }
   .live-dot {
     width: 7px;
     height: 7px;
@@ -232,7 +232,7 @@
     display: grid;
     grid-template-columns: minmax(480px, 44%) 1fr;
     min-height: calc(100vh - var(--nav-h));
-    border-bottom: 1px solid rgba(245,241,234,.1);
+    border-bottom: 1px solid rgba(244,234,221,.1);
   }
   .hero-pane {
     display: flex;
@@ -240,7 +240,7 @@
     justify-content: center;
     gap: 34px;
     padding: 88px 56px 88px 40px;
-    border-right: 1px solid rgba(245,241,234,.1);
+    border-right: 1px solid rgba(244,234,221,.1);
   }
   .hero h1 {
     font-weight: 900;
@@ -253,7 +253,7 @@
   .hero-lede {
     font-size: 21px;
     line-height: 1.6;
-    color: rgba(245,241,234,.72);
+    color: rgba(244,234,221,.72);
     max-width: 44ch;
     font-weight: 300;
   }
@@ -263,12 +263,12 @@
     gap: 40px;
     flex-wrap: wrap;
     padding-top: 14px;
-    border-top: 1px solid rgba(245,241,234,.1);
+    border-top: 1px solid rgba(244,234,221,.1);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.42);
+    color: rgba(244,234,221,.42);
   }
   .hero-photo { position: relative; background: #171412; min-height: 520px; }
   .hero-photo::after {
@@ -276,7 +276,7 @@
     position: absolute;
     inset: auto 0 0 0;
     height: 45%;
-    background: linear-gradient(to top, rgba(16,14,12,.7), transparent);
+    background: linear-gradient(to top, rgba(66,31,44,.7), transparent);
     pointer-events: none;
   }
 
@@ -301,7 +301,7 @@
   .prose p {
     font-size: 20px;
     line-height: 1.65;
-    color: rgba(245,241,234,.74);
+    color: rgba(244,234,221,.74);
     font-weight: 300;
     max-width: 56ch;
   }
@@ -342,7 +342,7 @@
     align-items: start;
     padding: 28px;
     background: var(--panel);
-    border: 1px solid rgba(245,241,234,.1);
+    border: 1px solid rgba(244,234,221,.1);
   }
   .painter > .slot { aspect-ratio: 3 / 4; }
   .painter-body { display: flex; flex-direction: column; gap: 14px; }
@@ -362,18 +362,18 @@
     font-size: 18px;
     line-height: 1.6;
     font-weight: 300;
-    color: rgba(245,241,234,.72);
+    color: rgba(244,234,221,.72);
   }
   .painter-facts {
     display: flex;
     flex-direction: column;
     gap: 8px;
     padding-top: 14px;
-    border-top: 1px solid rgba(245,241,234,.12);
+    border-top: 1px solid rgba(244,234,221,.12);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     letter-spacing: .1em;
-    color: rgba(245,241,234,.55);
+    color: rgba(244,234,221,.55);
   }
 
   /* ── GALLERY (light) ── */
@@ -389,9 +389,9 @@
   .tabs { display: flex; gap: 8px; }
   .tab {
     padding: 11px 20px;
-    border: 1px solid rgba(16,14,12,.22);
+    border: 1px solid rgba(66,31,44,.22);
     background: transparent;
-    color: rgba(16,14,12,.6);
+    color: rgba(66,31,44,.6);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     letter-spacing: .14em;
@@ -399,7 +399,7 @@
     cursor: pointer;
     transition: background .15s, color .15s, border-color .15s;
   }
-  .tab:hover { border-color: rgba(16,14,12,.45); color: var(--ink); }
+  .tab:hover { border-color: rgba(66,31,44,.45); color: var(--ink); }
   .tab[aria-pressed="true"] { background: var(--ink); color: var(--bone); border-color: var(--ink); }
 
   .mosaic { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
@@ -420,7 +420,7 @@
     justify-content: space-between;
     gap: 12px;
     padding: 44px 18px 16px;
-    background: linear-gradient(to top, rgba(16,14,12,.88), transparent);
+    background: linear-gradient(to top, rgba(66,31,44,.88), transparent);
     pointer-events: none;
   }
   .tile-title {
@@ -449,7 +449,7 @@
     font-size: 10.5px;
     letter-spacing: .16em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.45);
+    color: rgba(244,234,221,.45);
   }
   .video h3 {
     font-weight: 600;
@@ -477,7 +477,7 @@
     display: flex;
     flex-direction: column;
     background: #fff;
-    border: 1px solid rgba(16,14,12,.1);
+    border: 1px solid rgba(66,31,44,.1);
     color: var(--ink);
   }
   a.tut:hover { border-color: var(--ink); color: var(--ink); }
@@ -500,14 +500,14 @@
     font-size: 17px;
     line-height: 1.55;
     font-weight: 300;
-    color: rgba(16,14,12,.66);
+    color: rgba(66,31,44,.66);
   }
   .tut-soon {
     font-family: 'DM Mono', monospace;
     font-size: 10.5px;
     letter-spacing: .16em;
     text-transform: uppercase;
-    color: rgba(16,14,12,.4);
+    color: rgba(66,31,44,.4);
     margin-top: 2px;
   }
 
@@ -522,7 +522,7 @@
     font-size: 20px;
     line-height: 1.6;
     font-weight: 300;
-    color: rgba(245,241,234,.7);
+    color: rgba(244,234,221,.7);
     max-width: 40ch;
   }
   .bench-row {
@@ -530,9 +530,9 @@
     align-items: center;
     gap: 24px;
     padding: 24px 0;
-    border-top: 1px solid rgba(245,241,234,.14);
+    border-top: 1px solid rgba(244,234,221,.14);
   }
-  .bench-row:last-child { border-bottom: 1px solid rgba(245,241,234,.14); }
+  .bench-row:last-child { border-bottom: 1px solid rgba(244,234,221,.14); }
   .bench-info { flex: 1; display: flex; flex-direction: column; gap: 6px; }
   .bench-info h3 {
     font-weight: 600;
@@ -544,17 +544,17 @@
     font-size: 10.5px;
     letter-spacing: .16em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.45);
+    color: rgba(244,234,221,.45);
   }
   .bench-bar { width: 180px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
-  .bench-track { height: 4px; background: rgba(245,241,234,.14); }
+  .bench-track { height: 4px; background: rgba(244,234,221,.14); }
   .bench-fill { height: 100%; background: var(--orange); }
   .bench-fill.gold { background: var(--gold); }
   .bench-pct {
     font-family: 'DM Mono', monospace;
     font-size: 10.5px;
     letter-spacing: .14em;
-    color: rgba(245,241,234,.5);
+    color: rgba(244,234,221,.5);
   }
 
   /* ── INSTAGRAM ── */
@@ -577,8 +577,8 @@
     align-items: start;
   }
   .faq { display: flex; flex-direction: column; }
-  .faq details { border-top: 1px solid rgba(245,241,234,.14); }
-  .faq details:last-child { border-bottom: 1px solid rgba(245,241,234,.14); }
+  .faq details { border-top: 1px solid rgba(244,234,221,.14); }
+  .faq details:last-child { border-bottom: 1px solid rgba(244,234,221,.14); }
   .faq summary {
     display: flex;
     align-items: center;
@@ -610,7 +610,7 @@
     font-size: 18px;
     line-height: 1.6;
     font-weight: 300;
-    color: rgba(245,241,234,.7);
+    color: rgba(244,234,221,.7);
     max-width: 60ch;
   }
 
@@ -695,7 +695,7 @@
     font-size: 18px;
     line-height: 1.6;
     font-weight: 300;
-    color: rgba(245,241,234,.6);
+    color: rgba(244,234,221,.6);
     max-width: 34ch;
   }
   .footer-col { display: flex; flex-direction: column; gap: 12px; }
@@ -708,13 +708,13 @@
     color: var(--gold);
     margin-bottom: 4px;
   }
-  .footer-col a { color: rgba(245,241,234,.7); font-size: 17px; }
+  .footer-col a { color: rgba(244,234,221,.7); font-size: 17px; }
   .footer-col a:hover { color: var(--bone); }
   .footer-base {
     max-width: 1300px;
     margin: 56px auto 0;
     padding-top: 24px;
-    border-top: 1px solid rgba(245,241,234,.12);
+    border-top: 1px solid rgba(244,234,221,.12);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -724,7 +724,7 @@
     font-size: 10.5px;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.4);
+    color: rgba(244,234,221,.4);
   }
   .footer-verse { color: rgba(201,162,39,.75); }
 
@@ -779,16 +779,21 @@
     .ig-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .footer-grid { grid-template-columns: minmax(0, 1fr); }
   }
+
+/* Miniforgedad brand: compact mark with accessible, readable wordmark. */
+.nav-logo, .brand-lockup { display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo .brand-mark, .brand-lockup .brand-mark { display:block; width:44px; height:44px; object-fit:contain; border-radius:8px; flex-shrink:0; }
+.nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
+@media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
+.btn-orange, .btn-orange:hover, .news-field { color:var(--ink); }
 </style>
+<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="#top" class="nav-logo">
-    <b>Mini Forge Dad</b>
-    <span class="nav-dot"></span>
-  </a>
+  <a href="#top" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
   <div class="nav-links">
     <a href="#why">Why we do this</a>
     <a href="story.html">Our story</a>
@@ -946,7 +951,7 @@
       <div class="head" style="margin-bottom:44px">
         <div class="eyebrow eyebrow-rust">Learn with us</div>
         <h2 class="h2">Tutorials</h2>
-        <p style="font-size:20px;line-height:1.6;font-weight:300;color:rgba(16,14,12,.68);max-width:58ch">Written up the way we'd explain it to each other — no jargon, no assuming you already own six brushes.</p>
+        <p style="font-size:20px;line-height:1.6;font-weight:300;color:rgba(66,31,44,.68);max-width:58ch">Written up the way we'd explain it to each other — no jargon, no assuming you already own six brushes.</p>
       </div>
       <div class="cards-3">
         <a href="tutorial.html" class="tut">
@@ -1094,7 +1099,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <b>Mini Forge Dad</b>
+      <div class="brand-lockup"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></div>
       <p>A dad and a son, one hobby desk, and a lot of thinned paint.</p>
     </div>
     <div class="footer-col">

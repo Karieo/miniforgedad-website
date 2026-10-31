@@ -10,14 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:       #100E0C;
-    --panel:     #16110E;
-    --slot:      #1B1714;
-    --bone:      #F5F1EA;
-    --orange:    #E2622C;
-    --orange-lt: #F2854F;
-    --gold:      #C9A227;
-    --rust:      #9A5024;
+    --ink:       #421F2C;
+    --panel:     #502737;
+    --slot:      #351924;
+    --bone:      #F4EADD;
+    --orange:    #CDA468;
+    --orange-lt: #DDBB88;
+    --gold:      #CDA468;
+    --rust:      #805B2D;
     --shade:     #E4DED3;
     --nav-h:     74px;
   }
@@ -46,9 +46,9 @@
     gap: 40px;
     padding: 0 40px;
     height: var(--nav-h);
-    background: rgba(16,14,12,.88);
+    background: rgba(66,31,44,.88);
     backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(245,241,234,.1);
+    border-bottom: 1px solid rgba(244,234,221,.1);
   }
   .nav-logo { display: flex; align-items: baseline; gap: 9px; color: var(--bone); flex-shrink: 0; }
   .nav-logo:hover { color: var(--bone); }
@@ -69,7 +69,7 @@
     letter-spacing: .14em;
     text-transform: uppercase;
   }
-  .nav-links a { color: rgba(245,241,234,.62); white-space: nowrap; }
+  .nav-links a { color: rgba(244,234,221,.62); white-space: nowrap; }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] { color: var(--bone); }
   .nav-cta {
@@ -100,14 +100,14 @@
     font-size: 10.5px;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.3);
+    color: rgba(244,234,221,.3);
     text-align: center;
     padding: 16px;
     line-height: 1.5;
   }
   .slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .slot-light { background: var(--shade); }
-  .slot-light span { color: rgba(16,14,12,.35); }
+  .slot-light span { color: rgba(66,31,44,.35); }
 
   /* ── HEADER ── */
   .head { padding: 64px 40px 0; }
@@ -128,9 +128,9 @@
     font-size: 11px;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.45);
+    color: rgba(244,234,221,.45);
   }
-  .crumbs a { color: rgba(245,241,234,.45); }
+  .crumbs a { color: rgba(244,234,221,.45); }
   .crumbs a:hover { color: var(--bone); }
   .crumbs .here { color: var(--gold); }
 
@@ -143,7 +143,7 @@
     letter-spacing: .16em;
     text-transform: uppercase;
   }
-  .chip { padding: 6px 11px; border: 1px solid rgba(245,241,234,.25); color: rgba(245,241,234,.7); }
+  .chip { padding: 6px 11px; border: 1px solid rgba(244,234,221,.25); color: rgba(244,234,221,.7); }
   .chip-level { background: var(--orange); color: #fff; border-color: var(--orange); }
 
   h1 {
@@ -159,7 +159,7 @@
     font-size: 21px;
     line-height: 1.6;
     font-weight: 300;
-    color: rgba(245,241,234,.74);
+    color: rgba(244,234,221,.74);
     max-width: 60ch;
   }
 
@@ -203,7 +203,7 @@
     font-size: 19px;
     line-height: 1.65;
     font-weight: 300;
-    color: rgba(245,241,234,.74);
+    color: rgba(244,234,221,.74);
     max-width: 58ch;
   }
   .step-body .slot { aspect-ratio: 16 / 9; }
@@ -219,7 +219,7 @@
   .panel {
     padding: 26px;
     background: var(--panel);
-    border: 1px solid rgba(245,241,234,.12);
+    border: 1px solid rgba(244,234,221,.12);
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -237,12 +237,12 @@
     gap: 10px;
     font-size: 17px;
     font-weight: 300;
-    color: rgba(245,241,234,.75);
+    color: rgba(244,234,221,.75);
   }
   .paints { display: flex; flex-direction: column; gap: 12px; }
   .paint { display: flex; align-items: center; gap: 12px; }
   .paint i { width: 18px; height: 18px; flex-shrink: 0; display: block; }
-  .paint span { font-size: 17px; font-weight: 300; color: rgba(245,241,234,.8); }
+  .paint span { font-size: 17px; font-weight: 300; color: rgba(244,234,221,.8); }
 
   .panel-cta { background: var(--orange); color: #fff; border: 0; padding: 26px; gap: 14px; }
   .panel-cta .panel-label { color: rgba(255,255,255,.85); }
@@ -281,7 +281,7 @@
     display: flex;
     flex-direction: column;
     background: #fff;
-    border: 1px solid rgba(16,14,12,.1);
+    border: 1px solid rgba(66,31,44,.1);
     color: var(--ink);
   }
   a.card:hover { border-color: var(--ink); color: var(--ink); }
@@ -305,7 +305,7 @@
     font-size: 10.5px;
     letter-spacing: .16em;
     text-transform: uppercase;
-    color: rgba(16,14,12,.4);
+    color: rgba(66,31,44,.4);
     margin-top: 2px;
   }
 
@@ -322,8 +322,8 @@
     font-size: 10.5px;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(245,241,234,.4);
-    border-top: 1px solid rgba(245,241,234,.12);
+    color: rgba(244,234,221,.4);
+    border-top: 1px solid rgba(244,234,221,.12);
   }
   .footer-verse { color: rgba(201,162,39,.75); }
 
@@ -344,16 +344,20 @@
     .next-cards { grid-template-columns: minmax(0, 1fr); }
     .footer { padding: 40px 20px; }
   }
+
+/* Miniforgedad brand: compact mark with accessible, readable wordmark. */
+.nav-logo, .brand-lockup { display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo .brand-mark, .brand-lockup .brand-mark { display:block; width:44px; height:44px; object-fit:contain; border-radius:8px; flex-shrink:0; }
+.nav-logo .brand-name, .brand-lockup .brand-name { font-family:Arial, sans-serif; font-size:19px; font-weight:800; letter-spacing:-.04em; text-transform:none; color:inherit; }
+@media(max-width:480px) { .nav-logo .brand-mark { width:36px; height:36px; } .nav-logo .brand-name { font-size:17px; } }
 </style>
+<link rel="icon" type="image/png" href="images/brand/miniforgedad-avatar.png">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="index.html" class="nav-logo">
-    <b>Mini Forge Dad</b>
-    <span class="nav-dot"></span>
-  </a>
+  <a href="index.html" class="nav-logo"><img class="brand-mark" src="images/brand/miniforgedad-avatar.png" alt="" width="44" height="44"><span class="brand-name">Miniforgedad</span></a>
   <div class="nav-links">
     <a href="story.html">Our story</a>
     <a href="gallery.html">Gallery</a>
@@ -461,7 +465,7 @@
           <span class="panel-label">Paints we used</span>
           <div class="paints">
             <div class="paint"><i style="background:#2E4A7D"></i><span>Macragge Blue</span></div>
-            <div class="paint"><i style="background:#C9A227"></i><span>Retributor Armour</span></div>
+            <div class="paint"><i style="background:#CDA468"></i><span>Retributor Armour</span></div>
             <div class="paint"><i style="background:#8B3A2E"></i><span>Mephiston Red</span></div>
             <div class="paint"><i style="background:#E8E4DA"></i><span>White Scar</span></div>
           </div>
