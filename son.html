@@ -9,13 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:        #1c1410;
-    --parchment:  #f5ede0;
+    --ink:        #421F2C;
+    --parchment:  #F4EADD;
     --warm:       #f0dfc0;
-    --green:      #2d5a3d;
-    --gold:       #b8882a;
+    --green:      #704050;
+    --gold:       #9A713B;
     --mist:       #8a7a6a;
-    --light:      #faf5ee;
+    --light:      #FBF5EC;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -52,7 +52,7 @@
   .bio-text { display: flex; flex-direction: column; gap: 20px; }
   .bio-text h1 { font-size: clamp(36px, 5vw, 64px); }
   .bio-text p { font-size: 19px; color: var(--mist); line-height: 1.75; }
-  .bio-photo { aspect-ratio: 4/5; background: linear-gradient(135deg, #b8d4c0, #7aaa8c); display: flex; align-items: center; justify-content: center; font-size: 48px; color: rgba(28,20,16,0.2); overflow: hidden; }
+  .bio-photo { aspect-ratio: 4/5; background: linear-gradient(135deg, #b8d4c0, #7aaa8c); display: flex; align-items: center; justify-content: center; font-size: 48px; color: rgba(66,31,44,0.2); overflow: hidden; }
   .bio-photo img { width: 100%; height: 100%; object-fit: cover; }
   @media (max-width: 768px) { .bio { grid-template-columns: 1fr; gap: 40px; } }
 
@@ -69,10 +69,10 @@
   .gallery-item:first-child { grid-column: span 2; aspect-ratio: 16/9; }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
   .gallery-item:hover img { transform: scale(1.04); }
-  .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,20,16,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 20px; }
+  .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(66,31,44,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 20px; }
   .gallery-item:hover .gallery-overlay { opacity: 1; }
   .gallery-overlay span { color: #fff; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
-  .gallery-empty { grid-column: span 3; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(28,20,16,0.3); aspect-ratio: unset; height: 200px; background: var(--parchment); }
+  .gallery-empty { grid-column: span 3; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(66,31,44,0.3); aspect-ratio: unset; height: 200px; background: var(--parchment); }
   @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr 1fr; } .gallery-item:first-child { grid-column: span 2; } .gallery-empty { grid-column: span 2; } }
 
   .lb-overlay { position: fixed; inset: 0; background: rgba(12,8,4,0.92); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 1000; }
@@ -232,7 +232,7 @@
     const grid = document.querySelector('.gallery-grid');
     const items = GALLERY.filter(i => i.painter === painter);
     if (!items.length) {
-      grid.innerHTML = '<div style="grid-column:span 3;display:flex;align-items:center;justify-content:center;height:200px;background:var(--parchment);font-family:\'DM Mono\',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(28,20,16,0.3);">Photos coming soon</div>';
+      grid.innerHTML = '<div style="grid-column:span 3;display:flex;align-items:center;justify-content:center;height:200px;background:var(--parchment);font-family:\'DM Mono\',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(66,31,44,0.3);">Photos coming soon</div>';
       return;
     }
     grid.innerHTML = items.map(item => `
