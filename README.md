@@ -31,9 +31,9 @@ Source for [miniforgedad.com](https://miniforgedad.com), a father-and-son miniat
 - `stream-assets/`: matching 1920×1080 OBS browser sources and transparent lower third. Existing `Stream assets/` scene URLs are retained.
 - `obs-ticker.html`, `ticker-data.js`: existing live ticker, recoloured to match. Browser Source size: 1920×60.
 
-## Gallery publishing
+## Gallery preparation and publishing
 
-Open `/upload` on a phone or desktop. Add or select a photo, enter its title and alt text, choose painter and status, add notes and an optional Instagram/YouTube source, then publish with the existing admin password. Each upload is resized to a maximum edge of 1280 pixels and encoded as JPEG in the browser. Text drafts use local storage; password and photo data are excluded.
+The current public host is GitHub Pages, which does not run Netlify Functions. The live editor detects the missing endpoint and hides publishing/password controls. Open `/upload` on a phone or desktop to prepare a photo and notes, save a local text draft, or download a JSON project draft containing the prepared image and metadata for a subsequent repository update. No password is included in exports. When a compatible publishing endpoint is connected, the password-protected publish controls become available. Each upload is resized to a maximum edge of 1280 pixels and encoded as JPEG in the browser. Text drafts use local storage; password and photo data are excluded.
 
 `netlify/functions/gallery-project.js` uses existing host environment variables `UPLOAD_PASSWORD` and `GITHUB_TOKEN`. Never commit these values. The token needs repository contents write access. A photo and gallery metadata are committed together against an exact main-branch commit. Stale edits and concurrent branch changes return a conflict instead of overwriting newer work. Publishing requires the normal hosting deployment to finish before the changes appear; reload the editor before another edit.
 
@@ -54,4 +54,4 @@ node --check gallery-editor.js
 node --check brand-kit.js
 ```
 
-The backend tests cover authentication, input validation, source URL restrictions, atomic image/metadata commits, stale edits and concurrent branch changes. Browser checks cover responsive navigation, gallery filters/photo dialogs, editor selection/drafts and thumbnail download. A real authenticated gallery save needs a controlled production check with the owner’s password; mocked tests do not prove host credentials or token permissions.
+The backend tests cover authentication, input validation, source URL restrictions, atomic image/metadata commits, stale edits and concurrent branch changes. Browser checks cover responsive navigation, gallery filters/photo dialogs, editor selection/drafts and thumbnail download. Direct publishing remains blocked by the current static host. Connecting a compatible server runtime and checking a controlled authenticated save are still required; mocked tests do not prove host credentials or token permissions.

@@ -16,7 +16,7 @@ https://miniforgedad.com/stream-assets/lower-third.html
 Existing live ticker (1920 x 60): https://miniforgedad.com/obs-ticker
 
 GALLERY
-Open https://miniforgedad.com/upload on your phone. Choose a photo, enter the title and image description, select the painter and status, add notes, then publish with the existing admin password. Text drafts stay on that device; passwords and photos are not saved as drafts. Photos are resized to 1280 pixels before upload. Allow the host time to rebuild after a save. Reload before editing again.
+Open https://miniforgedad.com/upload on your phone. Choose a photo, enter the title and image description, select the painter and status, and add notes. Download the photo-and-notes draft to share for a site update. Direct publishing is not connected on the current static host; publish controls appear only when a compatible endpoint is available. Text drafts stay on that device; passwords and photos are not saved as drafts. Photos are resized to 1280 pixels before upload. Draft downloads do not publish the site. If direct publishing is connected later, allow the host time to rebuild after a save and reload before editing again.
 The existing archive and ticker tools remain at https://miniforgedad.com/upload-archive.
 
 These files prepare your branding; upload the banner/profile mark to Instagram and YouTube, and load the sources in OBS to apply them to your accounts.
