@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin — Mini Forge Dad</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Newsreader:opsz,wght@6..72,300;6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #100E0C;
+    --panel:     #16110E;
+    --slot:      #1B1714;
+    --bone:      #F5F1EA;
+    --orange:    #E2622C;
+    --orange-lt: #F2854F;
+    --gold:      #C9A227;
+    --miss:      #8B3A2E;
+    --ok:        #4E8C5A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+  }
+
+  a { color: var(--orange); }
+  a:hover { color: var(--orange-lt); }
+
+  .wrap { max-width: 520px; margin: 0 auto; }
+
+  header { margin-bottom: 32px; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .eyebrow::before { content: ''; width: 26px; height: 1px; background: currentColor; }
+  h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900; font-size: 34px; line-height: 1;
+    letter-spacing: -.04em; text-transform: uppercase;
+  }
+  header p {
+    margin-top: 12px;
+    font-size: 17px; font-weight: 300; line-height: 1.55;
+    color: rgba(245,241,234,.66);
+  }
+
+  form { display: flex; flex-direction: column; gap: 22px; }
+
+  label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(245,241,234,.5);
+    margin-bottom: 9px;
+  }
+
+  input[type="password"], select {
+    width: 100%;
+    padding: 15px 16px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16);
+    color: var(--bone);
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;           /* 16px stops iOS zooming the page on focus */
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+  select {
+    background-image: linear-gradient(45deg, transparent 50%, rgba(245,241,234,.5) 50%),
+                      linear-gradient(135deg, rgba(245,241,234,.5) 50%, transparent 50%);
+    background-position: calc(100% - 20px) 21px, calc(100% - 14px) 21px;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--orange); }
+
+  .slots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .slots input { position: absolute; opacity: 0; pointer-events: none; }
+  .slots span {
+    display: block;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid rgba(245,241,234,.16);
+    background: var(--panel);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .slots input:checked + span { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .slots input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .drop {
+    display: block;
+    border: 1px dashed rgba(245,241,234,.28);
+    background: var(--slot);
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(245,241,234,.5);
+  }
+  .drop:hover { border-color: var(--orange); color: var(--bone); }
+  .drop input { display: none; }
+
+  .preview { display: none; flex-direction: column; gap: 10px; }
+  .preview.show { display: flex; }
+  .preview img {
+    width: 100%; aspect-ratio: 1; object-fit: cover; display: block;
+    background: var(--slot);
+  }
+  .preview .meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; letter-spacing: .12em;
+    color: rgba(245,241,234,.45);
+  }
+
+  button[type="submit"] {
+    padding: 18px;
+    background: var(--orange);
+    border: 0;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  button[type="submit"]:hover:not(:disabled) { background: var(--orange-lt); }
+  button[type="submit"]:disabled { opacity: .45; cursor: default; }
+
+  .status {
+    display: none;
+    padding: 15px 16px;
+    border-left: 2px solid var(--gold);
+    background: var(--panel);
+    font-size: 16px; font-weight: 300; line-height: 1.5;
+  }
+  .status.show { display: block; }
+  .status.ok   { border-color: var(--ok); }
+  .status.bad  { border-color: var(--miss); }
+  .status .detail {
+    display: block; margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .06em;
+    color: rgba(245,241,234,.45);
+    word-break: break-all;
+  }
+
+  .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 28px; }
+  .tabs button {
+    padding: 14px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16);
+    color: rgba(245,241,234,.6);
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 15px 16px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.5;
+    resize: vertical;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  textarea:focus { outline: none; border-color: var(--orange); }
+  .count {
+    display: block; margin-top: 6px; text-align: right;
+    font-family: 'DM Mono', monospace; font-size: 10.5px;
+    color: rgba(245,241,234,.35);
+  }
+  .feeds { display: flex; flex-direction: column; gap: 8px; }
+  .feed {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16);
+  }
+  .feed input { width: 18px; height: 18px; accent-color: var(--orange); flex-shrink: 0; }
+  .feed-name { flex: 1; font-size: 16px; font-weight: 300; }
+  .feed-state {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .feed-state.ok  { color: var(--ok); }
+  .feed-state.bad { color: var(--miss); }
+  .feed-state.unknown { color: rgba(245,241,234,.35); }
+
+  .msg-row { display: flex; gap: 8px; align-items: center; }
+  .msg-row input { flex: 1; padding: 13px 14px; background: var(--panel);
+    border: 1px solid rgba(245,241,234,.16); color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif; font-size: 16px;
+    -webkit-appearance: none; border-radius: 0; }
+  .msg-row input:focus { outline: none; border-color: var(--orange); }
+
+  .hint {
+    font-family: 'DM Mono', monospace; font-size: 10.5px;
+    letter-spacing: .06em; color: rgba(245,241,234,.35);
+    margin-top: 6px; line-height: 1.5;
+  }
+
+  [hidden] { display: none !important; }
+
+  footer {
+    margin-top: 36px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(245,241,234,.35);
+  }
+</style>
+<meta name="robots" content="noindex,nofollow">
+</head>
+<body>
+<div class="wrap"><p><a style="color:#cda468" href="upload.html">← Gallery editor</a></p>
+
+  <header>
+    <div class="eyebrow">Stream &amp; archive tools</div>
+    <h1>Archive photo tools</h1>
+    <p>Pick the month and whether it's the before or after shot. The file gets named and committed for you — nothing to rename.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button type="button" id="tab-photo" role="tab" aria-selected="true">Add photo</button>
+    <button type="button" id="tab-edit"  role="tab" aria-selected="false">Edit month</button>
+    <button type="button" id="tab-ticker" role="tab" aria-selected="false">Ticker</button>
+  </div>
+
+  <form id="form">
+    <div>
+      <label for="password">Password</label>
+      <input type="password" id="password" autocomplete="current-password" required />
+    </div>
+
+    <div>
+      <label for="month">Month</label>
+      <select id="month" required>
+        <option value="">Choose…</option>
+        <option>September 2025</option>
+        <option>October 2025</option>
+        <option>November 2025</option>
+        <option>December 2025</option>
+        <option>January 2026</option>
+        <option>February 2026</option>
+        <option>March 2026</option>
+        <option>April 2026</option>
+        <option>May 2026</option>
+        <option>June 2026</option>
+        <option>July 2026</option>
+        <option>August 2026</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Which shot</label>
+      <div class="slots">
+        <label style="margin:0">
+          <input type="radio" name="slot" value="before" checked />
+          <span>Before</span>
+        </label>
+        <label style="margin:0">
+          <input type="radio" name="slot" value="after" />
+          <span>After</span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <label for="file">Photo</label>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="image/*" />
+        <span id="drop-text">Choose a photo</span>
+      </label>
+    </div>
+
+    <div class="preview" id="preview">
+      <img id="preview-img" alt="Selected photo" />
+      <span class="meta" id="preview-meta"></span>
+    </div>
+
+    <button type="submit" id="submit" disabled>Upload</button>
+  </form>
+
+  <form id="edit-form" hidden>
+    <div>
+      <label for="edit-password">Password</label>
+      <input type="password" id="edit-password" autocomplete="current-password" required />
+    </div>
+
+    <div>
+      <label for="edit-month">Month</label>
+      <select id="edit-month" required><option value="">Choose…</option></select>
+    </div>
+
+    <div>
+      <label for="edit-notes">Caption</label>
+      <textarea id="edit-notes" maxlength="400" placeholder="What you painted this month…"></textarea>
+      <span class="count" id="edit-count">0 / 400</span>
+    </div>
+
+    <div>
+      <label for="edit-status">Status</label>
+      <select id="edit-status">
+        <option value="pending">Pending</option>
+        <option value="active">In progress</option>
+        <option value="complete">Complete</option>
+        <option value="missed">Missed</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="edit-badge">Badge label</label>
+      <input type="text" id="edit-badge" maxlength="24" style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'DM Mono',monospace;font-size:16px;-webkit-appearance:none;border-radius:0" />
+    </div>
+
+    <button type="submit" id="edit-submit">Save changes</button>
+  </form>
+
+  <form id="ticker-form" hidden>
+    <div>
+      <label for="t-password">Password</label>
+      <input type="password" id="t-password" autocomplete="current-password" required />
+    </div>
+
+    <div>
+      <label for="t-topic">Current project</label>
+      <input type="text" id="t-topic" maxlength="160" placeholder="Painting the Armiger's carapace"
+        style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'Newsreader',Georgia,serif;font-size:16px;-webkit-appearance:none;border-radius:0" />
+      <span class="hint">Shown first as "Now: …". The one you'll change most.</span>
+    </div>
+
+    <div>
+      <label for="t-schedule">Schedule</label>
+      <input type="text" id="t-schedule" maxlength="120" placeholder="Live every Tue &amp; Thu at 7PM CT"
+        style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'Newsreader',Georgia,serif;font-size:16px;-webkit-appearance:none;border-radius:0" />
+    </div>
+
+    <div>
+      <label>Rotating messages</label>
+      <div class="feeds" id="t-messages"></div>
+      <span class="hint">Leave one blank to remove it.</span>
+    </div>
+
+    <div>
+      <label>News feeds</label>
+      <div class="feeds" id="t-feeds"></div>
+      <span class="hint" id="t-feed-hint">Checking feeds…</span>
+    </div>
+
+    <div>
+      <label for="t-speed">Scroll speed — seconds per pass</label>
+      <input type="number" id="t-speed" min="20" max="300" step="5"
+        style="width:100%;padding:15px 16px;background:var(--panel);border:1px solid rgba(245,241,234,.16);color:var(--bone);font-family:'DM Mono',monospace;font-size:16px;-webkit-appearance:none;border-radius:0" />
+      <span class="hint">Higher is slower. 100 is a comfortable default.</span>
+    </div>
+
+    <button type="submit" id="t-submit">Save ticker</button>
+  </form>
+
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+
+  <footer>
+    
+  </footer>
+
+</div>
+
+<script src="hpc-data.js"></script>
+<script src="ticker-data.js"></script>
+<script>
+  // Phone photos run 3–5MB, which would blow past the function's payload limit
+  // and bloat the repo. Resize and re-encode to JPEG on the device first — this
+  // also guarantees the committed file really is a .jpg, whatever came in.
+  const MAX_EDGE = 1600;
+  const QUALITY  = 0.85;
+
+  const $ = id => document.getElementById(id);
+  const form = $('form'), fileInput = $('file'), submit = $('submit');
+  const preview = $('preview'), previewImg = $('preview-img'), previewMeta = $('preview-meta');
+  const statusEl = $('status'), dropText = $('drop-text');
+
+  let dataUrl = null;
+
+  function say(kind, text, detail) {
+    statusEl.className = 'status show ' + kind;
+    statusEl.innerHTML = '';
+    statusEl.append(text);
+    if (detail) {
+      const d = document.createElement('span');
+      d.className = 'detail';
+      d.textContent = detail;
+      statusEl.append(d);
+    }
+  }
+
+  function resize(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
+        const w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#fff';          // JPEG has no alpha; avoid black edges
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve({ dataUrl: c.toDataURL('image/jpeg', QUALITY), w, h });
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('not an image')); };
+      img.src = url;
+    });
+  }
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    dataUrl = null;
+    submit.disabled = true;
+    say('', 'Preparing photo…');
+    try {
+      const out = await resize(file);
+      dataUrl = out.dataUrl;
+      const kb = Math.round((dataUrl.length * 3 / 4) / 1024);
+      previewImg.src = dataUrl;
+      previewMeta.textContent = `${out.w}×${out.h} · ${kb} KB`;
+      preview.classList.add('show');
+      dropText.textContent = 'Choose a different photo';
+      submit.disabled = false;
+      statusEl.className = 'status';
+    } catch {
+      say('bad', "That file doesn't look like a photo. Try another.");
+      preview.classList.remove('show');
+    }
+  });
+
+
+  // ── Tabs ───────────────────────────────────────────────────
+  const photoForm = $('form'), editForm = $('edit-form');
+  const tabPhoto = $('tab-photo'), tabEdit = $('tab-edit');
+  const heading = document.querySelector('h1'), blurb = document.querySelector('header p');
+
+  const TAB_TEXT = {
+    photo:  ['Add a photo', "Pick the month and whether it's the before or after shot. The file gets named and committed for you — nothing to rename."],
+    edit:   ['Edit a month', "Change the caption, status or badge. The tracker's score bar counts itself from the statuses."],
+    ticker: ['Stream ticker', "What scrolls across the OBS overlay. Change your current project before you go live."],
+  };
+
+  function showTab(which) {
+    const panes = { photo: photoForm, edit: editForm, ticker: document.getElementById('ticker-form') };
+    const tabs  = { photo: tabPhoto, edit: tabEdit, ticker: document.getElementById('tab-ticker') };
+    Object.entries(panes).forEach(([k, el]) => { if (el) el.hidden = k !== which; });
+    Object.entries(tabs).forEach(([k, el]) => { if (el) el.setAttribute('aria-selected', String(k === which)); });
+    statusEl.className = 'status';
+    const [h1, p] = TAB_TEXT[which] || TAB_TEXT.photo;
+    heading.textContent = h1;
+    blurb.textContent = p;
+  }
+  tabPhoto.addEventListener('click', () => showTab('photo'));
+  tabEdit.addEventListener('click', () => showTab('edit'));
+
+  // ── Month editor ───────────────────────────────────────────
+  // Pre-fills from hpc-data.js so you can see what's there before changing it.
+  const DATA = typeof HPC_DATA !== 'undefined' ? HPC_DATA : { months: [] };
+  const editMonth = $('edit-month'), editNotes = $('edit-notes');
+  const editStatus = $('edit-status'), editBadge = $('edit-badge'), editCount = $('edit-count');
+
+  DATA.months.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m.slug;
+    o.textContent = `${m.name}  ·  ${m.badge}`;
+    editMonth.append(o);
+  });
+
+  const countChars = () => { editCount.textContent = `${editNotes.value.length} / 400`; };
+  editNotes.addEventListener('input', countChars);
+
+  // Placeholder captions from the original template aren't worth re-saving.
+  const isPlaceholder = s => /^Add what you(\'re)? paint(ed|ing) this month/.test(s || '');
+
+  editMonth.addEventListener('change', () => {
+    const m = DATA.months.find(x => x.slug === editMonth.value);
+    if (!m) { editNotes.value = ''; editBadge.value = ''; countChars(); return; }
+    editNotes.value = isPlaceholder(m.notes) ? '' : (m.notes || '');
+    editStatus.value = m.status;
+    editBadge.value = m.badge || '';
+    countChars();
+    statusEl.className = 'status';
+  });
+
+  // Changing status suggests a matching badge, but you can still override it.
+  const BADGE_FOR = { pending:'Pending', active:'In Progress', complete:'Complete', missed:'Missed' };
+  editStatus.addEventListener('change', () => { editBadge.value = BADGE_FOR[editStatus.value] || ''; });
+
+  editForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const slug = editMonth.value;
+    if (!slug) return say('bad', 'Pick a month.');
+
+    const btn = $('edit-submit');
+    btn.disabled = true;
+    say('', 'Saving…');
+
+    try {
+      const res = await fetch('/.netlify/functions/update-hpc-month', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: $('edit-password').value,
+          slug,
+          notes: editNotes.value,
+          status: editStatus.value,
+          badge: editBadge.value,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        say('ok', data.message, data.changed && data.changed.length ? `changed: ${data.changed.join(', ')}` : '');
+        // Keep the in-page copy in step so a second edit starts from the truth.
+        const m = DATA.months.find(x => x.slug === slug);
+        if (m) { m.notes = editNotes.value.trim(); m.status = editStatus.value; m.badge = editBadge.value.trim(); }
+      } else {
+        say('bad', data.error || `Save failed (${res.status}).`, data.detail);
+      }
+    } catch {
+      say('bad', 'Could not reach the server. Check your connection and try again.');
+    }
+    btn.disabled = false;
+  });
+
+
+  // ── Ticker tab ─────────────────────────────────────────────
+  const TICK = typeof TICKER_DATA !== 'undefined' ? TICKER_DATA : null;
+  const tickerForm = $('ticker-form'), tabTicker = $('tab-ticker');
+  const tTopic = $('t-topic'), tSchedule = $('t-schedule'), tSpeed = $('t-speed');
+  const tMessages = $('t-messages'), tFeeds = $('t-feeds'), tFeedHint = $('t-feed-hint');
+
+  const MSG_SLOTS = 6;   // room to add a couple beyond what's there
+
+  function fillTicker() {
+    if (!TICK) return;
+    tTopic.value = TICK.currentTopic || '';
+    tSchedule.value = TICK.schedule || '';
+    tSpeed.value = TICK.scrollSpeed || 100;
+
+    tMessages.innerHTML = '';
+    const msgs = (TICK.messages || []).slice(0, MSG_SLOTS);
+    while (msgs.length < Math.min(MSG_SLOTS, (TICK.messages || []).length + 2)) msgs.push('');
+    msgs.forEach(text => {
+      const row = document.createElement('div');
+      row.className = 'msg-row';
+      const input = document.createElement('input');
+      input.type = 'text'; input.maxLength = 160; input.value = text;
+      input.placeholder = 'A line to rotate through…';
+      row.append(input);
+      tMessages.append(row);
+    });
+
+    tFeeds.innerHTML = '';
+    (TICK.newsFeeds || []).forEach(feed => {
+      const row = document.createElement('label');
+      row.className = 'feed';
+      row.innerHTML = `
+        <input type="checkbox" data-feed="${feed.name.replace(/"/g, '&quot;')}" ${feed.enabled ? 'checked' : ''} />
+        <span class="feed-name">${feed.name.replace(/</g, '&lt;')}</span>
+        <span class="feed-state unknown" data-state-for="${feed.name.replace(/"/g, '&quot;')}">checking…</span>`;
+      tFeeds.append(row);
+    });
+  }
+
+  // Ask the feed function how each source is actually doing, so a dead feed is
+  // visible here instead of silently producing no news on stream.
+  async function checkFeeds() {
+    try {
+      const res = await fetch('/.netlify/functions/ticker-feed');
+      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      (data.feeds || []).forEach(f => {
+        const el = tFeeds.querySelector(`[data-state-for="${CSS.escape(f.name)}"]`);
+        if (!el) return;
+        el.className = 'feed-state ' + (f.ok ? 'ok' : 'bad');
+        el.textContent = f.ok ? `${f.count} stories` : f.error;
+      });
+      const bad = (data.feeds || []).filter(f => !f.ok);
+      const off = (TICK && TICK.newsFeeds || []).filter(f => !f.enabled).length;
+      tFeedHint.textContent = !data.feeds || !data.feeds.length
+        ? 'No feeds enabled.'
+        : bad.length
+          ? `${bad.length} of ${data.feeds.length} feeds are failing — untick one to drop it from the ticker.`
+          : `All ${data.feeds.length} feeds responding.${off ? ` ${off} turned off.` : ''}`;
+    } catch (err) {
+      tFeeds.querySelectorAll('.feed-state').forEach(el => {
+        el.className = 'feed-state unknown'; el.textContent = 'unknown';
+      });
+      tFeedHint.textContent = 'Could not check feeds — the endpoint may not be deployed yet.';
+    }
+  }
+
+  tabTicker.addEventListener('click', () => {
+    showTab('ticker');
+    if (!tabTicker.dataset.checked) { tabTicker.dataset.checked = '1'; checkFeeds(); }
+  });
+
+  tickerForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('t-submit');
+    btn.disabled = true;
+    say('', 'Saving…');
+
+    const feedsEnabled = {};
+    tFeeds.querySelectorAll('input[data-feed]').forEach(cb => { feedsEnabled[cb.dataset.feed] = cb.checked; });
+
+    try {
+      const res = await fetch('/.netlify/functions/update-ticker', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: $('t-password').value,
+          currentTopic: tTopic.value,
+          schedule: tSchedule.value,
+          messages: [...tMessages.querySelectorAll('input')].map(i => i.value),
+          scrollSpeed: tSpeed.value,
+          feedsEnabled,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        say('ok', data.message, data.changed && data.changed.length ? `changed: ${data.changed.join(', ')}` : '');
+        if (TICK) {
+          TICK.currentTopic = tTopic.value.trim();
+          TICK.schedule = tSchedule.value.trim();
+          TICK.scrollSpeed = Number(tSpeed.value);
+          TICK.messages = [...tMessages.querySelectorAll('input')].map(i => i.value.trim()).filter(Boolean);
+          (TICK.newsFeeds || []).forEach(f => { if (f.name in feedsEnabled) f.enabled = feedsEnabled[f.name]; });
+        }
+      } else {
+        say('bad', data.error || `Save failed (${res.status}).`, data.detail);
+      }
+    } catch {
+      say('bad', 'Could not reach the server. Check your connection and try again.');
+    }
+    btn.disabled = false;
+  });
+
+  fillTicker();
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!dataUrl) return say('bad', 'Choose a photo first.');
+
+    const month = $('month').value;
+    if (!month) return say('bad', 'Pick a month.');
+    const slot = form.querySelector('input[name="slot"]:checked').value;
+
+    submit.disabled = true;
+    say('', 'Uploading…');
+
+    try {
+      const res = await fetch('/.netlify/functions/upload-hpc-photo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: $('password').value, month, slot, image: dataUrl }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        say('ok', data.message, `${data.path} · ${data.sizeKB} KB`);
+        fileInput.value = '';
+        dataUrl = null;
+        preview.classList.remove('show');
+        dropText.textContent = 'Choose a photo';
+      } else {
+        say('bad', data.error || `Upload failed (${res.status}).`, data.detail);
+        submit.disabled = false;
+      }
+    } catch {
+      say('bad', 'Could not reach the server. Check your connection and try again.');
+      submit.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
