@@ -1,107 +1,177 @@
-// ── GALLERY DATA ──────────────────────────────────────────────────────────────
-// Add new photos here — one object per model.
-//
-// Fields:
-//   painter:     'dad' or 'son' — who painted it (drives dad.html / son.html)
-//   src:         path to image, e.g. 'images/gallery/my-photo.jpg'
-//   alt:         short alt text
-//   title:       model name shown in overlay + lightbox
-//   description: painting notes shown in lightbox panel (fill in later)
-//   featured:    true = also show on the home page (max 9 shown, dad/son interleaved)
-//
-// Gallery page fields (gallery.html) — all optional:
-//   faction:     'Imperial Knights', 'Tyranids', … — drives the faction filter.
-//                Entries without one still show under "All".
-//   year:        year finished, shown under the card title
-//   credit:      'Dad' | 'Son' | 'Together' — the label on the card and the
-//                painter filter. Defaults to `painter` when omitted. Use
-//                'Together' for pieces you both worked on; `painter` stays
-//                'dad' or 'son' so the piece still appears on that painter's page.
-//   caption:     short descriptive card title for the gallery page
-//                (e.g. 'Heraldry detail'). Falls back to `title` when omitted.
-//
-// Workflow: add a new entry below → it appears on the painter page and the
-// gallery page automatically. Set featured: true to also include it on the home
-// page. Cards render in the order listed here, on every page.
-// ──────────────────────────────────────────────────────────────────────────────
-
+// Gallery entries are managed from /upload. Keep this array valid JSON.
 const GALLERY = [
   {
-    painter: 'dad',
-    src: 'images/gallery/knights-1.jpeg',
-    alt: 'Imperial Knight Paladin',
-    title: 'Imperial Knight Paladin',
-    description: '',
-    featured: true,
-    faction: 'Imperial Knights',
-    year: 2025,
-    caption: 'Front plate, freehand',
+    "painter": "dad",
+    "src": "images/gallery/knights-1.jpeg",
+    "alt": "Imperial Knight Paladin",
+    "title": "Imperial Knight Paladin",
+    "description": "",
+    "featured": true,
+    "faction": "Imperial Knights",
+    "year": 2025,
+    "caption": "Front plate, freehand",
+    "id": "legacy-1",
+    "status": "finished",
+    "thumbnail": "images/gallery/thumbs/knights-1.webp"
   },
   {
-    painter: 'son',
-    src: 'images/gallery/Psychophase-1.jpg',
-    alt: 'Psychophage',
-    title: 'Psychophage',
-    description: 'This was his second model that he painted.',
-    featured: true,
-    faction: 'Tyranids',
-    year: 2025,
-    caption: 'Psychophage',
+    "painter": "son",
+    "src": "images/gallery/Psychophase-1.jpg",
+    "alt": "Psychophage",
+    "title": "Psychophage",
+    "description": "This was his second model that he painted.",
+    "featured": true,
+    "faction": "Tyranids",
+    "year": 2025,
+    "caption": "Psychophage",
+    "id": "legacy-2",
+    "status": "finished",
+    "thumbnail": "images/gallery/thumbs/Psychophase-1.webp"
   },
   {
-    painter: 'dad',
-    src: 'images/gallery/knights-2.jpeg',
-    alt: 'Imperial Knight — rear three-quarter view',
-    title: 'Knight — Heraldry Detail',
-    description: '',
-    featured: true,
-    faction: 'Imperial Knights',
-    year: 2025,
-    caption: 'Heraldry detail',
+    "painter": "dad",
+    "src": "images/gallery/knights-2.jpeg",
+    "alt": "Imperial Knight — rear three-quarter view",
+    "title": "Knight — Heraldry Detail",
+    "description": "",
+    "featured": true,
+    "faction": "Imperial Knights",
+    "year": 2025,
+    "caption": "Heraldry detail",
+    "id": "legacy-3",
+    "status": "finished",
+    "thumbnail": "images/gallery/thumbs/knights-2.webp"
   },
   {
-    painter: 'son',
-    src: 'images/gallery/Psychophase-2.jpg',
-    alt: 'Psychophage',
-    title: 'Psychophage 2',
-    description: 'This was his second model that he painted.',
-    featured: true,
-    faction: 'Tyranids',
-    year: 2025,
-    caption: 'Carapace wet blend',
+    "painter": "son",
+    "src": "images/gallery/Psychophase-2.jpg",
+    "alt": "Psychophage",
+    "title": "Psychophage 2",
+    "description": "This was his second model that he painted.",
+    "featured": true,
+    "faction": "Tyranids",
+    "year": 2025,
+    "caption": "Carapace wet blend",
+    "id": "legacy-4",
+    "status": "finished",
+    "thumbnail": "images/gallery/thumbs/Psychophase-2.webp"
   },
   {
-    painter: 'dad',
-    src: 'images/gallery/knights-3.jpeg',
-    alt: 'Imperial Knight — weapon arm',
-    title: 'Knight — Weapon Arm',
-    description: '',
-    featured: true,
-    faction: 'Imperial Knights',
-    year: 2025,
-    caption: 'Weathered greaves',
+    "painter": "dad",
+    "src": "images/gallery/knights-3.jpeg",
+    "alt": "Imperial Knight — weapon arm",
+    "title": "Knight — Weapon Arm",
+    "description": "",
+    "featured": true,
+    "faction": "Imperial Knights",
+    "year": 2025,
+    "caption": "Weathered greaves",
+    "id": "legacy-5",
+    "status": "finished",
+    "thumbnail": "images/gallery/thumbs/knights-3.webp"
   },
   {
-    painter: 'dad',
-    src: 'images/gallery/knights-4.jpeg',
-    alt: 'Imperial Knight — weapon bits',
-    title: 'Weapon Bits',
-    description: '',
-    featured: false,
-    faction: 'Imperial Knights',
-    year: 2025,
-    credit: 'Together',
-    caption: 'Titan cockpit',
+    "painter": "together",
+    "src": "images/gallery/knights-4.jpeg",
+    "alt": "Imperial Knight — weapon bits",
+    "title": "Weapon Bits",
+    "description": "",
+    "featured": false,
+    "faction": "Imperial Knights",
+    "year": 2025,
+    "credit": "Together",
+    "caption": "Titan cockpit",
+    "id": "legacy-6",
+    "status": "finished",
+    "thumbnail": "images/gallery/thumbs/knights-4.webp"
   },
   {
-    painter: 'dad',
-    src: 'images/gallery/knights-5.jpeg',
-    alt: 'Imperial Knight — rear view',
-    title: 'Knight — Rear View',
-    description: '',
-    featured: false,
-    faction: 'Imperial Knights',
-    year: 2025,
-    caption: 'Questoris Knight, finished',
+    "painter": "dad",
+    "src": "images/gallery/knights-5.jpeg",
+    "alt": "Imperial Knight — rear view",
+    "title": "Knight — Rear View",
+    "description": "",
+    "featured": false,
+    "faction": "Imperial Knights",
+    "year": 2025,
+    "caption": "Questoris Knight, finished",
+    "id": "legacy-7",
+    "status": "finished",
+    "thumbnail": "images/gallery/thumbs/knights-5.webp"
   },
+  {
+    "id": "instagram-paint-desk",
+    "painter": "brand",
+    "credit": "Miniforgedad",
+    "src": "images/instagram/paint-desk.webp",
+    "thumbnail": "images/instagram/paint-desk.webp",
+    "alt": "Vallejo pigments and brushes on a green cutting mat",
+    "title": "At the hobby desk",
+    "caption": "Pigments and brushes",
+    "description": "Pigments and brushes from the Miniforgedad Instagram workbench photo. The original post is linked below.",
+    "featured": false,
+    "faction": "Workbench",
+    "status": "workbench",
+    "sourceUrl": "https://www.instagram.com/miniforgedad/p/Dchm_vilLaw/"
+  },
+  {
+    "id": "instagram-brush-closeup",
+    "painter": "brand",
+    "credit": "Miniforgedad",
+    "src": "images/instagram/brush-closeup.webp",
+    "thumbnail": "images/instagram/brush-closeup.webp",
+    "alt": "A brush held in its transparent protective case",
+    "title": "A closer look at the tools",
+    "caption": "Brush close-up",
+    "description": "A close-up from the Miniforgedad Instagram. See the original post for its discussion.",
+    "featured": false,
+    "faction": "Workbench",
+    "status": "workbench",
+    "sourceUrl": "https://www.instagram.com/miniforgedad/p/DZRDpsPFALD/"
+  },
+  {
+    "id": "instagram-lava-base",
+    "painter": "brand",
+    "credit": "Miniforgedad",
+    "src": "images/instagram/lava-base.webp",
+    "thumbnail": "images/instagram/lava-base.webp",
+    "title": "Lava base in progress",
+    "alt": "Hands holding a round miniature base with dark cracked ground and orange lava lines",
+    "description": "A cracked lava base at the hobby desk.",
+    "caption": "Lava base in progress",
+    "featured": false,
+    "faction": "Workbench",
+    "status": "workbench",
+    "sourceUrl": "https://www.instagram.com/miniforgedad/reel/DZRFR-UMSCw/"
+  },
+  {
+    "id": "instagram-first-game",
+    "painter": "brand",
+    "credit": "Miniforgedad",
+    "src": "images/instagram/first-game.webp",
+    "thumbnail": "images/instagram/first-game.webp",
+    "title": "Our first game of WH40K",
+    "alt": "Miniatures and ruined terrain set out for a game, with the original first-game caption",
+    "description": "A moment from our first game, shared on Instagram.",
+    "caption": "Our first game of WH40K",
+    "featured": false,
+    "faction": "On the tabletop",
+    "status": "workbench",
+    "sourceUrl": "https://www.instagram.com/miniforgedad/reel/DYdXYrlP_qn/"
+  },
+  {
+    "id": "instagram-ork-workbench",
+    "painter": "brand",
+    "credit": "Miniforgedad",
+    "src": "images/instagram/ork-workbench.webp",
+    "thumbnail": "images/instagram/ork-workbench.webp",
+    "title": "Orks on the workbench",
+    "alt": "Unpainted Ork miniatures arranged on a green cutting mat",
+    "description": "An in-progress look at the miniatures on the desk.",
+    "caption": "Orks on the workbench",
+    "featured": false,
+    "faction": "Workbench",
+    "status": "in-progress",
+    "sourceUrl": "https://www.instagram.com/miniforgedad/reel/DcXs4KsuxwW/"
+  }
 ];

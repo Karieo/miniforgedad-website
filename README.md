@@ -1,416 +1,57 @@
-# miniforgedad-website
+# Miniforgedad
 
-Source for [miniforgedad.com](https://miniforgedad.com) — a father & son miniature painting brand. Plain HTML/CSS/JS, no build tools or dependencies required.
-
----
+Source for [miniforgedad.com](https://miniforgedad.com), a father-and-son miniature painting site. Static HTML, CSS and JavaScript; Netlify Functions handle password-protected updates. No frontend build step.
 
 ## Pages
 
-| File | URL | Description |
-|---|---|---|
-| `index.html` | `/` | Homepage — hero, why we do this, painters, gallery preview, videos, tutorials, on the bench, Instagram, FAQ, newsletter |
-| `gallery.html` | `/gallery.html` | Full gallery — filter by painter and faction |
-| `story.html` | `/story.html` | Our story — long-form, milestones, photo wall |
-| `tutorial.html` | `/tutorial.html` | Tutorial article — "Thinning your paints" |
-| `dad.html` | `/dad.html` | Dad's painted miniatures |
-| `son.html` | `/son.html` | Son's painted miniatures |
-| `hpc.html` | `/hpc.html` | 2025 Independent Characters Hobby Progress Challenge tracker |
-| `stream.html` | `/stream.html` | YouTube live stream embed — shows the stream when live |
-| `obs-ticker.html` | `/obs-ticker.html` | OBS Browser Source ticker overlay (1920×60px) |
-
-`index.html`, `gallery.html`, `story.html` and `tutorial.html` use the **forge**
-design language (see below). `dad.html`, `hpc.html` and `stream.html` are still
-on the older parchment/green styling.
-
----
-
-## Project structure
-
-```
-miniforgedad-website/
-├── index.html          # Homepage
-├── gallery.html        # Full gallery with painter + faction filters
-├── story.html          # Our story
-├── tutorial.html       # Tutorial article
-├── dad.html            # Dad's miniatures
-├── son.html            # Son's miniatures
-├── hpc.html            # HPC 2025 tracker
-├── stream.html         # YouTube live stream page
-├── obs-ticker.html     # OBS ticker overlay
-├── gallery-data.js     # Single source of truth for all gallery photos
-├── hpc-data.js         # Single source of truth for the HPC tracker
-├── ticker-data.js      # Single source of truth for the OBS ticker
-├── upload.html         # Private admin page — photos, months, ticker
-├── live-status.js      # Reveals the nav "Live" pill when streaming
-├── netlify/
-│   └── functions/
-│       ├── live-status.js        # Server-side YouTube live check (hides the API key)
-│       ├── upload-hpc-photo.js   # Commits an uploaded photo to images/hpc/
-│       ├── update-hpc-month.js   # Edits a month's caption/status in hpc-data.js
-│       ├── ticker-feed.js        # Fetches the ticker's RSS feeds server-side
-│       └── update-ticker.js      # Edits ticker-data.js from the admin page
-└── images/
-    ├── og-image.png     # Social preview image (1200×630px recommended)
-    ├── placeholder.svg  # Development placeholder
-    ├── gallery/         # Gallery photos (see gallery-data.js)
-    │   ├── knights-1.jpeg … knights-5.jpeg
-    │   └── Psychophase-1.jpg, Psychophase-2.jpg
-    └── hpc/             # HPC tracker before/after photos
-        └── [mon]-[year]-before/after.jpg
-```
-
----
-
-## The forge design language
-
-The redesigned pages share one palette and type system. There's no build step and
-no shared stylesheet — each page inlines its own CSS, so these values are repeated
-per file. Change one, change them all.
-
-```css
---ink:       #100E0C   /* page background, dark sections */
---panel:     #16110E   /* raised panel on dark */
---slot:      #1B1714   /* image placeholder on dark */
---bone:      #F5F1EA   /* text on dark; background of light sections */
---orange:    #E2622C   /* primary accent */
---orange-lt: #F2854F   /* accent hover */
---gold:      #C9A227   /* eyebrow + rules on dark */
---rust:      #9A5024   /* eyebrow on light sections */
---amber:     #E9A96A   /* painter credit on gallery cards */
---shade:     #E4DED3   /* image placeholder on light */
-```
-
-- **Headings** Archivo (900 for display, 600–800 for sub-heads), uppercase, tight `-.04em` tracking
-- **Body** Newsreader 300, with italic for pull-quotes
-- **Labels** DM Mono, uppercase, wide `.14em`–`.2em` tracking
-- Pages are dark by default; gallery and tutorial-card sections flip to `--bone`
-- Nav is 74px sticky; on mobile it wraps and the link row scrolls horizontally
-
-### Photo placeholders
-
-Sections that need photos we don't have yet render a `.slot` — a styled block
-labelled with what belongs there. To fill one, replace the inner `<span>` with an
-image:
-
-```html
-<!-- before -->
-<div class="slot"><span>Photo of Dad</span></div>
-
-<!-- after -->
-<div class="slot"><img src="images/painters/dad.jpg" alt="Dad at the desk" /></div>
-```
-
-Slots are on the homepage (hero, painters, video thumbnails, Instagram),
-`story.html` (wide photo, candid, photo wall) and `tutorial.html` (hero, steps).
-
-### Uploading and editing from your phone
-
-`/upload.html` is a private page with three tabs:
-
-- **Add photo** — pick the month and Before/After, choose the photo. It resizes
-  on your device, names the file correctly, and commits it.
-- **Edit month** — change a month's caption, status or badge. Pre-fills with
-  what's currently set so you can see before you change it.
-- **Ticker** — set your current project, schedule, rotating messages, scroll
-  speed and which news feeds are on. Shows live feed health, so a broken feed
-  is visible rather than silently producing no news.
-
-All three commit straight to `main`; Netlify rebuilds and it's live in about a minute.
-
-**One-time setup** — two more Netlify environment variables:
-
-| Variable | What |
+| Page | Purpose |
 |---|---|
-| `UPLOAD_PASSWORD` | Any passphrase. Gates the page. |
-| `GITHUB_TOKEN` | A [fine-grained token](https://github.com/settings/personal-access-tokens) scoped to **this repo only**, with **Contents: Read and write**. Nothing else. |
+| `/` | Knight hero, painter galleries, tutorials, Instagram links, FAQ and contact |
+| `/start` | New visitor path: story, gallery, beginner tutorials |
+| `/story` | Confirmed father-and-son hobby story |
+| `/gallery` | Shared portfolio with painter, collection and status filters; accessible photo dialog |
+| `/dad`, `/son` | Painter-specific views of the same gallery data |
+| `/tutorials` | Ten attributed community tutorials across three levels |
+| `/tutorial` | Original thinning-paints article |
+| `/stream` | Existing YouTube live page |
+| `/upload` | Mobile gallery editor; excluded from search indexing |
+| `/brand-kit` | Profile images, channel banner, browser-only thumbnail maker and OBS downloads; excluded from search indexing |
+| `/upload-archive` | Preserved legacy HPC and ticker controls |
+| `/hpc` | Archived tracker, retained at its original URL and removed from public navigation |
 
-Until both are set the page returns "Uploads are not configured yet".
+## Shared files
 
-**Notes**
-- Photos are resized to 1600px on the long edge and re-encoded as JPEG before
-  upload, so a 5MB phone photo arrives as a few hundred KB and the committed
-  file is always a real `.jpg`.
-- Uploading to a month that already has that shot **replaces** it.
-- The filename is built server-side from the month you pick, so nothing can be
-  written outside `images/hpc/`.
-- The page is `noindex`, but it is not secret — the password is what protects
-  it. Use a decent one.
+- `site-brand.css`, `site-nav.js`: burgundy/ivory/brass identity and responsive navigation.
+- `site-pages.css`: layouts for Start Here, story, gallery and brand kit.
+- `gallery-data.js`: `const GALLERY = [...]` containing strict JSON. Stable entry IDs allow editing; keep this format for the publisher.
+- `gallery.js`: shared gallery rendering, filters, source links and modal photos.
+- `gallery-editor.js`: local image preparation, text drafts and publishing UI.
+- `tutorials-data.json`, `tutorials.js`: attributed external lessons and level filters.
+- `assets/brand-kit/`: approved primary and badge marks, PNG/SVG exports, setup guide and ZIP.
+- `stream-assets/`: matching 1920×1080 OBS browser sources and transparent lower third. Existing `Stream assets/` scene URLs are retained.
+- `obs-ticker.html`, `ticker-data.js`: existing live ticker, recoloured to match. Browser Source size: 1920×60.
 
-### The "Live" pill
+## Gallery publishing
 
-The Live button in the nav only appears while the YouTube channel is **actually
-streaming**. It's hidden in the HTML by default and revealed by JavaScript, so it
-never shows on a guess.
+Open `/upload` on a phone or desktop. Add or select a photo, enter its title and alt text, choose painter and status, add notes and an optional Instagram/YouTube source, then publish with the existing admin password. Each upload is resized to a maximum edge of 1280 pixels and encoded as JPEG in the browser. Text drafts use local storage; password and photo data are excluded.
 
-Two pieces:
+`netlify/functions/gallery-project.js` uses existing host environment variables `UPLOAD_PASSWORD` and `GITHUB_TOKEN`. Never commit these values. The token needs repository contents write access. A photo and gallery metadata are committed together against an exact main-branch commit. Stale edits and concurrent branch changes return a conflict instead of overwriting newer work. Publishing requires the normal hosting deployment to finish before the changes appear; reload the editor before another edit.
 
-| File | Role |
-|---|---|
-| `netlify/functions/live-status.js` | Asks the YouTube API server-side, so the key stays private. Returns `{ live: true/false }`. |
-| `live-status.js` | Runs on the page, calls that endpoint, and reveals the pill only on `live: true`. |
+The admin HTML is publicly loadable but publishing is authenticated server-side. `noindex` is an indexing preference, not access control. Existing archive and ticker endpoints are preserved.
 
-**One-time setup** — until this is done the pill simply never appears:
+## Brand kit
 
-1. Create a free YouTube Data API v3 key at
-   [console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials)
-   (new project → enable "YouTube Data API v3" → create an API key).
-2. In Netlify: **Site configuration → Environment variables** →
-   `YOUTUBE_API_KEY` = your key.
-3. Redeploy.
+Palette: burgundy `#421F2C`, ivory `#F4EADD`, brass `#CDA468`. Use the approved anvil/brush primary mark or workshop badge. Profiles are 512×512; banner is 2560×1440 with central content; thumbnail exports are 1280×720. Download and extract the complete ZIP to keep relative OBS asset paths intact. Banner/profile uploads to social accounts and adding sources in OBS remain manual account setup steps.
 
-`YOUTUBE_CHANNEL_ID` is an optional second variable; it defaults to the current
-channel, so you only need it if the channel changes.
+Instagram gallery imports use accessible post/reel previews with original source links. Individual painter credits and dates are omitted when unconfirmed. Replace previews with original photographs through the editor when available.
 
-**Quota** — two API units per check against a free 10,000/day allowance, and
-responses are CDN-cached for five minutes, so it's roughly 576 units a day no
-matter how much traffic the site gets.
+## Checks
 
-**It fails safe.** Missing key, expired key, exhausted quota, network error, JS
-disabled — every one of those hides the pill rather than falsely advertising a
-stream. The tradeoff is up to five minutes of lag either side of going live.
-
-To add the pill to another page, mark the element and include the script:
-
-```html
-<a href="stream.html" class="nav-live" data-live-pill style="display:none">…</a>
-<script src="live-status.js" defer></script>
+```sh
+node --test tests/gallery-project.test.js
+node --check gallery.js
+node --check gallery-editor.js
+node --check brand-kit.js
 ```
 
-The inline `display:none` is deliberate — it beats whatever `display` the page's
-own nav CSS sets without needing a rule in every stylesheet.
-
-### Newsletter
-
-The signup form on the homepage is **inert** — a static site has no backend to
-accept a POST. Submitting reveals a note pointing at email instead. To make it
-real, point the `<form>` at a hosted form service (Buttondown, Mailchimp,
-Formspree) and drop the `submit` handler at the bottom of `index.html`.
-
----
-
-## Deploying
-
-The site is plain HTML — drop it anywhere that can serve static files.
-
-**GitHub Pages**
-1. Go to Settings → Pages
-2. Set source to `main` branch, `/ (root)`
-3. Site will be live at `https://karieo.github.io/miniforgedad-website`
-
-**Netlify / Cloudflare Pages**
-1. Connect this repo
-2. Build command: *(leave blank)*
-3. Publish directory: `.` (root)
-
----
-
-## Verse of the day
-
-A verse of the day banner sits prominently below the nav on the main page. It fetches automatically from the [labs.bible.org API](https://labs.bible.org/api_guide.php) (NLT translation, no API key required) and refreshes each page load. If the API is unreachable, it falls back to Jeremiah 29:11.
-
-No configuration needed — it just works.
-
----
-
-## Adding photos
-
-### Gallery (all pages)
-
-Every gallery photo on the site comes from one file: **`gallery-data.js`**. Drop the
-image into `images/gallery/`, add an entry, and it appears on the gallery page and
-the right painter's page automatically — no HTML editing.
-
-```js
-{
-  painter: 'dad',                       // 'dad' or 'son' — drives dad.html / son.html
-  src: 'images/gallery/my-photo.jpeg',
-  alt: 'Short alt text',
-  title: 'Model name',                  // shown in the home-page overlay + lightbox
-  description: 'Painting notes…',       // shown in the lightbox panel
-  featured: true,                       // also show on the home page (max 9)
-
-  // gallery.html fields — all optional
-  faction: 'Imperial Knights',          // adds/uses a faction filter chip
-  year: 2025,                           // shown under the card title
-  credit: 'Together',                   // 'Dad' | 'Son' | 'Together' (defaults to painter)
-  caption: 'Heraldry detail',           // short card title (defaults to title)
-},
-```
-
-**Notes**
-- Cards render in the order listed in `gallery-data.js`, on every page.
-- Filter chips are built from the data — add a new `faction` and its chip appears
-  on its own. Entries without a faction still show under **All**.
-- Use `credit: 'Together'` for pieces you both worked on. Leave `painter` as `'dad'`
-  or `'son'` so the piece still shows up on that painter's page.
-
-### Story section (`index.html`)
-Replace the `📷 Add photo` placeholder divs in `.story-image-grid` with:
-```html
-<div class="story-img">
-  <img src="images/your-photo.jpg" alt="Description" class="loaded" />
-</div>
-```
-
-### Social preview (`og-image.png`)
-Used by Discord, Twitter/X, iMessage, etc. when someone shares your URL. Recommended size: **1200×630px**. Replace `images/og-image.png` with your image.
-
----
-
-## Updating "On the Bench"
-
-Edit the bench card in `index.html` — find the `<!-- ON THE BENCH -->` section and update:
-
-```html
-<h3>Your current project name</h3>
-<p>What stage it's at, what techniques you're using...</p>
-<div class="bench-tags">
-  <span class="bench-tag">Tag 1</span>
-  <span class="bench-tag">Tag 2</span>
-</div>
-```
-
----
-
-## HPC 2025 tracker (`hpc.html`)
-
-The [Independent Characters Hobby Progress Challenge](https://theindependentcharacters.com/blog/the-2025-hobby-progress-challenge/) runs **September 2025 – August 2026**.
-
-### Editing a month
-
-Everything the tracker shows lives in **`hpc-data.js`** — statuses, badges and
-captions. Edit it there, or use `/upload.html` on your phone, which writes to it
-for you.
-
-```js
-{
-  "name": "June 2026",
-  "slug": "jun-2026",          // photo filenames: images/hpc/jun-2026-before.jpg
-  "status": "complete",        // pending | active | complete | missed
-  "badge": "Complete",         // the label on the card — free text
-  "notes": "What you painted…" // the caption under the photos
-}
-```
-
-
-### Adding before/after photos
-
-Place photos in `images/hpc/` using the naming convention `[mon]-[year]-before.jpg` / `[mon]-[year]-after.jpg` (e.g. `sep-2025-before.jpg`, `may-2026-after.jpg`). The `<img>` tags are already wired up in `hpc.html` — just drop the correctly named files into the folder and they'll appear automatically.
-
-### Marking a bonus category complete
-
-Add `class="done"` to the `.bonus-card`:
-
-```html
-<div class="bonus-card done">
-```
-
-### Updating the poll options
-
-The "What should I paint next?" poll is driven by a config array at the top of the `<script>` block in `hpc.html`. To change the options, edit the array:
-
-```js
-const POLL_OPTIONS = [
-  "Space Marine Intercessor Squad",
-  "Chaos Daemon Prince",
-  "Your New Option Here",  // ← add, remove, or rename freely
-];
-```
-
-**Notes:**
-- Adding or removing an option takes effect immediately
-- Renaming an option creates a brand new counter — old votes for that option are lost
-- Votes are stored via [countapi.xyz](https://api.countapi.xyz) and persist across all visitors
-- If the API is unreachable, votes are saved in the visitor's browser and the poll still works
-
-### The score bar
-
-**It counts itself.** Monthly entries = months with `status: "complete"`, bonus
-entries = bonuses with `done: true` (capped at 6), total = the two added. There
-are no numbers to keep in step by hand — change a status and the bar follows.
-
-
-### Current progress
-
-| Category | Earned | Possible |
-|---|---|---|
-| Monthly entries | 4 | 12 |
-| Bonus entries | 1 | 6 |
-| **Total** | **5** | **18** |
-
-**Completed months:** September 2025 (Imperial Knight Paladin — Titanic bonus),
-October 2025, November 2025, December 2025
-
----
-
-## OBS ticker (`obs-ticker.html`)
-
-An OBS Browser Source overlay: scrolling ticker with your current project,
-schedule, rotating messages, social handles, hobby news headlines, a Central
-time clock and Austin weather.
-
-**OBS setup**
-- Source type: Browser Source
-- URL: `https://miniforgedad.com/obs-ticker.html`
-- Width `1920`, Height `60`
-- ✅ Shutdown source when not visible
-
-**Changing what it says** — use the **Ticker** tab on `/upload.html`, or edit
-`ticker-data.js` directly. `currentTopic` is the one you'll change most; it
-shows first as "Now: …".
-
-### How the news works
-
-Headlines are fetched by `netlify/functions/ticker-feed.js`, **server-side**.
-
-This used to go through `api.rss2json.com` from the browser to dodge CORS. That
-endpoint is rate-limited without an API key, and the old code did
-`catch(e) { /* silently skip */ }` — so once it started refusing, the ticker
-showed no news while looking perfectly healthy. That is why articles stopped
-updating.
-
-Fetching server-side removes the CORS workaround, the third-party dependency
-and the rate limit. It needs no key and no configuration.
-
-The endpoint returns per-feed status, which the admin page displays:
-
-```json
-{ "headlines": ["📰 [WarCom] …"],
-  "feeds": [{ "name": "WarCom", "ok": true, "count": 3 },
-            { "name": "Tale of Painters", "ok": false, "error": "HTTP 404" }] }
-```
-
-Handles RSS and Atom, decodes CDATA and HTML entities, caps headlines per feed,
-times out at 6s per feed, and caches for 10 minutes (1 minute if every feed
-failed, so an outage clears quickly). A failing feed never blocks the others —
-the ticker just runs with fewer headlines, and falls back to static messages if
-all of them are down.
-
-
-## Socials
-
-| Platform | Handle |
-|---|---|
-| YouTube | [@miniforgedad](https://youtube.com/@miniforgedad) |
-| Instagram | [@miniforgedad](https://instagram.com/miniforgedad) |
-| Twitch | [twitch.tv/miniforgedad](https://twitch.tv/miniforgedad) |
-| Patreon | [patreon.com/miniforgedad](https://patreon.com/miniforgedad) |
-| Email | miniforgedad@gmail.com |
-
-
-## Miniforgedad brand refresh
-
-The public pages use the anvil-and-brush mark with the exact wordmark `Miniforgedad` in navigation, plus matching footer branding where present. The burgundy-background ivory-and-brass mark is in `images/brand/miniforgedad-avatar.png`; this square image is also suitable for an Instagram profile photo. Icons have empty alternative text when paired with the visible brand name. Existing page content, navigation links, trackers, forms, and hosting remain unchanged.
-
-Selected palette: burgundy `#421F2C`, ivory `#F4EADD`, brass `#CDA468`. The eight public pages use the selected palette, with legacy light pages retaining light backgrounds and burgundy accents.
-
-## Audit cleanup (2026-10-31)
-Shared accessible navigation and skip links use site-brand.css and site-nav.js. Placeholder photos/cards and stale home bench percentages are removed; existing miniature imagery illustrates the hero. Contact is a clearly labeled direct email action, not a subscription service. Added canonical/social metadata, sitemap, robots.txt, branded 404, optimized icon/favicon and gallery thumbnails. HPC entries are unchanged; poll errors now distinguish service failure from no votes and only persist a vote after a successful response. Admin/OBS are marked noindex. Authentication configuration and controlled admin write testing remain separate verification tasks.
-
-Instagram imagery authorized by Clay: paint-desk.webp from /miniforgedad/p/Dchm_vilLaw/ and brush-closeup.webp from /miniforgedad/p/DZRDpsPFALD/. Captions could not be read without sign-in, so site labels describe visible objects only. Photos are hosted locally; source post links are preserved.
-
-## Homepage image and HPC navigation
-The hero now uses the existing painted Imperial Knight photograph. HPC navigation/footer links, home tags, and its sitemap entry are removed at Clay’s request; existing challenge records remain accessible by their direct URL.
-
-## Community tutorial library
-`/tutorials.html` contains 10 attributed external painting tutorials in three editorial levels (4 beginner, 3 intermediate, 3 advanced), with progressive HTML cards and `tutorials.js` filtering. `tutorials-data.json` records source URLs and brief original summaries/practice suggestions. The original `/tutorial.html` thinning guide is retained and linked separately. Creator membership requirements are labeled; content is linked rather than copied. Source links checked 2026-10-31. Navigation and the home tutorial section point to the library. When changing the collection, keep static cards and source data in sync.
+The backend tests cover authentication, input validation, source URL restrictions, atomic image/metadata commits, stale edits and concurrent branch changes. Browser checks cover responsive navigation, gallery filters/photo dialogs, editor selection/drafts and thumbnail download. A real authenticated gallery save needs a controlled production check with the owner’s password; mocked tests do not prove host credentials or token permissions.
