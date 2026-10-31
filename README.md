@@ -411,3 +411,6 @@ Instagram imagery authorized by Clay: paint-desk.webp from /miniforgedad/p/Dchm_
 
 ## Homepage image and HPC navigation
 The hero now uses the existing painted Imperial Knight photograph. HPC navigation/footer links, home tags, and its sitemap entry are removed at Clay’s request; existing challenge records remain accessible by their direct URL.
+
+## Community tutorial library
+`/tutorials.html` contains 10 attributed external painting tutorials in three editorial levels (4 beginner, 3 intermediate, 3 advanced), with progressive HTML cards and `tutorials.js` filtering. `tutorials-data.json` records source URLs and brief original summaries/practice suggestions. The original `/tutorial.html` thinning guide is retained and linked separately. Creator membership requirements are labeled; content is linked rather than copied. Source links checked 2026-10-31. Navigation and the home tutorial section point to the library. When changing the collection, keep static cards and source data in sync.

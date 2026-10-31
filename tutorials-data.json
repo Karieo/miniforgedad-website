@@ -1,0 +1,96 @@
+{
+  "checked": "2026-10-31",
+  "note": "Difficulty levels and practice prompts are Miniforgedad editorial guidance; tutorials belong to the credited creators.",
+  "tutorials": [
+    {
+      "level": "Beginner",
+      "title": "Thin your paints and control the brush",
+      "creator": "Reaper Miniatures",
+      "format": "Written guide",
+      "url": "https://www.reapermini.com/craft/hlavaz02",
+      "summary": "Understand paint dilution and how to unload a brush before it floods the miniature.",
+      "practice": "Try a few controlled strokes on a palette before painting a model."
+    },
+    {
+      "level": "Beginner",
+      "title": "Drybrushing",
+      "creator": "Warhammer Colour",
+      "format": "Video",
+      "url": "https://paint.warhammer.com/videos/drybrushing-2/",
+      "summary": "Explore a quick highlighting technique for raised texture and detail.",
+      "practice": "Start on a spare textured base or a small patch of fur."
+    },
+    {
+      "level": "Beginner",
+      "title": "Shading",
+      "creator": "Warhammer Colour",
+      "format": "Video",
+      "url": "https://paint.warhammer.com/videos/shading-2/",
+      "summary": "Build depth by introducing darker tones into a miniature’s details.",
+      "practice": "Practice on one small area before shading a whole model."
+    },
+    {
+      "level": "Beginner",
+      "title": "Basing",
+      "creator": "Warhammer Colour",
+      "format": "Video",
+      "url": "https://paint.warhammer.com/videos/basing-2/",
+      "summary": "Finish the ground beneath a miniature so the base supports the model.",
+      "practice": "Test your ground colours on a spare base first."
+    },
+    {
+      "level": "Intermediate",
+      "title": "Layered highlights",
+      "creator": "The Army Painter",
+      "format": "Written guide",
+      "url": "https://thearmypainter.com/blogs/explore/learn-how-to-highlight-miniatures",
+      "summary": "Use successive highlights to define raised surfaces and smaller details.",
+      "practice": "Pick one armour panel and compare it with an unhighlighted panel."
+    },
+    {
+      "level": "Intermediate",
+      "title": "Edge highlighting",
+      "creator": "The Army Painter",
+      "format": "Written guide",
+      "url": "https://thearmypainter.com/blogs/explore/next-level-highlighting",
+      "summary": "Use brush placement and a chosen light direction to sharpen hard edges.",
+      "practice": "Use a spare weapon or armour plate to practice short, steady lines."
+    },
+    {
+      "level": "Intermediate",
+      "title": "Glazing and paint consistency",
+      "creator": "The Army Painter",
+      "format": "Written guide",
+      "url": "https://thearmypainter.com/blogs/explore/the-army-painter-academy-101-paint-consistency",
+      "summary": "Compare layering, glazing, and wet blending to choose the right paint consistency.",
+      "practice": "Make a small test strip to compare coverage with transparent colour."
+    },
+    {
+      "level": "Advanced",
+      "title": "Wet blending and smooth transitions",
+      "creator": "Massive Voodoo",
+      "format": "Written guide + video links",
+      "url": "https://massivevoodoo.blogspot.com/2010/11/blending-tutorial-part-2a.html",
+      "summary": "Study paint consistency, working time, and the refinement of colour transitions.",
+      "practice": "Use a broad spare surface so you can focus on blending rather than tiny details."
+    },
+    {
+      "level": "Advanced",
+      "title": "Object-source lighting",
+      "creator": "David · Light Miniatures",
+      "format": "Written guide",
+      "url": "https://www.lightminiatures.com/tutorial-object-source-lighting-osl-and-other-lighting-effects/",
+      "summary": "Plan believable glow effects using brightness, colour, direction, and distance.",
+      "practice": "Choose a single imagined light source before trying multiple glows."
+    },
+    {
+      "level": "Advanced",
+      "title": "Non-metallic copper",
+      "creator": "Richard Gray Creations",
+      "format": "Written guide · video requires membership",
+      "url": "https://richardgraycreations.com/non-metallic-metal-nmm-copper/",
+      "summary": "Explore reflective copper painted with ordinary colours and deliberate light–dark contrast.",
+      "practice": "Practice reflection placement on a spare curved surface before a centrepiece."
+    }
+  ]
+}
